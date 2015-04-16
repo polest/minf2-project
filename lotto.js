@@ -27,5 +27,6 @@ function zieheReihe(){
 
 
 }
+alert("Hallo");
 document.write("Lottozahlen: ");
 zieheReihe();
