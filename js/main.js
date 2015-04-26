@@ -114,12 +114,13 @@ var mainState = {
 
         this.cursor.left.onDown.add(this.runLeft, this);
         this.cursor.right.onDown.add(this.runRight, this);
+        this.cursor.up.onDown.add(this.jump, this);
         if (this.cursor.left.isUp && this.cursor.right.isUp && this.cursor.up.isUp) {
             this.standStill();
         }
 
         // Bewegung von Prototyp Gegner
-        this.enemyMovement;
+        this.enemyMovement();
     },
 
     jump: function() {
@@ -149,10 +150,11 @@ var mainState = {
     },
 
     standStill: function() {
-        //  Move to the right
-        this.player.body.velocity.x = 300;
+         //  Stand still
+        this.player.animations.stop();
+        this.player.body.velocity.x = 0;
 
-        this.player.animations.play('right');
+        this.player.frame = 4;
     },
 
     enemyMovement: function() {
@@ -175,7 +177,7 @@ var mainState = {
 
         //  Add and update the score
         this.score += 10;
-        this.scoreText.text = 'Score: ' + score;
+        this.scoreText.text = 'Score: ' + this.score;
     },
 
     hitEnemy: function() {
