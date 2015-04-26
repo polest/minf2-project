@@ -106,7 +106,6 @@ var mainState = {
         game.physics.arcade.collide(this.player, this.platforms);
         game.physics.arcade.collide(this.stars, this.platforms);
         game.physics.arcade.collide(this.baddie, this.platforms);
-        game.physics.arcade.collide(this.player, this.baddie);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
@@ -181,10 +180,12 @@ var mainState = {
     },
 
     hitEnemy: function() {
+        console.log("Tot");
         if (this.player.alive == false)
             return;
 
         this.player.alive  = false;
+        this.restartGame();
     },        
 
     restartGame: function() {
