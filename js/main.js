@@ -111,15 +111,25 @@ var mainState = {
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
 
-        this.cursor.left.onDown.add(this.runLeft, this);
-        this.cursor.right.onDown.add(this.runRight, this);
-        this.cursor.up.onDown.add(this.jump, this);
-        if (this.cursor.left.isUp && this.cursor.right.isUp && this.cursor.up.isUp) {
-            this.standStill();
-        }
-
+        // Bewegung vom Spieler
+        this.playerMovement();
+        
         // Bewegung von Prototyp Gegner
         this.enemyMovement();
+    },
+
+    playerMovement: function() {
+
+        this.player.body.velocity.x = 0;
+        if (this.cursor.left.isDown){
+            this.runLeft();
+        }else if (this.cursor.right.isDown){
+            this.runRight();
+        }else{
+            this.standStill();
+        }
+        
+        this.jump();
     },
 
     jump: function() {
@@ -151,8 +161,6 @@ var mainState = {
     standStill: function() {
          //  Stand still
         this.player.animations.stop();
-        this.player.body.velocity.x = 0;
-
         this.player.frame = 4;
     },
 
