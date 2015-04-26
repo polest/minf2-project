@@ -119,7 +119,6 @@ var mainState = {
     },
 
     playerMovement: function() {
-
         this.player.body.velocity.x = 0;
         if (this.cursor.left.isDown){
             this.runLeft();
@@ -128,7 +127,7 @@ var mainState = {
         }else{
             this.standStill();
         }
-        
+        // Jump Animation, wenn notwendig
         this.jump();
     },
 
