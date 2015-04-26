@@ -1,4 +1,4 @@
-var game = new Phaser.Game(400, 490, Phaser.AUTO, 'gameDiv');
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
 
 var mainState = {
 
@@ -93,13 +93,12 @@ var mainState = {
             star.body.bounce.y = 0.7 + Math.random() * 0.2;
         }
 
+        this.score = 0;
         //  The score
-        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+        this.scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
         //  Our controls.
         this.cursor = game.input.keyboard.createCursorKeys();
-        this.cursor.left.onDown.add(this.runLeft, this);
-        this.cursor.right.onDown.add(this.runRight, this);
     },
 
     update: function() {
@@ -112,6 +111,12 @@ var mainState = {
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
+
+        this.cursor.left.onDown.add(this.runLeft, this);
+        this.cursor.right.onDown.add(this.runRight, this);
+        if (this.cursor.left.isUp && this.cursor.right.isUp && this.cursor.up.isUp) {
+            this.standStill();
+        }
 
         // Bewegung von Prototyp Gegner
         this.enemyMovement;
@@ -143,9 +148,16 @@ var mainState = {
         this.player.animations.play('right');
     },
 
+    standStill: function() {
+        //  Move to the right
+        this.player.body.velocity.x = 300;
+
+        this.player.animations.play('right');
+    },
+
     enemyMovement: function() {
         if(this.baddie.body.velocity.x == -0){
-            if(baddieDirection == "right"){
+            if(this.baddieDirection == "right"){
                 this.baddie.body.velocity.x = -300;
                 this.baddie.animations.play('left');
                 this.baddieDirection = "left";   
@@ -157,9 +169,9 @@ var mainState = {
         }
     },
 
-    collectStar: function() {
+    collectStar: function(player, star) {
         // Removes the star from the screen
-        this.star.kill();
+        star.kill();
 
         //  Add and update the score
         this.score += 10;
@@ -175,7 +187,7 @@ var mainState = {
 
     restartGame: function() {
         game.state.start('main');
-    },
+    }
 
 };
 
