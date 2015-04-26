@@ -180,7 +180,6 @@ var mainState = {
     },
 
     hitEnemy: function() {
-        console.log("Tot");
         if (this.player.alive == false)
             return;
 
