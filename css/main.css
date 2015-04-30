@@ -1,3 +1,33 @@
 body {
 	margin: 0;
 }
+
+#menu{
+	position: fixed;
+}
+
+#playButton{
+	margin-top: 4%;
+	margin-left: 35%;
+	position: fixed;
+	display: inline;
+}
+
+#playtext{
+	position: fixed;
+	margin-top: 12%;
+	margin-left: 31%;
+}
+
+#button{
+	position: fixed;
+	margin-left: 32%;
+	margin-top: 25%;
+	cursor: help;
+}
+
+#HowToPic{
+	position: fixed;
+	display: none;
+	cursor: hand;
+}
