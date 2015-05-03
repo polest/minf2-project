@@ -59,7 +59,7 @@ var mainState = {
 
         //  Player physics properties. Give the little guy a slight bounce.
         this.player.body.bounce.y = 0;
-        this.player.body.gravity.y = 400;
+        this.player.body.gravity.y = 300;
         this.player.body.collideWorldBounds = true;
 
         this.baddie.body.bounce.y = 0;
@@ -119,7 +119,7 @@ var mainState = {
     },
 
     playerMovement: function() {
-        this.player.body.velocity.x = 4;
+        this.player.body.velocity.x = 0;
         if (this.cursor.left.isDown){
             this.runLeft();
         }else if (this.cursor.right.isDown){
@@ -134,7 +134,7 @@ var mainState = {
     jump: function() {
         //  Allow the player to jump if they are touching the ground.
         if (this.cursor.up.isDown && this.player.body.touching.down){
-            this.player.body.velocity.y = -350;
+            this.player.body.velocity.y = -300;
             this.player.frame= 8;
         } else if(!this.player.body.touching.down && this.cursor.right.isDown){
             this.player.frame= 8;
@@ -193,7 +193,6 @@ var mainState = {
     hitEnemy: function() {
         if (this.player.alive == false)
             return;
-        alert("Verloren du Looser");
         this.player.alive  = false;
         this.restartGame();
     },        
