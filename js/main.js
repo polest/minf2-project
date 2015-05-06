@@ -106,6 +106,15 @@ var mainState = {
         // Jumpsound hinzugefügt
         this.jumpSound = this.game.add.audio('jump');
         this.jumpSoundPlayed = false;
+
+        var enemy = new Enemy(game,this.platforms ,350, 400, 1, 300);
+        game.add.existing(enemy);
+        enemy = new Enemy(game, this.platforms , 380, 124,-1, 300);
+        game.add.existing(enemy);
+        enemy = new Enemy(game, this.platforms , 100, 204, 1, 300);
+        game.add.existing(enemy)
+        enemy = new Enemy(game, this.platforms , 380, 204,-1, 300);
+        game.add.existing(enemy);
     },
 
     update: function() {
@@ -120,7 +129,7 @@ var mainState = {
 
         // Bewegung vom Spieler
         this.playerMovement();
-        
+
         // Bewegung von Prototyp Gegner
         this.enemyMovement();
     },
@@ -200,6 +209,7 @@ var mainState = {
         }
     },
 
+
     collectStar: function(player, star) {
         // Removes the star from the screen
         star.kill();
@@ -212,7 +222,7 @@ var mainState = {
             alert("Winner");
         }
     },
-
+    
     hitEnemy: function() {
         if (this.player.alive == false)
             return;
@@ -223,7 +233,6 @@ var mainState = {
     restartGame: function() {
         game.state.start('main');
     }
-
 };
 
 game.state.add('main', mainState);  
