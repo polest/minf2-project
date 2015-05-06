@@ -1,7 +1,7 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
 
 var mainState = {
-
+    
     preload: function() { 
         /*
         * Parameter:
@@ -15,6 +15,9 @@ var mainState = {
         game.load.image('star', 'assets/star.png');
         game.load.spritesheet('dude', 'assets/dude13.png', 32, 48);
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
+
+         // Sounds werden geladen
+        game.load.audio('jump', 'assets/sounds/jump.wav');     
     },
 
     create: function() { 
@@ -99,6 +102,10 @@ var mainState = {
 
         //  Our controls.
         this.cursor = game.input.keyboard.createCursorKeys();
+
+        // Jumpsound hinzugefügt
+        this.jumpSound = this.game.add.audio('jump');
+        this.jumpSoundPlayed = false;
     },
 
     update: function() {
@@ -122,13 +129,29 @@ var mainState = {
         this.player.body.velocity.x = 0;
         if (this.cursor.left.isDown){
             this.runLeft();
+            this.playRunSound();
         }else if (this.cursor.right.isDown){
             this.runRight();
+            this.playRunSound();
         }else{
             this.standStill();
         }
         // Jump Animation, wenn notwendig
         this.jump();
+    },
+
+    playRunSound: function() {
+        // Runsound wird abgespielt
+        if(!this.jumpSoundPlayed){
+            this.jumpSoundPlayed = true;
+            this.jumpSound.play();
+            // Jumpsound wird erst nach einem Timeout wieder abgespielt um Überlagerungen der Sounds zu vermeiden
+            game.time.events.add(Phaser.Timer.SECOND * 1, this.playRunSoundReset, this).autoDestroy = true;
+        }
+    },
+    
+    playRunSoundReset: function() {
+       this.jumpSoundPlayed = false;    
     },
 
     jump: function() {
