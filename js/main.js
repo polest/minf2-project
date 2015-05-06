@@ -17,7 +17,12 @@ var mainState = {
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
 
          // Sounds werden geladen
-        game.load.audio('jump', 'assets/sounds/jump.wav');     
+        game.load.audio('jump', 'assets/sounds/jump2.wav'); 
+        game.load.audio('run', 'assets/sounds/run3.wav'); 
+        game.load.audio('death', 'assets/sounds/death.wav'); 
+        game.load.audio('collect', 'assets/sounds/collect.wav');
+        game.load.audio('win', 'assets/sounds/win.wav');
+
     },
 
     create: function() { 
@@ -104,8 +109,25 @@ var mainState = {
         this.cursor = game.input.keyboard.createCursorKeys();
 
         // Jumpsound hinzugefügt
-        this.jumpSound = this.game.add.audio('jump');
+        this.jumpSound = this.game.add.audio('jump',0.2);
         this.jumpSoundPlayed = false;
+
+        // RunSound hinzugefügt
+        this.runSound=this.game.add.audio('run',0.2);
+        this.runSoundPlayed=false;
+
+        // DeathSound hinzugefügt
+        this.deathSound=this.game.add.audio('death',0.3);
+        this.deathSoundPlayed=false;
+
+        // collectSound hinzugefügt
+        this.collectSound=this.game.add.audio('collect',0.1);
+        this.collectSoundPlayed=false;
+
+        // winSound hinzugefügt
+        this.winSound=this.game.add.audio('win',0.5);
+        this.winSoundPlayed=false;
+
 
         var enemy = new Enemy(game,this.platforms ,350, 400, 1, 300);
         game.add.existing(enemy);
@@ -151,22 +173,23 @@ var mainState = {
 
     playRunSound: function() {
         // Runsound wird abgespielt
-        if(!this.jumpSoundPlayed){
-            this.jumpSoundPlayed = true;
-            this.jumpSound.play();
+        if(!this.runSoundPlayed && this.player.body.touching.down) {
+            this.runSoundPlayed = true;
+            this.runSound.play();
             // Jumpsound wird erst nach einem Timeout wieder abgespielt um Überlagerungen der Sounds zu vermeiden
-            game.time.events.add(Phaser.Timer.SECOND * 1, this.playRunSoundReset, this).autoDestroy = true;
+            game.time.events.add(Phaser.Timer.SECOND * 0.15, this.playRunSoundReset, this).autoDestroy = true;
         }
     },
     
     playRunSoundReset: function() {
-       this.jumpSoundPlayed = false;    
+       this.runSoundPlayed = false;    
     },
 
     jump: function() {
         //  Allow the player to jump if they are touching the ground.
         if (this.cursor.up.isDown && this.player.body.touching.down){
             this.player.body.velocity.y = -300;
+            this.jumpSound.play();
             this.player.frame= 8;
         } else if(!this.player.body.touching.down && this.cursor.right.isDown){
             this.player.frame= 8;
@@ -213,12 +236,14 @@ var mainState = {
     collectStar: function(player, star) {
         // Removes the star from the screen
         star.kill();
+        this.collectSound.play();
 
         //  Add and update the score
         this.score += 10;
         this.scoreText.text = 'Score: ' + this.score;
 
         if(this.score == 120){
+            this.winSound.play();
             alert("Winner");
         }
     },
@@ -226,6 +251,7 @@ var mainState = {
     hitEnemy: function() {
         if (this.player.alive == false)
             return;
+        this.deathSound.play();
         this.player.alive  = false;
         this.restartGame();
     },        
