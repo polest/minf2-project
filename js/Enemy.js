@@ -9,6 +9,11 @@
         this.game = game;
         this.platforms = platforms;
         this.body.velocity.x = this.xSpeed;
+        if(direction <0 ){
+            this.enemyDirection = "left";
+        }else{
+            this.enemyDirection = "right";
+        }
         this.animations.add("left", [0,1], 20, true);
         this.animations.add("right", [2,3], 20, true);
     };
@@ -17,6 +22,17 @@
     Enemy.prototype.constructor = Enemy;
     
     Enemy.prototype.update = function() {
+        if(this.body.velocity.x == -0){
+            if(this.enemyDirection == "right"){
+                this.body.velocity.x = -300;
+                this.animations.play('left');
+                this.enemyDirection = "left";   
+            }else{
+                this.body.velocity.x = 300;
+                this.animations.play('right');
+                this.enemyDirection = "right";  
+            }
+        }
         game.physics.arcade.collide(this, this.platforms, moveEnemy);
         
     };
