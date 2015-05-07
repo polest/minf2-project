@@ -231,7 +231,7 @@ var mainState = {
             }
         }
     },
-
+ // Game Pausieren this.game.paused=true; --- Florian
 
     collectStar: function(player, star) {
         // Removes the star from the screen
@@ -244,7 +244,8 @@ var mainState = {
 
         if(this.score == 120){
             this.winSound.play();
-            alert("Winner");
+            game.time.events.add(Phaser.Timer.SECOND * 2, this.restartGame, this).autoDestroy = true;
+
         }
     },
     
