@@ -10,7 +10,7 @@ var mainState = {
         * 3. Höhe des Bildes
         * 4. Schrittweite des Sprites.
         */
-        game.load.image('sky', 'assets/sky.png');
+        game.load.image('sky', 'assets/back1.png');
         game.load.image('ground', 'assets/platform.png');
         game.load.image('star', 'assets/star.png');
         game.load.spritesheet('dude', 'assets/dude13.png', 32, 48);
