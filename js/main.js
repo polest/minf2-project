@@ -195,6 +195,9 @@ var mainState = {
             this.player.frame= 8;
         } else if(!this.player.body.touching.down && this.cursor.left.isDown){
             this.player.frame= 0;
+        } 
+        if(!this.cursor.up.isDown){
+            this.player.body.velocity.y = this.player.body.velocity.y+10;
         }
     },
 
