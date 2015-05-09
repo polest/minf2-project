@@ -128,15 +128,24 @@ var mainState = {
         this.winSound=this.game.add.audio('win',0.5);
         this.winSoundPlayed=false;
 
+        this.marker = game.add.group();
+        this.marker.enableBody = true;
+        //unsichtbare Marker wo Gegner die Richtung ändern
+        this.marks = [];
+        //linker marker
 
-        var enemy = new Enemy(game,this.platforms ,350, 400, 1, 300);
+        this.createMarks(400,370);
+
+        var enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
         game.add.existing(enemy);
-        enemy = new Enemy(game, this.platforms , 380, 124,-1, 300);
+
+
+      /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
         game.add.existing(enemy);
         enemy = new Enemy(game, this.platforms , 100, 204, 1, 300);
         game.add.existing(enemy)
         enemy = new Enemy(game, this.platforms , 380, 204,-1, 300);
-        game.add.existing(enemy);
+        game.add.existing(enemy); */
     },
 
     update: function() {
@@ -262,7 +271,16 @@ var mainState = {
 
     restartGame: function() {
         game.state.start('main');
-    }
+    },
+
+    // Funktion die markierungen erstellt an denen die Gegner umkehren sollen (Patroullieren)
+    createMarks: function(x,y) {
+        var mark = this.marker.create(x,y);
+        mark.body.immovable = true;
+        mark.body.width = 10;
+        mark.body.height = 200;
+        this.marks.push(mark);
+    },        
 };
 
 game.state.add('main', mainState);  
