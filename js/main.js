@@ -13,7 +13,7 @@ var mainState = {
         game.load.image('sky', 'assets/back1.png');
         game.load.image('ground', 'assets/platform.png');
         game.load.image('star', 'assets/star.png');
-        game.load.spritesheet('dude', 'assets/dude13.png', 32, 48);
+        game.load.spritesheet('dude', 'assets/shitboy.png', 32, 48);
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
 
          // Sounds werden geladen
@@ -80,6 +80,7 @@ var mainState = {
         //  Our two animations, walking left and right.
         this.player.animations.add('left', [1, 2, 3], 20, true);
         this.player.animations.add('right', [5, 6, 7], 20, true);
+        this.player.animations.add('death', [10, 11, 12, 13, 14, 15, 16, 17], 20, true);
 
         this.baddie.animations.add("left", [0,1], 20, true);
         this.baddie.animations.add("right", [2,3], 20, true);
@@ -166,18 +167,23 @@ var mainState = {
     },
 
     playerMovement: function() {
-        this.player.body.velocity.x = 0;
-        if (this.cursor.left.isDown){
-            this.runLeft();
-            this.playRunSound();
-        }else if (this.cursor.right.isDown){
-            this.runRight();
-            this.playRunSound();
+        // Spieler darf sich nur bewegen wenn shitboy nicht tot ist.
+        if(this.player.alive == false){
+            this.player.animations.play('death');
         }else{
-            this.standStill();
+            this.player.body.velocity.x = 0;
+            if (this.cursor.left.isDown){
+                this.runLeft();
+                this.playRunSound();
+            }else if (this.cursor.right.isDown){
+                this.runRight();
+                this.playRunSound();
+            }else{
+                this.standStill();
+            }
+            // Jump Animation, wenn notwendig
+            this.jump();
         }
-        // Jump Animation, wenn notwendig
-        this.jump();
     },
 
     playRunSound: function() {
@@ -266,7 +272,7 @@ var mainState = {
             return;
         this.deathSound.play();
         this.player.alive  = false;
-        this.restartGame();
+        game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
     },        
 
     restartGame: function() {
