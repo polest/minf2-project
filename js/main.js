@@ -172,7 +172,6 @@ var mainState = {
         if(this.player.alive == false){
             this.player.animations.play('death', 10, false, true);
         }else{
-            this.player.body.velocity.x = 0;
             if (this.cursor.left.isDown){
                 this.runLeft();
                 this.playRunSound();
