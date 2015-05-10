@@ -167,9 +167,10 @@ var mainState = {
     },
 
     playerMovement: function() {
+        this.player.body.velocity.x = 0;
         // Spieler darf sich nur bewegen wenn shitboy nicht tot ist.
         if(this.player.alive == false){
-            this.player.animations.play('death');
+            this.player.animations.play('death', 10, false, true);
         }else{
             this.player.body.velocity.x = 0;
             if (this.cursor.left.isDown){
