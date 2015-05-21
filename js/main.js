@@ -31,6 +31,7 @@ var mainState = {
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
+
         //  A simple background for our game
         game.add.sprite(0, -400, 'sky');
 
@@ -53,6 +54,18 @@ var mainState = {
         this.ground9 = this.platforms.create(900, game.world.height - 30, 'ground');
         this.ground10 = this.platforms.create(1000, game.world.height - 30, 'ground');
 
+        this.ground11 = this.platforms.create(0, game.world.height - 30, 'ground');
+        this.ground12 = this.platforms.create(100, game.world.height - 30, 'ground');
+        this.ground13 = this.platforms.create(200, game.world.height - 30, 'ground');
+        this.ground14 = this.platforms.create(300, game.world.height - 30, 'ground');
+        this.ground15 = this.platforms.create(400, game.world.height - 30, 'ground');
+        this.ground16 = this.platforms.create(500, game.world.height - 30, 'ground');
+        this.ground17 = this.platforms.create(600, game.world.height - 30, 'ground');
+        this.ground18 = this.platforms.create(700, game.world.height - 30, 'ground');
+        this.ground19 = this.platforms.create(800, game.world.height - 30, 'ground');
+        this.ground20 = this.platforms.create(900, game.world.height - 30, 'ground');
+        this.ground21 = this.platforms.create(1000, game.world.height - 30, 'ground');
+
         //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
 
         //  This stops it from falling away when you jump on it
@@ -67,6 +80,18 @@ var mainState = {
         this.ground8.body.immovable = true;
         this.ground9.body.immovable = true;
         this.ground10.body.immovable = true;
+
+         this.ground11.body.immovable = true;
+        this.ground12.body.immovable = true;
+        this.ground13.body.immovable = true;
+        this.ground14.body.immovable = true;
+        this.ground15.body.immovable = true;
+        this.ground16.body.immovable = true;
+        this.ground17.body.immovable = true;
+        this.ground18.body.immovable = true;
+        this.ground19.body.immovable = true;
+        this.ground20.body.immovable = true;
+        this.ground21.body.immovable = true;
            
 
         //  Now let's create two ledges
@@ -126,9 +151,10 @@ var mainState = {
             star.body.bounce.y = 0.7 + Math.random() * 0.2;
         }
 
-        this.score = 0;
+
         //  The score
-        this.scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+        this.scoreText = game.add.text(16, 16, 'score: 0', {font:"30px VT323", fill: '#000' });
+        this.score = 0;
 
         //  Our controls.
         this.cursor = game.input.keyboard.createCursorKeys();
@@ -282,7 +308,7 @@ var mainState = {
 
         //  Add and update the score
         this.score += 10;
-        this.scoreText.text = 'Score: ' + this.score;
+        this.scoreText.text = 'score: ' + this.score;
 
         if(this.score == 120){
             this.winSound.play();
