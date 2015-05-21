@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
+var game = new Phaser.Game(1024, 600, Phaser.AUTO, 'gameDiv');
 
 var mainState = {
     
@@ -10,8 +10,10 @@ var mainState = {
         * 3. Höhe des Bildes
         * 4. Schrittweite des Sprites.
         */
-        game.load.image('sky', 'assets/back1.png');
-        game.load.image('ground', 'assets/platform.png');
+        game.load.image('sky', 'assets/bg.png');
+        game.load.image('ground', 'assets/Wiese2.png');
+        game.load.image('groundendR', 'assets/Wiese3.png');
+        game.load.image('groundendL','assets/Wiese1.png');
         game.load.image('star', 'assets/star.png');
         game.load.spritesheet('dude', 'assets/shitboy.png', 32, 48);
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
@@ -30,7 +32,7 @@ var mainState = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         //  A simple background for our game
-        game.add.sprite(0, 0, 'sky');
+        game.add.sprite(0, -400, 'sky');
 
         //  The platforms group contains the ground and the 2 ledges we can jump on
         this.platforms = game.add.group();
@@ -39,24 +41,46 @@ var mainState = {
         this.platforms.enableBody = true;
 
         // Here we create the ground.
-        this.ground = this.platforms.create(0, game.world.height - 64, 'ground');
+        this.ground = this.platforms.create(0, game.world.height - 30, 'ground');
+        this.ground1 = this.platforms.create(100, game.world.height - 30, 'ground');
+        this.ground2 = this.platforms.create(200, game.world.height - 30, 'ground');
+        this.ground3 = this.platforms.create(300, game.world.height - 30, 'ground');
+        this.ground4 = this.platforms.create(400, game.world.height - 30, 'ground');
+        this.ground5 = this.platforms.create(500, game.world.height - 30, 'ground');
+        this.ground6 = this.platforms.create(600, game.world.height - 30, 'ground');
+        this.ground7 = this.platforms.create(700, game.world.height - 30, 'ground');
+        this.ground8 = this.platforms.create(800, game.world.height - 30, 'ground');
+        this.ground9 = this.platforms.create(900, game.world.height - 30, 'ground');
+        this.ground10 = this.platforms.create(1000, game.world.height - 30, 'ground');
 
         //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-        this.ground.scale.setTo(2, 2);
 
         //  This stops it from falling away when you jump on it
         this.ground.body.immovable = true;
+        this.ground1.body.immovable = true;
+        this.ground2.body.immovable = true;
+        this.ground3.body.immovable = true;
+        this.ground4.body.immovable = true;
+        this.ground5.body.immovable = true;
+        this.ground6.body.immovable = true;
+        this.ground7.body.immovable = true;
+        this.ground8.body.immovable = true;
+        this.ground9.body.immovable = true;
+        this.ground10.body.immovable = true;
+           
 
         //  Now let's create two ledges
-        this.ledge = this.platforms.create(400, 400, 'ground');
-        this.ledge.body.immovable = true;
+        this.ledge2 = this.platforms.create(450, 450, 'groundendL');
+        this.ledge2.body.immovable = true;
+        this.ledge1 = this.platforms.create(550, 450, 'groundendR');
+        this.ledge1.body.immovable = true;
 
-        this.ledge = this.platforms.create(-150, 250, 'ground');
+        this.ledge = this.platforms.create(300, 300, 'ground');
         this.ledge.body.immovable = true;
 
         // The player and its settings
         this.player = game.add.sprite(20, game.world.height - 150, 'dude');
-        this.player.scale.setTo(1, 1);
+        this.player.scale.setTo(0.8, 0.8);
 
         this.baddie = game.add.sprite(300, game.world.height - 150, 'baddie');
         this.baddie.scale.setTo(1,1);
