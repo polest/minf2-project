@@ -14,7 +14,7 @@ var mainState = {
         game.load.image('ground', 'assets/Wiese2.png');
         game.load.image('groundendR', 'assets/Wiese3.png');
         game.load.image('groundendL','assets/Wiese1.png');
-        game.load.image('star', 'assets/star.png');
+        game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/shitboy.png', 32, 48);
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
 
