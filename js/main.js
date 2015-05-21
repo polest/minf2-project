@@ -133,14 +133,16 @@ var mainState = {
 
         // Timer wird definiert
         timeEnd = 100;
-        timerTextRed = game.add.text(600, 16, 'Timer: '+timeEnd, { fontSize: '32px', fill: '#FF0000' });
-        timerText = game.add.text(600, 16, 'Timer: '+timeEnd, { fontSize: '32px', fill: '#000' });
+        timerTextRed = game.add.text(16, 16, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#FF0000' });
+        timerText = game.add.text(16, 16, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#000' });
         timerTextRed.visible = false;
+        timerText.visible=false;
         this.currentTimer = game.time.create(false);
         this.currentTimer.loop(100, this.updateTimer, this);
 
         //  The score
-        this.scoreText = game.add.text(16, 16, 'score: 0', {font:"30px VT323", fill: '#000' });
+        this.scoreText = game.add.text(900, 16, 'score: 0', {font:"30px VT323", fill: '#000' });
+        this.scoreText.visible=false;
         this.score = 0;
 
         //  Our controls.
@@ -304,6 +306,7 @@ var mainState = {
         this.collectSound.play();
 
         //  Add and update the score
+        this.scoreText.visible=true;
         this.score += 10;
         this.scoreText.text = 'score: ' + this.score;
 
@@ -345,6 +348,7 @@ var mainState = {
             timerTextRed.visible = true;
             timerTextRed.setText('Timer: '+ (timeEnd/10));
         } else {
+            timerText.visible=true;
             timerText.setText('Timer: '+ (timeEnd/10));
         }
         
