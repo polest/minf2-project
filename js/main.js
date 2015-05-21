@@ -54,17 +54,7 @@ var mainState = {
         this.ground9 = this.platforms.create(900, game.world.height - 30, 'ground');
         this.ground10 = this.platforms.create(1000, game.world.height - 30, 'ground');
 
-        this.ground11 = this.platforms.create(0, game.world.height - 30, 'ground');
-        this.ground12 = this.platforms.create(100, game.world.height - 30, 'ground');
-        this.ground13 = this.platforms.create(200, game.world.height - 30, 'ground');
-        this.ground14 = this.platforms.create(300, game.world.height - 30, 'ground');
-        this.ground15 = this.platforms.create(400, game.world.height - 30, 'ground');
-        this.ground16 = this.platforms.create(500, game.world.height - 30, 'ground');
-        this.ground17 = this.platforms.create(600, game.world.height - 30, 'ground');
-        this.ground18 = this.platforms.create(700, game.world.height - 30, 'ground');
-        this.ground19 = this.platforms.create(800, game.world.height - 30, 'ground');
-        this.ground20 = this.platforms.create(900, game.world.height - 30, 'ground');
-        this.ground21 = this.platforms.create(1000, game.world.height - 30, 'ground');
+
 
         //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
 
@@ -81,17 +71,7 @@ var mainState = {
         this.ground9.body.immovable = true;
         this.ground10.body.immovable = true;
 
-         this.ground11.body.immovable = true;
-        this.ground12.body.immovable = true;
-        this.ground13.body.immovable = true;
-        this.ground14.body.immovable = true;
-        this.ground15.body.immovable = true;
-        this.ground16.body.immovable = true;
-        this.ground17.body.immovable = true;
-        this.ground18.body.immovable = true;
-        this.ground19.body.immovable = true;
-        this.ground20.body.immovable = true;
-        this.ground21.body.immovable = true;
+ 
            
 
         //  Now let's create two ledges
