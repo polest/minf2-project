@@ -131,6 +131,13 @@ var mainState = {
             star.body.bounce.y = 0.7 + Math.random() * 0.2;
         }
 
+        // Timer wird definiert
+        timeEnd = 100;
+        timerTextRed = game.add.text(600, 16, 'Timer: '+timeEnd, { fontSize: '32px', fill: '#FF0000' });
+        timerText = game.add.text(600, 16, 'Timer: '+timeEnd, { fontSize: '32px', fill: '#000' });
+        timerTextRed.visible = false;
+        this.currentTimer = game.time.create(false);
+        this.currentTimer.loop(100, this.updateTimer, this);
 
         //  The score
         this.scoreText = game.add.text(16, 16, 'score: 0', {font:"30px VT323", fill: '#000' });
@@ -139,6 +146,8 @@ var mainState = {
         //  Our controls.
         this.cursor = game.input.keyboard.createCursorKeys();
 
+        resetKey = game.input.keyboard.addKey(Phaser.Keyboard.R)
+        
         // Jumpsound hinzugefÃ¼gt
         this.jumpSound = this.game.add.audio('jump',0.2);
         this.jumpSoundPlayed = false;
@@ -189,6 +198,14 @@ var mainState = {
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
 
+        // Timer wird gestartet
+        this.currentTimer.start();
+
+        // Wenn R gedrückt wird, wird das Spiel neu gestartet
+        if(resetKey.justPressed(/*optional duration*/)){
+            this.restartGame();
+        }
+        
         // Bewegung vom Spieler
         this.playerMovement();
 
@@ -316,7 +333,27 @@ var mainState = {
         mark.body.width = 10;
         mark.body.height = 200;
         this.marks.push(mark);
-    },        
+    },
+    
+    updateTimer: function() {
+        // Setzt den Countdown um minus eins
+        timeEnd--;
+        
+        // Wenn weniger als 5 sekunden -> Text rot
+        if(timeEnd <= 50){
+            timerText.visible = false;
+            timerTextRed.visible = true;
+            timerTextRed.setText('Timer: '+ (timeEnd/10));
+        } else {
+            timerText.setText('Timer: '+ (timeEnd/10));
+        }
+        
+        // Wenn Zeit abläuft dann restartGame
+        if(timeEnd == 0){
+            this.restartGame();
+        } 
+    }
+    
 };
 
 game.state.add('main', mainState);  
