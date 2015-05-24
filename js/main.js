@@ -137,8 +137,8 @@ var mainState = {
 
         this.createMarks(400,370);
 
-        var enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
-        game.add.existing(enemy);
+        this.enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
+        game.add.existing(this.enemy);
 
 
       /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
@@ -158,6 +158,7 @@ var mainState = {
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
+         game.physics.arcade.overlap(this.player, this.enemy, this.hitEnemy, null, this);
 
         // Bewegung vom Spieler
         this.playerMovement();
