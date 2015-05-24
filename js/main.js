@@ -1,293 +1,301 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv', { preload: preload, create: create, update: update });
+var platforms;    
+var ground;
+var ledge;
+var player;
+var baddie;
+var baddieDirection;
+var stars;
+var score = 0;
+var scoreText;
+var cursor;
 
-var mainState = {
-    
-    preload: function() { 
-        /*
-        * Parameter:
-        * 1. Name unter dem das image/sprite nachher abgerufen werden kann.
-        * 2. URL des Bildes
-        * 3. Höhe des Bildes
-        * 4. Schrittweite des Sprites.
-        */
-        game.load.image('sky', 'assets/back1.png');
-        game.load.image('ground', 'assets/platform.png');
-        game.load.image('star', 'assets/star.png');
-        game.load.spritesheet('dude', 'assets/shitboy.png', 32, 48);
-        game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
+var collectSound;
+var jumpSound;
+var runSound;
+var deathSound;
+var winSound;
 
-         // Sounds werden geladen
-        game.load.audio('jump', 'assets/sounds/jump2.wav'); 
-        game.load.audio('run', 'assets/sounds/run3.wav'); 
-        game.load.audio('death', 'assets/sounds/death.wav'); 
-        game.load.audio('collect', 'assets/sounds/collect.wav');
-        game.load.audio('win', 'assets/sounds/win.wav');
+var jumpSoundPlayed = false;
+var collectSoundPlayed = false;
+var winSoundPlayed = false;
+var runSoundPlayed = false;
 
-    },
+//unsichtbare Marker wo Gegner die Richtung ändern
+var marker;
+var marks = [];
 
-    create: function() { 
-        //  We're going to be using physics, so enable the Arcade Physics system
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+var enemy;
 
-        //  A simple background for our game
-        game.add.sprite(0, 0, 'sky');
+function preload(){ 
+    /*
+    * Parameter:
+    * 1. Name unter dem das image/sprite nachher abgerufen werden kann.
+    * 2. URL des Bildes
+    * 3. Höhe des Bildes
+    * 4. Schrittweite des Sprites.
+    */
+    game.load.image('sky', 'assets/back1.png');
+    game.load.image('ground', 'assets/platform.png');
+    game.load.image('star', 'assets/star.png');
+    game.load.spritesheet('dude', 'assets/shitboy.png', 32, 48);
+    game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
 
-        //  The platforms group contains the ground and the 2 ledges we can jump on
-        this.platforms = game.add.group();
+    // Sounds werden geladen
+    game.load.audio('jump', 'assets/sounds/jump2.wav'); 
+    game.load.audio('run', 'assets/sounds/run3.wav'); 
+    game.load.audio('death', 'assets/sounds/death.wav'); 
+    game.load.audio('collect', 'assets/sounds/collect.wav');
+    game.load.audio('win', 'assets/sounds/win.wav');
 
-        //  We will enable physics for any object that is created in this group
-        this.platforms.enableBody = true;
+}
 
-        // Here we create the ground.
-        this.ground = this.platforms.create(0, game.world.height - 64, 'ground');
+function create() { 
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-        this.ground.scale.setTo(2, 2);
+    //  A simple background for our game
+    game.add.sprite(0, 0, 'sky');
 
-        //  This stops it from falling away when you jump on it
-        this.ground.body.immovable = true;
+    //  The platforms group contains the ground and the 2 ledges we can jump on
+    platforms = game.add.group();
 
-        //  Now let's create two ledges
-        this.ledge = this.platforms.create(400, 400, 'ground');
-        this.ledge.body.immovable = true;
+    //  We will enable physics for any object that is created in this group
+    platforms.enableBody = true;
 
-        this.ledge = this.platforms.create(-150, 250, 'ground');
-        this.ledge.body.immovable = true;
+    // Here we create the ground.
+    ground = platforms.create(0, game.world.height - 64, 'ground');
 
-        // The player and its settings
-        this.player = game.add.sprite(20, game.world.height - 150, 'dude');
-        this.player.scale.setTo(1, 1);
+    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+    ground.scale.setTo(2, 2);
 
-        this.baddie = game.add.sprite(300, game.world.height - 150, 'baddie');
-        this.baddie.scale.setTo(1,1);
+    //  This stops it from falling away when you jump on it
+    ground.body.immovable = true;
 
-        //  We need to enable physics on the player
-        this.game.physics.arcade.enable(this.player);
-        this.game.physics.arcade.enable(this.baddie);
+    //  Now let's create two ledges
+    ledge = platforms.create(400, 400, 'ground');
+    ledge.body.immovable = true;
 
-        //  Player physics properties. Give the little guy a slight bounce.
-        this.player.body.bounce.y = 0;
-        this.player.body.gravity.y = 300;
-        this.player.body.collideWorldBounds = true;
+    ledge = platforms.create(-150, 250, 'ground');
+    ledge.body.immovable = true;
 
-        this.baddie.body.bounce.y = 0;
-        this.baddie.body.gravity.y = 300;
-        this.baddie.body.collideWorldBounds = true;
-        this.baddie.body.velocity.x = 300;
-        this.baddie.animations.play("right");
-        this.baddieDirection = "right";
+    // The player and its settings
+    player = game.add.sprite(20, game.world.height - 150, 'dude');
+    player.scale.setTo(1, 1);
 
-        //  Our two animations, walking left and right.
-        this.player.animations.add('left', [1, 2, 3], 20, true);
-        this.player.animations.add('right', [5, 6, 7], 20, true);
-        this.player.animations.add('death', [10, 11, 12, 13, 14, 15, 16, 17], 20, true);
+    baddie = game.add.sprite(300, game.world.height - 150, 'baddie');
+    baddie.scale.setTo(1,1);
 
-        this.baddie.animations.add("left", [0,1], 20, true);
-        this.baddie.animations.add("right", [2,3], 20, true);
-        //  Finally some stars to collect
-        this.stars = game.add.group();
+    //  We need to enable physics on the player
+    game.physics.arcade.enable(player);
+    game.physics.arcade.enable(baddie);
 
-        //  We will enable physics for any star that is created in this group
-        this.stars.enableBody = true;
+    //  Player physics properties. Give the little guy a slight bounce.
+    player.body.bounce.y = 0;
+    player.body.gravity.y = 300;
+    player.body.collideWorldBounds = true;
 
-        //  Here we'll create 12 of them evenly spaced apart
-        for (var i = 0; i < 12; i++){
-            //  Create a star inside of the 'stars' group
-            var star = this.stars.create(i * 70, 0, 'star');
+    baddie.body.bounce.y = 0;
+    baddie.body.gravity.y = 300;
+    baddie.body.collideWorldBounds = true;
+    baddie.body.velocity.x = 300;
+    baddie.animations.play("right");
+    baddieDirection = "right";
 
-            //  Let gravity do its thing
-            star.body.gravity.y = 300;
+    //  Our two animations, walking left and right.
+    player.animations.add('left', [1, 2, 3], 20, true);
+    player.animations.add('right', [5, 6, 7], 20, true);
+    player.animations.add('death', [10, 11, 12, 13, 14, 15, 16, 17], 20, true);
 
-            //  This just gives each star a slightly random bounce value
-            star.body.bounce.y = 0.7 + Math.random() * 0.2;
-        }
+    baddie.animations.add("left", [0,1], 20, true);
+    baddie.animations.add("right", [2,3], 20, true);
+    //  Finally some stars to collect
+    stars = game.add.group();
 
-        this.score = 0;
-        //  The score
-        this.scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    //  We will enable physics for any star that is created in this group
+    stars.enableBody = true;
 
-        //  Our controls.
-        this.cursor = game.input.keyboard.createCursorKeys();
+    //  Here we'll create 12 of them evenly spaced apart
+    for (var i = 0; i < 12; i++){
+        //  Create a star inside of the 'stars' group
+        var star = stars.create(i * 70, 0, 'star');
 
-        // Jumpsound hinzugefügt
-        this.jumpSound = this.game.add.audio('jump',0.2);
-        this.jumpSoundPlayed = false;
+        //  Let gravity do its thing
+        star.body.gravity.y = 300;
 
-        // RunSound hinzugefügt
-        this.runSound=this.game.add.audio('run',0.2);
-        this.runSoundPlayed=false;
+        //  This just gives each star a slightly random bounce value
+        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+    }
 
-        // DeathSound hinzugefügt
-        this.deathSound=this.game.add.audio('death',0.3);
-        this.deathSoundPlayed=false;
+    //  The score
+    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
-        // collectSound hinzugefügt
-        this.collectSound=this.game.add.audio('collect',0.1);
-        this.collectSoundPlayed=false;
+    //  Our controls.
+    cursor = game.input.keyboard.createCursorKeys();
 
-        // winSound hinzugefügt
-        this.winSound=this.game.add.audio('win',0.5);
-        this.winSoundPlayed=false;
+    // Jumpsound hinzugefügt
+    jumpSound = game.add.audio('jump',0.2);
 
-        this.marker = game.add.group();
-        this.marker.enableBody = true;
-        //unsichtbare Marker wo Gegner die Richtung ändern
-        this.marks = [];
-        //linker marker
+    // RunSound hinzugefügt
+    runSound = game.add.audio('run',0.2);
 
-        this.createMarks(400,370);
+    // DeathSound hinzugefügt
+    deathSound = game.add.audio('death',0.3);
 
-        var enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
-        game.add.existing(enemy);
+    // collectSound hinzugefügt
+    collectSound= game.add.audio('collect',0.1);
 
+    // winSound hinzugefügt
+    winSound= game.add.audio('win',0.5);
 
-      /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
-        game.add.existing(enemy);
-        enemy = new Enemy(game, this.platforms , 100, 204, 1, 300);
-        game.add.existing(enemy)
-        enemy = new Enemy(game, this.platforms , 380, 204,-1, 300);
-        game.add.existing(enemy); */
-    },
+    marker = game.add.group();
+    marker.enableBody = true;
 
-    update: function() {
-         //  Collide the player and the stars with the platforms
-        game.physics.arcade.collide(this.player, this.platforms);
-        game.physics.arcade.collide(this.stars, this.platforms);
-        game.physics.arcade.collide(this.baddie, this.platforms);
+    //linker marker
+    createMarks(400,370);
 
-        //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-        game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
-        game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
+   enemy = new Enemy(game, platforms, marks ,800, 300, -1, 300);
+   game.add.existing(enemy);
+}
 
-        // Bewegung vom Spieler
-        this.playerMovement();
+function update(){
+     //  Collide the player and the stars with the platforms
+    game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(stars, platforms);
+    game.physics.arcade.collide(baddie, platforms);
 
-        // Bewegung von Prototyp Gegner
-        this.enemyMovement();
-    },
+    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+    game.physics.arcade.overlap(player, stars, collectStar, null, this);
+    game.physics.arcade.overlap(player, baddie, hitEnemy, null, this);
 
-    playerMovement: function() {
-        this.player.body.velocity.x = 0;
-        // Spieler darf sich nur bewegen wenn shitboy nicht tot ist.
-        if(this.player.alive == false){
-            this.player.animations.play('death', 10, false, true);
+    // Bewegung vom Spieler
+    playerMovement();
+
+    // Bewegung von Prototyp Gegner
+    enemyMovement();
+}
+
+function playerMovement() {
+    player.body.velocity.x = 0;
+    // Spieler darf sich nur bewegen wenn shitboy nicht tot ist.
+    if(player.alive == false){
+        player.animations.play('death', 10, false, true);
+    }else{
+        if (cursor.left.isDown){
+            runLeft();
+            playRunSound();
+        }else if (cursor.right.isDown){
+            runRight();
+            playRunSound();
         }else{
-            if (this.cursor.left.isDown){
-                this.runLeft();
-                this.playRunSound();
-            }else if (this.cursor.right.isDown){
-                this.runRight();
-                this.playRunSound();
-            }else{
-                this.standStill();
-            }
-            // Jump Animation, wenn notwendig
-            this.jump();
+            standStill();
         }
-    },
+        // Jump Animation, wenn notwendig
+        jump();
+    }
+}
 
-    playRunSound: function() {
-        // Runsound wird abgespielt
-        if(!this.runSoundPlayed && this.player.body.touching.down) {
-            this.runSoundPlayed = true;
-            this.runSound.play();
-            // Jumpsound wird erst nach einem Timeout wieder abgespielt um Überlagerungen der Sounds zu vermeiden
-            game.time.events.add(Phaser.Timer.SECOND * 0.15, this.playRunSoundReset, this).autoDestroy = true;
-        }
-    },
+function playRunSound() {
+    // Runsound wird abgespielt
+    if(!runSoundPlayed && player.body.touching.down) {
+        runSoundPlayed = true;
+        runSound.play();
+        // Jumpsound wird erst nach einem Timeout wieder abgespielt um Überlagerungen der Sounds zu vermeiden
+        game.time.events.add(Phaser.Timer.SECOND * 0.15, playRunSoundReset, this).autoDestroy = true;
+    }
+}
     
-    playRunSoundReset: function() {
-       this.runSoundPlayed = false;    
-    },
+function playRunSoundReset(){
+    runSoundPlayed = false;    
+}
 
-    jump: function() {
-        //  Allow the player to jump if they are touching the ground.
-        if (this.cursor.up.isDown && this.player.body.touching.down){
-            this.player.body.velocity.y = -300;
-            this.jumpSound.play();
-            this.player.frame= 8;
-        } else if(!this.player.body.touching.down && this.cursor.right.isDown){
-            this.player.frame= 8;
-        } else if(!this.player.body.touching.down && this.cursor.left.isDown){
-            this.player.frame= 0;
-        } 
-        if(!this.cursor.up.isDown){
-            this.player.body.velocity.y = this.player.body.velocity.y+10;
+function jump() {
+    //  Allow the player to jump if they are touching the ground.
+    if (cursor.up.isDown && player.body.touching.down){
+        player.body.velocity.y = -300;
+        jumpSound.play();
+        player.frame= 8;
+    } else if(!player.body.touching.down && cursor.right.isDown){
+        player.frame= 8;
+    } else if(!player.body.touching.down && cursor.left.isDown){
+        player.frame= 0;
+    } 
+    if(!cursor.up.isDown){
+        player.body.velocity.y = player.body.velocity.y+10;
+    }
+}
+
+function runLeft() {
+    //  Move to the left
+    player.body.velocity.x = -300;
+
+    player.animations.play('left');
+}
+
+function runRight() {
+    //  Move to the right
+    player.body.velocity.x = 300;
+
+    player.animations.play('right');
+}
+
+function standStill() {
+     //  Stand still
+    player.animations.stop();
+    player.frame = 4;
+}
+
+function enemyMovement() {
+    if(baddie.body.velocity.x == -0){
+        if(baddieDirection == "right"){
+            baddie.body.velocity.x = -300;
+            baddie.animations.play('left');
+            baddieDirection = "left";   
+        }else{
+            baddie.body.velocity.x = 300;
+            baddie.animations.play('right');
+            baddieDirection = "right";  
         }
-    },
+    }
+}
+// Game Pausieren this.game.paused=true; --- Florian
 
-    runLeft: function() {
-         //  Move to the left
-        this.player.body.velocity.x = -300;
+function collectStar(player,star){
+    // Removes the star from the screen
+    star.kill();
+    collectSound.play();
 
-        this.player.animations.play('left');
-    },
+    //  Add and update the score
+    score += 10;
+    scoreText.text = 'Score: ' + score;
 
-    runRight: function() {
-        //  Move to the right
-        this.player.body.velocity.x = 300;
+    if(score == 120){
+        winSound.play();
+        game.time.events.add(Phaser.Timer.SECOND * 2, restartGame, this).autoDestroy = true;
 
-        this.player.animations.play('right');
-    },
+    }
+}
 
-    standStill: function() {
-         //  Stand still
-        this.player.animations.stop();
-        this.player.frame = 4;
-    },
+function hitEnemy(){
+    if (player.alive == false)
+        return;
+    deathSound.play();
+    player.alive  = false;
+    game.time.events.add(Phaser.Timer.SECOND * 0.5, restartGame, this).autoDestroy = true;
+}        
 
-    enemyMovement: function() {
-        if(this.baddie.body.velocity.x == -0){
-            if(this.baddieDirection == "right"){
-                this.baddie.body.velocity.x = -300;
-                this.baddie.animations.play('left');
-                this.baddieDirection = "left";   
-            }else{
-                this.baddie.body.velocity.x = 300;
-                this.baddie.animations.play('right');
-                this.baddieDirection = "right";  
-            }
-        }
-    },
- // Game Pausieren this.game.paused=true; --- Florian
+function  restartGame(){
+  //  game.state.start('main');
+}
 
-    collectStar: function(player, star) {
-        // Removes the star from the screen
-        star.kill();
-        this.collectSound.play();
+// Funktion die markierungen erstellt an denen die Gegner umkehren sollen (Patroullieren)
+function createMarks(x,y){
+    var mark = marker.create(x,y);
+    mark.body.immovable = true;
+    mark.body.width = 10;
+    mark.body.height = 200;
+    marks.push(mark);
+}
 
-        //  Add and update the score
-        this.score += 10;
-        this.scoreText.text = 'Score: ' + this.score;
-
-        if(this.score == 120){
-            this.winSound.play();
-            game.time.events.add(Phaser.Timer.SECOND * 2, this.restartGame, this).autoDestroy = true;
-
-        }
-    },
-    
-    hitEnemy: function() {
-        if (this.player.alive == false)
-            return;
-        this.deathSound.play();
-        this.player.alive  = false;
-        game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
-    },        
-
-    restartGame: function() {
-        game.state.start('main');
-    },
-
-    // Funktion die markierungen erstellt an denen die Gegner umkehren sollen (Patroullieren)
-    createMarks: function(x,y) {
-        var mark = this.marker.create(x,y);
-        mark.body.immovable = true;
-        mark.body.width = 10;
-        mark.body.height = 200;
-        this.marks.push(mark);
-    },        
-};
-
-game.state.add('main', mainState);  
-game.state.start('main'); 
+//game.state.add('main', create);  
+//game.state.start('main');

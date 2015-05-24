@@ -39,6 +39,7 @@
 
         game.physics.arcade.collide(this, this.platforms);
         game.physics.arcade.overlap(this, this.marks, this.changeDirection);
+       game.physics.arcade.overlap(player, this, hitEnemy, null, this);
     };
 
     Enemy.prototype.changeDirection = function(enemy,marks) {
