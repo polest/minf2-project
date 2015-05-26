@@ -140,8 +140,8 @@ var mainState = {
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
-        enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
-        this.enemiesGroup.add(enemy);
+        
+        this.createEnemy(800,300,-1,300)
 
       /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
         game.add.existing(enemy);
@@ -290,10 +290,16 @@ var mainState = {
         mark.body.height = 200;
         this.marks.push(mark);
     },  
-    // Funktion die markierungen erstellt an denen die Gegner umkehren sollen (Patroullieren)
-    createEnemy: function(x,y) {
-
-       
+    /*
+    *   Funktion die Gegener erstellt.
+    *       x - X Position des Gegners
+    *       y - Y Position des Gegners
+    *       richtung - Richtung in die der Gegner läuft. (-1 für linksrum, 1 für rechtsrum)
+    *       geschwindigkeit - Geschwindigkeit in die der Gegner laufen soll
+    */
+    createEnemy: function(x,y, richtung, geschwindigkeit) {
+        var enemy = new Enemy(game, this.platforms,this.marks ,x, y, richtung, geschwindigkeit);
+        this.enemiesGroup.add(enemy);
     },        
 };
 
