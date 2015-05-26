@@ -7,7 +7,6 @@
         this.body.gravity.y = 300;
         this.body.collideWorldBounds = true;
         this.platforms = platforms;
-        this.game = game;
         this.marks = marks;
         this.body.velocity.x = this.xSpeed;
         this.anchor.setTo(0.5)

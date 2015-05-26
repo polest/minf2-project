@@ -1,4 +1,5 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
+var enemyContainer = [];
 
 var mainState = {
     
@@ -137,9 +138,10 @@ var mainState = {
 
         this.createMarks(400,370);
 
-        this.enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
-        game.add.existing(this.enemy);
-
+        this.enemiesGroup = game.add.group();
+        this.enemiesGroup.enableBody = true;
+        enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
+        this.enemiesGroup.add(enemy);
 
       /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
         game.add.existing(enemy);
@@ -158,7 +160,7 @@ var mainState = {
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
-         game.physics.arcade.overlap(this.player, this.enemy, this.hitEnemy, null, this);
+        game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
 
         // Bewegung vom Spieler
         this.playerMovement();
@@ -287,6 +289,11 @@ var mainState = {
         mark.body.width = 10;
         mark.body.height = 200;
         this.marks.push(mark);
+    },  
+    // Funktion die markierungen erstellt an denen die Gegner umkehren sollen (Patroullieren)
+    createEnemy: function(x,y) {
+
+       
     },        
 };
 
