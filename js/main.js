@@ -148,6 +148,8 @@ var mainState = {
         var enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
         game.add.existing(enemy);
 
+        game.camera.follow(this.player);
+
 
       /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
         game.add.existing(enemy);
