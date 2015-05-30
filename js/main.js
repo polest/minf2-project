@@ -34,6 +34,9 @@ var mainState = {
     create: function() { 
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        
+    var bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
+            bg.fixedToCamera=true;
 
 
         game.stage.backgroundColor='#787878';
