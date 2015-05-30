@@ -45,6 +45,7 @@ var mainState = {
 
         this.layer= map.createLayer('Tile Layer 1');
         this.layer.enableBody = true;
+         this.game.physics.arcade.enable(this.layer, Phaser.Physics.ARCADE, true);
         this.layer.resizeWorld();
 
 
@@ -159,8 +160,8 @@ var mainState = {
     update: function() {
          //  Collide the player and the stars with the platforms
         game.physics.arcade.collide(this.player, this.layer);
-        game.physics.arcade.collide(this.stars, this.platforms);
-        game.physics.arcade.collide(this.baddie, this.platforms);
+        game.physics.arcade.collide(this.stars, this.layer);
+        game.physics.arcade.collide(this.baddie, this.layer);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
@@ -203,7 +204,7 @@ var mainState = {
 
     playRunSound: function() {
         // Runsound wird abgespielt
-        if(!this.runSoundPlayed && this.player.body.touching.down) {
+        if(!this.runSoundPlayed && this.player.body.blocked.down) {
             this.runSoundPlayed = true;
             this.runSound.play();
             // Jumpsound wird erst nach einem Timeout wieder abgespielt um Überlagerungen der Sounds zu vermeiden
@@ -217,13 +218,13 @@ var mainState = {
 
     jump: function() {
         //  Allow the player to jump if they are touching the ground.
-        if (this.cursor.up.isDown && this.player.body.touching.down){
+        if (this.cursor.up.isDown && this.player.body.blocked.down){
             this.player.body.velocity.y = -300;
             this.jumpSound.play();
             this.player.frame= 8;
-        } else if(!this.player.body.touching.down && this.cursor.right.isDown){
+        } else if(!this.player.body.blocked.down && this.cursor.right.isDown){
             this.player.frame= 8;
-        } else if(!this.player.body.touching.down && this.cursor.left.isDown){
+        } else if(!this.player.body.blocked.down && this.cursor.left.isDown){
             this.player.frame= 0;
         } 
         if(!this.cursor.up.isDown){
