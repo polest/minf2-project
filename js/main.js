@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1024, 600, Phaser.AUTO, 'gameDiv');
+var game = new Phaser.Game(1024, 640, Phaser.AUTO, 'gameDiv');
 
 var mainState = {
     
@@ -25,6 +25,10 @@ var mainState = {
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
 
+        game.load.tilemap('map', 'maps/map1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('erde', 'maps/tiles/erde.png');
+        game.load.image('wiese', 'maps/tiles/wiese123.png');
+
     },
 
     create: function() { 
@@ -32,56 +36,18 @@ var mainState = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
 
-        //  A simple background for our game
-        game.add.sprite(0, -400, 'sky');
+        game.stage.backgroundColor='#787878';
 
-        //  The platforms group contains the ground and the 2 ledges we can jump on
-        this.platforms = game.add.group();
+        var map= game.add.tilemap('map');
+        map.addTilesetImage('erde');
+        map.addTilesetImage('wiese');
+        map.setCollisionBetween(1, 12);
 
-        //  We will enable physics for any object that is created in this group
-        this.platforms.enableBody = true;
+        this.layer= map.createLayer('Tile Layer 1');
+        this.layer.enableBody = true;
+         this.game.physics.arcade.enable(this.layer, Phaser.Physics.ARCADE, true);
+        this.layer.resizeWorld();
 
-        // Here we create the ground.
-        this.ground = this.platforms.create(0, game.world.height - 30, 'ground');
-        this.ground1 = this.platforms.create(100, game.world.height - 30, 'ground');
-        this.ground2 = this.platforms.create(200, game.world.height - 30, 'ground');
-        this.ground3 = this.platforms.create(300, game.world.height - 30, 'ground');
-        this.ground4 = this.platforms.create(400, game.world.height - 30, 'ground');
-        this.ground5 = this.platforms.create(500, game.world.height - 30, 'ground');
-        this.ground6 = this.platforms.create(600, game.world.height - 30, 'ground');
-        this.ground7 = this.platforms.create(700, game.world.height - 30, 'ground');
-        this.ground8 = this.platforms.create(800, game.world.height - 30, 'ground');
-        this.ground9 = this.platforms.create(900, game.world.height - 30, 'ground');
-        this.ground10 = this.platforms.create(1000, game.world.height - 30, 'ground');
-
-
-
-        //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-
-        //  This stops it from falling away when you jump on it
-        this.ground.body.immovable = true;
-        this.ground1.body.immovable = true;
-        this.ground2.body.immovable = true;
-        this.ground3.body.immovable = true;
-        this.ground4.body.immovable = true;
-        this.ground5.body.immovable = true;
-        this.ground6.body.immovable = true;
-        this.ground7.body.immovable = true;
-        this.ground8.body.immovable = true;
-        this.ground9.body.immovable = true;
-        this.ground10.body.immovable = true;
-
- 
-           
-
-        //  Now let's create two ledges
-        this.ledge2 = this.platforms.create(450, 450, 'groundendL');
-        this.ledge2.body.immovable = true;
-        this.ledge1 = this.platforms.create(550, 450, 'groundendR');
-        this.ledge1.body.immovable = true;
-
-        this.ledge = this.platforms.create(300, 300, 'ground');
-        this.ledge.body.immovable = true;
 
         // The player and its settings
         this.player = game.add.sprite(20, game.world.height - 150, 'dude');
@@ -93,6 +59,7 @@ var mainState = {
         //  We need to enable physics on the player
         this.game.physics.arcade.enable(this.player);
         this.game.physics.arcade.enable(this.baddie);
+        this.game.physics.arcade.enable(this.layer);
 
         //  Player physics properties. Give the little guy a slight bounce.
         this.player.body.bounce.y = 0;
@@ -181,6 +148,8 @@ var mainState = {
         var enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
         game.add.existing(enemy);
 
+        game.camera.follow(this.player);
+
 
       /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
         game.add.existing(enemy);
@@ -192,9 +161,9 @@ var mainState = {
 
     update: function() {
          //  Collide the player and the stars with the platforms
-        game.physics.arcade.collide(this.player, this.platforms);
-        game.physics.arcade.collide(this.stars, this.platforms);
-        game.physics.arcade.collide(this.baddie, this.platforms);
+        game.physics.arcade.collide(this.player, this.layer);
+        game.physics.arcade.collide(this.stars, this.layer);
+        game.physics.arcade.collide(this.baddie, this.layer);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
@@ -237,7 +206,7 @@ var mainState = {
 
     playRunSound: function() {
         // Runsound wird abgespielt
-        if(!this.runSoundPlayed && this.player.body.touching.down) {
+        if(!this.runSoundPlayed && this.player.body.blocked.down) {
             this.runSoundPlayed = true;
             this.runSound.play();
             // Jumpsound wird erst nach einem Timeout wieder abgespielt um Überlagerungen der Sounds zu vermeiden
@@ -251,13 +220,13 @@ var mainState = {
 
     jump: function() {
         //  Allow the player to jump if they are touching the ground.
-        if (this.cursor.up.isDown && this.player.body.touching.down){
+        if (this.cursor.up.isDown && this.player.body.blocked.down){
             this.player.body.velocity.y = -300;
             this.jumpSound.play();
             this.player.frame= 8;
-        } else if(!this.player.body.touching.down && this.cursor.right.isDown){
+        } else if(!this.player.body.blocked.down && this.cursor.right.isDown){
             this.player.frame= 8;
-        } else if(!this.player.body.touching.down && this.cursor.left.isDown){
+        } else if(!this.player.body.blocked.down && this.cursor.left.isDown){
             this.player.frame= 0;
         } 
         if(!this.cursor.up.isDown){
