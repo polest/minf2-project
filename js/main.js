@@ -43,8 +43,9 @@ var mainState = {
         map.addTilesetImage('wiese');
         map.setCollisionBetween(1, 12);
 
-        var layer= map.createLayer('Tile Layer 1');
-        layer.resizeWorld();
+        this.layer= map.createLayer('Tile Layer 1');
+        this.layer.enableBody = true;
+        this.layer.resizeWorld();
 
 
         // The player and its settings
@@ -57,6 +58,7 @@ var mainState = {
         //  We need to enable physics on the player
         this.game.physics.arcade.enable(this.player);
         this.game.physics.arcade.enable(this.baddie);
+        this.game.physics.arcade.enable(this.layer);
 
         //  Player physics properties. Give the little guy a slight bounce.
         this.player.body.bounce.y = 0;
@@ -156,7 +158,7 @@ var mainState = {
 
     update: function() {
          //  Collide the player and the stars with the platforms
-
+        game.physics.arcade.collide(this.player, this.layer);
         game.physics.arcade.collide(this.stars, this.platforms);
         game.physics.arcade.collide(this.baddie, this.platforms);
 
