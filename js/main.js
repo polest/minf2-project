@@ -25,9 +25,14 @@ var mainState = {
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
 
-        game.load.tilemap('map', 'maps/map1.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('erde', 'maps/tiles/erde.png');
-        game.load.image('wiese', 'maps/tiles/wiese123.png');
+        game.load.tilemap('map', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('erde1', 'assets/tiles/erde1.png');
+        game.load.image('Spitze', 'assets/tiles/Spitze.png');
+        game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
+        game.load.image('WieseEckR', 'assets/tiles/WieseEckR.png');
+        game.load.image('toilet', 'assets/tiles/toilet.png');
+        game.load.image('wiese123', 'assets/tiles/wiese123.png');
+        game.load.spritesheet('welle', 'assets/sprites/spueli1.png', 32, 32);
 
     },
 
@@ -42,18 +47,38 @@ var mainState = {
         game.stage.backgroundColor='#787878';
 
         var map= game.add.tilemap('map');
-        map.addTilesetImage('erde');
-        map.addTilesetImage('wiese');
+        map.addTilesetImage('wiese123');
+        map.addTilesetImage('WieseEckL');
+        map.addTilesetImage('WieseEckR');
+        map.addTilesetImage('erde1');
+        map.addTilesetImage('toilet');
+
+
+
         map.setCollisionBetween(1, 12);
 
         this.layer= map.createLayer('Tile Layer 1');
         this.layer.enableBody = true;
-         this.game.physics.arcade.enable(this.layer, Phaser.Physics.ARCADE, true);
         this.layer.resizeWorld();
+                
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
+            this.wellen = game.add.group();
+            this.wellen.enableBody = true;
+
+            this.spitzen = game.add.group();
+            this.spitzen.enableBody=true;
+
+            map.createFromObjects('Object Layer 2', 3, 'welle', 0, true, false, this.wellen);
+            this.wellen.callAll('animations.add', 'animations', 'spin', [0, 1, 1, 0, 2, 2], 10, true);
+            this.wellen.callAll('animations.play', 'animations', 'spin');
+
+            map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
+
 
 
         // The player and its settings
-        this.player = game.add.sprite(20, game.world.height - 150, 'dude');
+        this.player = game.add.sprite(100, game.world.height - 250, 'dude');
         this.player.scale.setTo(0.8, 0.8);
 
         this.baddie = game.add.sprite(300, game.world.height - 150, 'baddie');
@@ -165,12 +190,18 @@ var mainState = {
     update: function() {
          //  Collide the player and the stars with the platforms
         game.physics.arcade.collide(this.player, this.layer);
+        game.physics.arcade.collide(this.spitzen, this.layer);
+        game.physics.arcade.collide(this.wellen, this.layer);
+        game.physics.arcade.collide(this.wellen, this.player);
+        game.physics.arcade.collide(this.player, this.spitzen);
         game.physics.arcade.collide(this.stars, this.layer);
         game.physics.arcade.collide(this.baddie, this.layer);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
+        game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
+        game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
 
         // Timer wird gestartet
         this.currentTimer.start();
@@ -295,7 +326,32 @@ var mainState = {
         this.deathSound.play();
         this.player.alive  = false;
         game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
+    },   
+
+     hitSpitzen: function() {
+        if (this.player.alive == false)
+            return;
+        this.deathSound.play();
+        this.player.alive  = false;
+        game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
     },        
+
+    restartGame: function() {
+        game.state.start('main');
+    },
+
+
+    hitSpueli: function() {
+        if (this.player.alive == false)
+            return;
+        this.deathSound.play();
+        this.player.alive  = false;
+        game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
+    },        
+
+    restartGame: function() {
+        game.state.start('main');
+    },     
 
     restartGame: function() {
         game.state.start('main');
