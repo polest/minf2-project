@@ -28,7 +28,7 @@ var mainState = {
         game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
         game.load.image('WieseEckR', 'assets/tiles/WieseEckR.png');
         game.load.image('toilet', 'assets/tiles/toilet.png');
-        game.load.image('blut', 'assets/tiles/toilet.png');
+        game.load.image('blut', 'assets/image/blut.png');
         game.load.image('wiese123', 'assets/tiles/wiese123.png');
         game.load.spritesheet('welle', 'assets/sprites/spueli1.png', 32, 32);
 
@@ -182,7 +182,8 @@ var mainState = {
  
 
 
-
+   
+   
 
  
 
@@ -209,6 +210,7 @@ var mainState = {
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
+
 
         // Timer wird gestartet
         this.currentTimer.start();
@@ -330,14 +332,16 @@ var mainState = {
         if (this.player.alive == false)
             return;
         this.deathSound.play();
+        this.blutig();
         this.player.alive  = false;
-        game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
     },   
 
      hitSpitzen: function() {
         if (this.player.alive == false)
             return;
         this.deathSound.play();
+        this.blutigSpitze();
         this.player.alive  = false;
         game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
 
@@ -352,10 +356,34 @@ var mainState = {
         if (this.player.alive == false)
             return;
         this.deathSound.play();
+        this.blutig();
         this.player.alive  = false;
         game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
     },    
 
+
+blutig: function(){
+    this.emitter = game.add.emitter(this.player.x+15, this.player.y+20, 100);
+
+    this.emitter.makeParticles('blut');
+
+    this.emitter.minParticleScale = 2;
+    this.emitter.gravity = 300;
+
+    this.emitter.angularDrag = 30;
+    this.emitter.start(true, 10000,null, 100);
+},
+blutigSpitze: function(){
+    this.emitter = game.add.emitter(this.player.x+15, this.player.y+50, 100);
+
+    this.emitter.makeParticles('blut');
+
+    this.emitter.minParticleScale = 2;
+    this.emitter.gravity = 300;
+
+    this.emitter.angularDrag = 30;
+    this.emitter.start(true, 10000,null, 100);
+},
 
 
     restartGame: function() {
