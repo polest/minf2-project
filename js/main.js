@@ -11,9 +11,6 @@ var mainState = {
         * 4. Schrittweite des Sprites.
         */
         game.load.image('sky', 'assets/bg.png');
-        game.load.image('ground', 'assets/Wiese2.png');
-        game.load.image('groundendR', 'assets/Wiese3.png');
-        game.load.image('groundendL','assets/Wiese1.png');
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/shitboy.png', 32, 48);
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
@@ -31,6 +28,7 @@ var mainState = {
         game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
         game.load.image('WieseEckR', 'assets/tiles/WieseEckR.png');
         game.load.image('toilet', 'assets/tiles/toilet.png');
+        game.load.image('blut', 'assets/tiles/toilet.png');
         game.load.image('wiese123', 'assets/tiles/wiese123.png');
         game.load.spritesheet('welle', 'assets/sprites/spueli1.png', 32, 32);
 
@@ -62,6 +60,8 @@ var mainState = {
         this.layer.resizeWorld();
                 
         game.physics.startSystem(Phaser.Physics.ARCADE);
+
+
 
             this.wellen = game.add.group();
             this.wellen.enableBody = true;
@@ -127,7 +127,7 @@ var mainState = {
         }
 
         // Timer wird definiert
-        timeEnd = 100;
+        timeEnd = 200;
         timerTextRed = game.add.text(16, 16, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#FF0000' });
         timerText = game.add.text(16, 16, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#000' });
         timerTextRed.visible = false;
@@ -179,6 +179,13 @@ var mainState = {
         game.camera.follow(this.player);
 
 
+ 
+
+
+
+
+ 
+
       /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
         game.add.existing(enemy);
         enemy = new Enemy(game, this.platforms , 100, 204, 1, 300);
@@ -193,6 +200,8 @@ var mainState = {
         game.physics.arcade.collide(this.spitzen, this.layer);
         game.physics.arcade.collide(this.wellen, this.layer);
         game.physics.arcade.collide(this.stars, this.layer);
+        game.physics.arcade.collide(this.stars, this.wellen);
+        game.physics.arcade.collide(this.stars, this.spitzen);
         game.physics.arcade.collide(this.baddie, this.layer);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
@@ -203,7 +212,6 @@ var mainState = {
 
         // Timer wird gestartet
         this.currentTimer.start();
-
         // Wenn R gedrückt wird, wird das Spiel neu gestartet
         if(resetKey.justPressed(/*optional duration*/)){
             this.restartGame();
@@ -243,6 +251,7 @@ var mainState = {
             this.runSound.play();
             // Jumpsound wird erst nach einem Timeout wieder abgespielt um Ãœberlagerungen der Sounds zu vermeiden
             game.time.events.add(Phaser.Timer.SECOND * 0.15, this.playRunSoundReset, this).autoDestroy = true;
+
         }
     },
     
@@ -276,7 +285,6 @@ var mainState = {
     runRight: function() {
         //  Move to the right
         this.player.body.velocity.x = 300;
-
         this.player.animations.play('right');
     },
 
@@ -332,6 +340,7 @@ var mainState = {
         this.deathSound.play();
         this.player.alive  = false;
         game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
+
     },        
 
     restartGame: function() {
@@ -345,7 +354,9 @@ var mainState = {
         this.deathSound.play();
         this.player.alive  = false;
         game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
-    },        
+    },    
+
+
 
     restartGame: function() {
         game.state.start('main');
