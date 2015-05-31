@@ -192,8 +192,6 @@ var mainState = {
         game.physics.arcade.collide(this.player, this.layer);
         game.physics.arcade.collide(this.spitzen, this.layer);
         game.physics.arcade.collide(this.wellen, this.layer);
-        game.physics.arcade.collide(this.wellen, this.player);
-        game.physics.arcade.collide(this.player, this.spitzen);
         game.physics.arcade.collide(this.stars, this.layer);
         game.physics.arcade.collide(this.baddie, this.layer);
 
