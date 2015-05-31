@@ -343,7 +343,7 @@ var mainState = {
         this.deathSound.play();
         this.blutigSpitze();
         this.player.alive  = false;
-        game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
 
     },        
 
@@ -356,7 +356,6 @@ var mainState = {
         if (this.player.alive == false)
             return;
         this.deathSound.play();
-        this.blutig();
         this.player.alive  = false;
         game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
     },    
