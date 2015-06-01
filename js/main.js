@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
 var enemyContainer = [];
+=======
+var game = new Phaser.Game(1024, 640, Phaser.AUTO, 'gameDiv');
+>>>>>>> master
 
 var mainState = {
     
@@ -11,9 +15,8 @@ var mainState = {
         * 3. HÃ¶he des Bildes
         * 4. Schrittweite des Sprites.
         */
-        game.load.image('sky', 'assets/back1.png');
-        game.load.image('ground', 'assets/platform.png');
-        game.load.image('star', 'assets/star.png');
+        game.load.image('sky', 'assets/bg.png');
+        game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/shitboy.png', 32, 48);
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
 
@@ -24,40 +27,64 @@ var mainState = {
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
 
+        game.load.tilemap('map', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('erde1', 'assets/tiles/erde1.png');
+        game.load.image('Spitze', 'assets/tiles/Spitze.png');
+        game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
+        game.load.image('WieseEckR', 'assets/tiles/WieseEckR.png');
+        game.load.image('toilet', 'assets/tiles/toilet.png');
+        game.load.image('blut', 'assets/image/blut.png');
+        game.load.image('wiese123', 'assets/tiles/wiese123.png');
+        game.load.spritesheet('welle', 'assets/sprites/spueli1.png', 32, 32);
+
     },
 
     create: function() { 
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        
+    var bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
+            bg.fixedToCamera=true;
 
-        //  A simple background for our game
-        game.add.sprite(0, 0, 'sky');
 
-        //  The platforms group contains the ground and the 2 ledges we can jump on
-        this.platforms = game.add.group();
+        game.stage.backgroundColor='#787878';
 
-        //  We will enable physics for any object that is created in this group
-        this.platforms.enableBody = true;
+        var map= game.add.tilemap('map');
+        map.addTilesetImage('wiese123');
+        map.addTilesetImage('WieseEckL');
+        map.addTilesetImage('WieseEckR');
+        map.addTilesetImage('erde1');
+        map.addTilesetImage('toilet');
 
-        // Here we create the ground.
-        this.ground = this.platforms.create(0, game.world.height - 64, 'ground');
 
-        //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-        this.ground.scale.setTo(2, 2);
 
-        //  This stops it from falling away when you jump on it
-        this.ground.body.immovable = true;
+        map.setCollisionBetween(1, 12);
 
-        //  Now let's create two ledges
-        this.ledge = this.platforms.create(400, 400, 'ground');
-        this.ledge.body.immovable = true;
+        this.layer= map.createLayer('Tile Layer 1');
+        this.layer.enableBody = true;
+        this.layer.resizeWorld();
+                
+        game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        this.ledge = this.platforms.create(-150, 250, 'ground');
-        this.ledge.body.immovable = true;
+
+
+            this.wellen = game.add.group();
+            this.wellen.enableBody = true;
+
+            this.spitzen = game.add.group();
+            this.spitzen.enableBody=true;
+
+            map.createFromObjects('Object Layer 2', 3, 'welle', 0, true, false, this.wellen);
+            this.wellen.callAll('animations.add', 'animations', 'spin', [0, 1, 1, 0, 2, 2], 10, true);
+            this.wellen.callAll('animations.play', 'animations', 'spin');
+
+            map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
+
+
 
         // The player and its settings
-        this.player = game.add.sprite(20, game.world.height - 150, 'dude');
-        this.player.scale.setTo(1, 1);
+        this.player = game.add.sprite(100, game.world.height - 250, 'dude');
+        this.player.scale.setTo(0.8, 0.8);
 
         this.baddie = game.add.sprite(300, game.world.height - 150, 'baddie');
         this.baddie.scale.setTo(1,1);
@@ -65,6 +92,7 @@ var mainState = {
         //  We need to enable physics on the player
         this.game.physics.arcade.enable(this.player);
         this.game.physics.arcade.enable(this.baddie);
+        this.game.physics.arcade.enable(this.layer);
 
         //  Player physics properties. Give the little guy a slight bounce.
         this.player.body.bounce.y = 0;
@@ -103,13 +131,25 @@ var mainState = {
             star.body.bounce.y = 0.7 + Math.random() * 0.2;
         }
 
-        this.score = 0;
+        // Timer wird definiert
+        timeEnd = 200;
+        timerTextRed = game.add.text(16, 16, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#FF0000' });
+        timerText = game.add.text(16, 16, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#000' });
+        timerTextRed.visible = false;
+        timerText.visible=false;
+        this.currentTimer = game.time.create(false);
+        this.currentTimer.loop(100, this.updateTimer, this);
+
         //  The score
-        this.scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+        this.scoreText = game.add.text(900, 16, 'score: 0', {font:"30px VT323", fill: '#000' });
+        this.scoreText.visible=false;
+        this.score = 0;
 
         //  Our controls.
         this.cursor = game.input.keyboard.createCursorKeys();
 
+        resetKey = game.input.keyboard.addKey(Phaser.Keyboard.R)
+        
         // Jumpsound hinzugefÃ¼gt
         this.jumpSound = this.game.add.audio('jump',0.2);
         this.jumpSoundPlayed = false;
@@ -138,10 +178,26 @@ var mainState = {
 
         this.createMarks(400,370);
 
+<<<<<<< HEAD
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
         
         this.createEnemy(800,300,-1,300)
+=======
+        var enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
+        game.add.existing(enemy);
+
+        game.camera.follow(this.player);
+
+
+ 
+
+
+   
+   
+
+ 
+>>>>>>> master
 
       /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
         game.add.existing(enemy);
@@ -153,15 +209,32 @@ var mainState = {
 
     update: function() {
          //  Collide the player and the stars with the platforms
-        game.physics.arcade.collide(this.player, this.platforms);
-        game.physics.arcade.collide(this.stars, this.platforms);
-        game.physics.arcade.collide(this.baddie, this.platforms);
+        game.physics.arcade.collide(this.player, this.layer);
+        game.physics.arcade.collide(this.spitzen, this.layer);
+        game.physics.arcade.collide(this.wellen, this.layer);
+        game.physics.arcade.collide(this.stars, this.layer);
+        game.physics.arcade.collide(this.stars, this.wellen);
+        game.physics.arcade.collide(this.stars, this.spitzen);
+        game.physics.arcade.collide(this.baddie, this.layer);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
+<<<<<<< HEAD
         game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
+=======
+        game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
+        game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
+>>>>>>> master
 
+
+        // Timer wird gestartet
+        this.currentTimer.start();
+        // Wenn R gedrückt wird, wird das Spiel neu gestartet
+        if(resetKey.justPressed(/*optional duration*/)){
+            this.restartGame();
+        }
+        
         // Bewegung vom Spieler
         this.playerMovement();
 
@@ -191,11 +264,12 @@ var mainState = {
 
     playRunSound: function() {
         // Runsound wird abgespielt
-        if(!this.runSoundPlayed && this.player.body.touching.down) {
+        if(!this.runSoundPlayed && this.player.body.blocked.down) {
             this.runSoundPlayed = true;
             this.runSound.play();
             // Jumpsound wird erst nach einem Timeout wieder abgespielt um Ãœberlagerungen der Sounds zu vermeiden
             game.time.events.add(Phaser.Timer.SECOND * 0.15, this.playRunSoundReset, this).autoDestroy = true;
+
         }
     },
     
@@ -205,13 +279,13 @@ var mainState = {
 
     jump: function() {
         //  Allow the player to jump if they are touching the ground.
-        if (this.cursor.up.isDown && this.player.body.touching.down){
+        if (this.cursor.up.isDown && this.player.body.blocked.down){
             this.player.body.velocity.y = -300;
             this.jumpSound.play();
             this.player.frame= 8;
-        } else if(!this.player.body.touching.down && this.cursor.right.isDown){
+        } else if(!this.player.body.blocked.down && this.cursor.right.isDown){
             this.player.frame= 8;
-        } else if(!this.player.body.touching.down && this.cursor.left.isDown){
+        } else if(!this.player.body.blocked.down && this.cursor.left.isDown){
             this.player.frame= 0;
         } 
         if(!this.cursor.up.isDown){
@@ -229,7 +303,6 @@ var mainState = {
     runRight: function() {
         //  Move to the right
         this.player.body.velocity.x = 300;
-
         this.player.animations.play('right');
     },
 
@@ -260,8 +333,9 @@ var mainState = {
         this.collectSound.play();
 
         //  Add and update the score
+        this.scoreText.visible=true;
         this.score += 10;
-        this.scoreText.text = 'Score: ' + this.score;
+        this.scoreText.text = 'score: ' + this.score;
 
         if(this.score == 120){
             this.winSound.play();
@@ -274,9 +348,62 @@ var mainState = {
         if (this.player.alive == false)
             return;
         this.deathSound.play();
+        this.blutig();
+        this.player.alive  = false;
+        game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
+    },   
+
+     hitSpitzen: function() {
+        if (this.player.alive == false)
+            return;
+        this.deathSound.play();
+        this.blutigSpitze();
+        this.player.alive  = false;
+        game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
+
+    },        
+
+    restartGame: function() {
+        game.state.start('main');
+    },
+
+
+    hitSpueli: function() {
+        if (this.player.alive == false)
+            return;
+        this.deathSound.play();
         this.player.alive  = false;
         game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
-    },        
+    },    
+
+
+blutig: function(){
+    this.emitter = game.add.emitter(this.player.x+15, this.player.y+20, 100);
+
+    this.emitter.makeParticles('blut');
+
+    this.emitter.minParticleScale = 2;
+    this.emitter.gravity = 300;
+
+    this.emitter.angularDrag = 30;
+    this.emitter.start(true, 10000,null, 100);
+},
+blutigSpitze: function(){
+    this.emitter = game.add.emitter(this.player.x+15, this.player.y+50, 100);
+
+    this.emitter.makeParticles('blut');
+
+    this.emitter.minParticleScale = 2;
+    this.emitter.gravity = 300;
+
+    this.emitter.angularDrag = 30;
+    this.emitter.start(true, 10000,null, 100);
+},
+
+
+    restartGame: function() {
+        game.state.start('main');
+    },     
 
     restartGame: function() {
         game.state.start('main');
@@ -289,6 +416,7 @@ var mainState = {
         mark.body.width = 10;
         mark.body.height = 200;
         this.marks.push(mark);
+<<<<<<< HEAD
     },  
     /*
     *   Funktion die Gegener erstellt.
@@ -301,6 +429,30 @@ var mainState = {
         var enemy = new Enemy(game, this.platforms,this.marks ,x, y, richtung, geschwindigkeit);
         this.enemiesGroup.add(enemy);
     },        
+=======
+    },
+    
+    updateTimer: function() {
+        // Setzt den Countdown um minus eins
+        timeEnd--;
+        
+        // Wenn weniger als 5 sekunden -> Text rot
+        if(timeEnd <= 50){
+            timerText.visible = false;
+            timerTextRed.visible = true;
+            timerTextRed.setText('Timer: '+ (timeEnd/10));
+        } else {
+            timerText.visible=true;
+            timerText.setText('Timer: '+ (timeEnd/10));
+        }
+        
+        // Wenn Zeit abläuft dann restartGame
+        if(timeEnd == 0){
+            this.restartGame();
+        } 
+    }
+    
+>>>>>>> master
 };
 
 game.state.add('main', mainState);  
