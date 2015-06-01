@@ -77,12 +77,9 @@ var mainState = {
         this.player = game.add.sprite(100, game.world.height - 250, 'dude');
         this.player.scale.setTo(0.8, 0.8);
 
-        this.baddie = game.add.sprite(300, game.world.height - 150, 'baddie');
-        this.baddie.scale.setTo(1,1);
 
         //  We need to enable physics on the player
         this.game.physics.arcade.enable(this.player);
-        this.game.physics.arcade.enable(this.baddie);
         this.game.physics.arcade.enable(this.layer);
 
         //  Player physics properties. Give the little guy a slight bounce.
@@ -90,20 +87,11 @@ var mainState = {
         this.player.body.gravity.y = 300;
         this.player.body.collideWorldBounds = true;
 
-        this.baddie.body.bounce.y = 0;
-        this.baddie.body.gravity.y = 300;
-        this.baddie.body.collideWorldBounds = true;
-        this.baddie.body.velocity.x = 300;
-        this.baddie.animations.play("right");
-        this.baddieDirection = "right";
-
         //  Our two animations, walking left and right.
         this.player.animations.add('left', [1, 2, 3], 20, true);
         this.player.animations.add('right', [5, 6, 7], 20, true);
         this.player.animations.add('death', [10, 11, 12, 13, 14, 15, 16, 17], 20, true);
 
-        this.baddie.animations.add("left", [0,1], 20, true);
-        this.baddie.animations.add("right", [2,3], 20, true);
         //  Finally some stars to collect
         this.stars = game.add.group();
 
@@ -172,6 +160,7 @@ var mainState = {
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
         this.createEnemy(800,300,-1,300)
+        this.createEnemy(300, game.world.height - 150, -1,300);
         
         game.camera.follow(this.player);
 
@@ -186,12 +175,10 @@ var mainState = {
         game.physics.arcade.collide(this.stars, this.layer);
         game.physics.arcade.collide(this.stars, this.wellen);
         game.physics.arcade.collide(this.stars, this.spitzen);
-        game.physics.arcade.collide(this.baddie, this.layer);
         game.physics.arcade.collide(this.enemiesGroup, this.layer);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
-        game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
          game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);     
@@ -207,8 +194,6 @@ var mainState = {
         // Bewegung vom Spieler
         this.playerMovement();
 
-        // Bewegung von Prototyp Gegner
-        this.enemyMovement();
     },
 
     playerMovement: function() {
@@ -281,19 +266,6 @@ var mainState = {
         this.player.frame = 4;
     },
 
-    enemyMovement: function() {
-        if(this.baddie.body.velocity.x == -0){
-            if(this.baddieDirection == "right"){
-                this.baddie.body.velocity.x = -300;
-                this.baddie.animations.play('left');
-                this.baddieDirection = "left";   
-            }else{
-                this.baddie.body.velocity.x = 300;
-                this.baddie.animations.play('right');
-                this.baddieDirection = "right";  
-            }
-        }
-    },
  // Game Pausieren this.game.paused=true; --- Florian
 
     collectStar: function(player, star) {
