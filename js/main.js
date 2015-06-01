@@ -1,4 +1,5 @@
 var game = new Phaser.Game(1024, 640, Phaser.AUTO, 'gameDiv');
+var enemyContainer = [];
 
 var mainState = {
     
@@ -173,19 +174,11 @@ var mainState = {
 
         this.createMarks(400,370);
 
-        var enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
-        game.add.existing(enemy);
-
+        this.enemiesGroup = game.add.group();
+        this.enemiesGroup.enableBody = true;
+        
+        this.createEnemy(800,300,-1,300)
         game.camera.follow(this.player);
-
-
- 
-
-
-   
-   
-
- 
 
       /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
         game.add.existing(enemy);
@@ -204,13 +197,14 @@ var mainState = {
         game.physics.arcade.collide(this.stars, this.wellen);
         game.physics.arcade.collide(this.stars, this.spitzen);
         game.physics.arcade.collide(this.baddie, this.layer);
+        game.physics.arcade.collide(this.enemiesGroup, this.layer);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
-
+        game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
 
         // Timer wird gestartet
         this.currentTimer.start();
@@ -400,7 +394,18 @@ blutigSpitze: function(){
         mark.body.width = 10;
         mark.body.height = 200;
         this.marks.push(mark);
-    },
+    },  
+    /*
+    *   Funktion die Gegener erstellt.
+    *       x - X Position des Gegners
+    *       y - Y Position des Gegners
+    *       richtung - Richtung in die der Gegner läuft. (-1 für linksrum, 1 für rechtsrum)
+    *       geschwindigkeit - Geschwindigkeit in die der Gegner laufen soll
+    */
+    createEnemy: function(x,y, richtung, geschwindigkeit) {
+        var enemy = new Enemy(game, this.platforms,this.marks ,x, y, richtung, geschwindigkeit);
+        this.enemiesGroup.add(enemy);
+    },        
     
     updateTimer: function() {
         // Setzt den Countdown um minus eins
@@ -421,7 +426,6 @@ blutigSpitze: function(){
             this.restartGame();
         } 
     }
-    
 };
 
 game.state.add('main', mainState);  
