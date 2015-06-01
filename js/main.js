@@ -358,35 +358,34 @@ var mainState = {
     },    
 
 
-blutig: function(){
-    this.emitter = game.add.emitter(this.player.x+15, this.player.y+20, 100);
+    blutig: function(){
+        this.emitter = game.add.emitter(this.player.x+15, this.player.y+20, 100);
 
-    this.emitter.makeParticles('blut');
-    
+        this.emitter.makeParticles('blut');
+        
 
-    this.emitter.minParticleScale = 2; 
-    this.emitter.gravity = 300;
-    this.emitter.angularDrag = 30;
-    this.emitter.start(true, 10000,null, 100);
+        this.emitter.minParticleScale = 2; 
+        this.emitter.gravity = 300;
+        this.emitter.angularDrag = 30;
+        this.emitter.start(true, 10000,null, 100);
 
-},
-blutigSpitze: function(){
-    this.emitter = game.add.emitter(this.player.x+15, this.player.y+50, 100);
+    },
+    blutigSpitze: function(){
+        this.emitter = game.add.emitter(this.player.x+15, this.player.y+50, 100);
 
-    this.emitter.makeParticles('blut');
+        this.emitter.makeParticles('blut');
 
-    this.emitter.minParticleScale = 2;
-    this.emitter.gravity = 300;
+        this.emitter.minParticleScale = 2;
+        this.emitter.gravity = 300;
 
 
-    this.emitter.angularDrag = 30;
-    this.emitter.start(true, 10000,null, 100);
-},
+        this.emitter.angularDrag = 30;
+        this.emitter.start(true, 10000,null, 100);
+    },
 
-test: function(){
-    this.emitter.on=false;
-},
-
+    test: function(){
+        this.emitter.on=false;
+    },
 
     restartGame: function() {
         game.state.start('main');
