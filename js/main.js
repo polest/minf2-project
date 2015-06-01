@@ -207,6 +207,7 @@ var mainState = {
         game.physics.arcade.collide(this.stars, this.wellen);
         game.physics.arcade.collide(this.stars, this.spitzen);
         game.physics.arcade.collide(this.baddie, this.layer);
+        
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
@@ -344,7 +345,7 @@ var mainState = {
         if (this.player.alive == false)
             return;
         this.deathSound.play();
-        this.blutigSpitze();
+        this.blutig();
         this.player.alive  = false;
         game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
 
@@ -364,34 +365,22 @@ var mainState = {
     },    
 
 
-blutig: function(){
-    this.emitter = game.add.emitter(this.player.x+15, this.player.y+20, 100);
+    blutig: function(){
+        this.emitter = game.add.emitter(this.player.x+15, this.player.y+20, 100);
 
-    this.emitter.makeParticles('blut');
-    
+        this.emitter.makeParticles('blut');
+        
 
-    this.emitter.minParticleScale = 2; 
-    this.emitter.gravity = 300;
-    this.emitter.angularDrag = 30;
-    this.emitter.start(true, 10000,null, 100);
+        this.emitter.minParticleScale = 2; 
+        this.emitter.gravity = 300;
+        this.emitter.angularDrag = 30;
+        this.emitter.start(true, 10000,null, 100);
 
-},
-blutigSpitze: function(){
-    this.emitter = game.add.emitter(this.player.x+15, this.player.y+50, 100);
-
-    this.emitter.makeParticles('blut');
-
-    this.emitter.minParticleScale = 2;
-    this.emitter.gravity = 300;
+    },
 
 
-    this.emitter.angularDrag = 30;
-    this.emitter.start(true, 10000,null, 100);
-},
 
-test: function(){
-    this.emitter.on=false;
-},
+
 
 
     restartGame: function() {
