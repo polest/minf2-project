@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
-var enemyContainer = [];
-=======
 var game = new Phaser.Game(1024, 640, Phaser.AUTO, 'gameDiv');
->>>>>>> master
+var enemyContainer = [];
 
 var mainState = {
     
@@ -178,26 +174,11 @@ var mainState = {
 
         this.createMarks(400,370);
 
-<<<<<<< HEAD
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
         
         this.createEnemy(800,300,-1,300)
-=======
-        var enemy = new Enemy(game, this.platforms,this.marks ,800, 300, -1, 300);
-        game.add.existing(enemy);
-
         game.camera.follow(this.player);
-
-
- 
-
-
-   
-   
-
- 
->>>>>>> master
 
       /*  enemy = new Enemy(game, this.platforms , 100, 124,-1, 300);
         game.add.existing(enemy);
@@ -216,17 +197,14 @@ var mainState = {
         game.physics.arcade.collide(this.stars, this.wellen);
         game.physics.arcade.collide(this.stars, this.spitzen);
         game.physics.arcade.collide(this.baddie, this.layer);
+        game.physics.arcade.collide(this.enemiesGroup, this.layer);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
-<<<<<<< HEAD
-        game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
-=======
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
->>>>>>> master
-
+        game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
 
         // Timer wird gestartet
         this.currentTimer.start();
@@ -416,7 +394,6 @@ blutigSpitze: function(){
         mark.body.width = 10;
         mark.body.height = 200;
         this.marks.push(mark);
-<<<<<<< HEAD
     },  
     /*
     *   Funktion die Gegener erstellt.
@@ -429,8 +406,6 @@ blutigSpitze: function(){
         var enemy = new Enemy(game, this.platforms,this.marks ,x, y, richtung, geschwindigkeit);
         this.enemiesGroup.add(enemy);
     },        
-=======
-    },
     
     updateTimer: function() {
         // Setzt den Countdown um minus eins
@@ -451,8 +426,6 @@ blutigSpitze: function(){
             this.restartGame();
         } 
     }
-    
->>>>>>> master
 };
 
 game.state.add('main', mainState);  
