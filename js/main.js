@@ -13,7 +13,7 @@ var mainState = {
         */
         game.load.image('sky', 'assets/bg.png');
         game.load.image('star', 'assets/pixel.png');
-        game.load.spritesheet('dude', 'assets/shitboy.png', 32, 48);
+        game.load.spritesheet('dude', 'assets/sprites/shitboy.png', 32, 48);
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
 
          // Sounds werden geladen
@@ -22,6 +22,7 @@ var mainState = {
         game.load.audio('death', 'assets/sounds/death.wav'); 
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
+        game.load.audio('saeure', 'assets/sounds/saeure.wav');
 
         game.load.tilemap('map', 'assets/tilemaps/level1_enemy.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('erde1', 'assets/tiles/erde1.png');
@@ -90,7 +91,8 @@ var mainState = {
         //  Our two animations, walking left and right.
         this.player.animations.add('left', [1, 2, 3], 20, true);
         this.player.animations.add('right', [5, 6, 7], 20, true);
-        this.player.animations.add('death', [10, 11, 12, 13, 14, 15, 16, 17], 20, true);
+        this.player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
+        this.player.animations.add('deathspueli', [16,17,18,19,14], 20, true);
 
         //  Finally some stars to collect
        /* this.stars = game.add.group();
@@ -144,6 +146,9 @@ var mainState = {
         // collectSound hinzugefügt
         this.collectSound=this.game.add.audio('collect',0.1);
         this.collectSoundPlayed=false;
+
+        this.saeureSound=this.game.add.audio('saeure', 0.4);
+        this.saeureSoundPlayed=false;
 
         // winSound hinzugefügt
         this.winSound=this.game.add.audio('win',0.5);
@@ -202,11 +207,12 @@ var mainState = {
 
     },
 
+
+
     playerMovement: function() {
         this.player.body.velocity.x = 0;
         // Spieler darf sich nur bewegen wenn shitboy nicht tot ist.
         if(this.player.alive == false){
-            this.player.animations.play('death', 10, false, true);
         }else{
             if (this.cursor.left.isDown){
                 this.runLeft();
@@ -295,6 +301,7 @@ var mainState = {
         if (this.player.alive == false)
             return;
         this.deathSound.play();
+        this.player.animations.play('death', 10, false, true);
         this.blutig();
         this.player.alive  = false;
         game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
@@ -304,7 +311,8 @@ var mainState = {
         if (this.player.alive == false)
             return;
         this.deathSound.play();
-        this.blutigSpitze();
+        this.player.animations.play('death', 10, false, true);
+        this.blutig();
         this.player.alive  = false;
         game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
 
@@ -317,10 +325,12 @@ var mainState = {
 
     hitSpueli: function() {
         if (this.player.alive == false)
+
             return;
-        this.deathSound.play();
+        this.saeureSound.play();
+        this.player.animations.play('deathspueli', 10, false, true);
         this.player.alive  = false;
-        game.time.events.add(Phaser.Timer.SECOND * 0.5, this.restartGame, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
     },    
 
 
