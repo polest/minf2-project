@@ -52,8 +52,6 @@ var mainState = {
         map.addTilesetImage('erde1');
         map.addTilesetImage('toilet');
 
-
-
         map.setCollisionBetween(1, 12);
 
         this.layer= map.createLayer('Tile Layer 1');
@@ -62,22 +60,17 @@ var mainState = {
                 
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
+        this.wellen = game.add.group();
+        this.wellen.enableBody = true;
 
+        this.spitzen = game.add.group();
+        this.spitzen.enableBody=true;
 
-            this.wellen = game.add.group();
-            this.wellen.enableBody = true;
+        map.createFromObjects('Object Layer 2', 3, 'welle', 0, true, false, this.wellen);
+        this.wellen.callAll('animations.add', 'animations', 'spin', [0, 1, 1, 0, 2, 2], 10, true);
+        this.wellen.callAll('animations.play', 'animations', 'spin');
 
-            this.spitzen = game.add.group();
-            this.spitzen.enableBody=true;
-
-            map.createFromObjects('Object Layer 2', 3, 'welle', 0, true, false, this.wellen);
-            this.wellen.callAll('animations.add', 'animations', 'spin', [0, 1, 1, 0, 2, 2], 10, true);
-            this.wellen.callAll('animations.play', 'animations', 'spin');
-
-            map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
-
-
-
+        map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
 
 
         // The player and its settings
