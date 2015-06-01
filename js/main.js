@@ -93,7 +93,7 @@ var mainState = {
         this.player.animations.add('death', [10, 11, 12, 13, 14, 15, 16, 17], 20, true);
 
         //  Finally some stars to collect
-        this.stars = game.add.group();
+       /* this.stars = game.add.group();
 
         //  We will enable physics for any star that is created in this group
         this.stars.enableBody = true;
@@ -108,7 +108,7 @@ var mainState = {
 
             //  This just gives each star a slightly random bounce value
             star.body.bounce.y = 0.7 + Math.random() * 0.2;
-        }
+        }*/
 
         // Timer wird definiert
         timeEnd = 200;
