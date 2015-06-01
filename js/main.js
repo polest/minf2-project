@@ -77,6 +77,8 @@ var mainState = {
 
 
 
+
+
         // The player and its settings
         this.player = game.add.sprite(100, game.world.height - 250, 'dude');
         this.player.scale.setTo(0.8, 0.8);
@@ -198,7 +200,8 @@ var mainState = {
     update: function() {
          //  Collide the player and the stars with the platforms
         game.physics.arcade.collide(this.player, this.layer);
-        game.physics.arcade.collide(this.spitzen, this.layer);
+        game.physics.arcade.collide(this.player, this.spitzen);
+        game.physics.arcade.collide(this.layer, this.spitzen);
         game.physics.arcade.collide(this.wellen, this.layer);
         game.physics.arcade.collide(this.stars, this.layer);
         game.physics.arcade.collide(this.stars, this.wellen);
@@ -209,7 +212,7 @@ var mainState = {
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.baddie, this.hitEnemy, null, this);
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
-        game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
+        game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);     
 
 
         // Timer wird gestartet
@@ -365,12 +368,13 @@ blutig: function(){
     this.emitter = game.add.emitter(this.player.x+15, this.player.y+20, 100);
 
     this.emitter.makeParticles('blut');
+    
 
-    this.emitter.minParticleScale = 2;
+    this.emitter.minParticleScale = 2; 
     this.emitter.gravity = 300;
-
     this.emitter.angularDrag = 30;
     this.emitter.start(true, 10000,null, 100);
+
 },
 blutigSpitze: function(){
     this.emitter = game.add.emitter(this.player.x+15, this.player.y+50, 100);
@@ -380,8 +384,13 @@ blutigSpitze: function(){
     this.emitter.minParticleScale = 2;
     this.emitter.gravity = 300;
 
+
     this.emitter.angularDrag = 30;
     this.emitter.start(true, 10000,null, 100);
+},
+
+test: function(){
+    this.emitter.on=false;
 },
 
 
