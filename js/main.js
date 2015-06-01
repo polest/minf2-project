@@ -304,7 +304,7 @@ var mainState = {
         this.player.animations.play('death', 10, false, true);
         this.blutig();
         this.player.alive  = false;
-        game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 3, this.restartGame, this).autoDestroy = true;
     },   
 
      hitSpitzen: function() {
@@ -314,7 +314,7 @@ var mainState = {
         this.player.animations.play('death', 10, false, true);
         this.blutig();
         this.player.alive  = false;
-        game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 3, this.restartGame, this).autoDestroy = true;
 
     },        
 
@@ -330,7 +330,7 @@ var mainState = {
         this.saeureSound.play();
         this.player.animations.play('deathspueli', 10, false, true);
         this.player.alive  = false;
-        game.time.events.add(Phaser.Timer.SECOND * 5, this.restartGame, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 3, this.restartGame, this).autoDestroy = true;
     },    
 
 
