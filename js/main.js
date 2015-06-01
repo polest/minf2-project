@@ -155,12 +155,13 @@ var mainState = {
         this.marks = [];
         //linker marker
 
-        this.createMarks(400,370);
+        this.createMarks(260,500);
+        this.createMarks(90,500);
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
-        this.createEnemy(800,300,-1,300)
-        this.createEnemy(300, game.world.height - 150, -1,300);
+        this.createEnemy(600,880,-1,300)
+        this.createEnemy(200, 500, -1,300);
         
         game.camera.follow(this.player);
 
