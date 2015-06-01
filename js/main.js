@@ -23,7 +23,7 @@ var mainState = {
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
 
-        game.load.tilemap('map', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map', 'assets/tilemaps/level1_enemy.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('erde1', 'assets/tiles/erde1.png');
         game.load.image('Spitze', 'assets/tiles/Spitze.png');
         game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
@@ -164,6 +164,11 @@ var mainState = {
         this.createEnemy(200, 500, -1,300);
         
         game.camera.follow(this.player);
+        
+        this.map = map;
+        this.createEnemies();
+
+       
 
     },
 
@@ -375,7 +380,14 @@ test: function(){
     createEnemy: function(x,y, richtung, geschwindigkeit) {
         var enemy = new Enemy(game, this.platforms,this.marks ,x, y, richtung, geschwindigkeit);
         this.enemiesGroup.add(enemy);
-    },        
+    }, 
+
+    createEnemies: function() {
+        var result = this.findObjectsByType('baddie', this.map, 'Gegner');
+        result.forEach(function(element){
+            this.createEnemy(element.x,element.y,1,300);
+        }, this);
+    },         
     
     updateTimer: function() {
         // Setzt den Countdown um minus eins
@@ -395,7 +407,18 @@ test: function(){
         if(timeEnd == 0){
             this.restartGame();
         } 
-    }
+    },
+    //find objects in a Tiled layer that containt a property called "type" equal to a certain value
+    findObjectsByType: function(type, map, layer) {
+        var result = new Array();
+        map.objects[layer].forEach(function(element){
+        if(element.properties.type === type) {
+            element.y -= map.tileHeight;
+            result.push(element);
+        }      
+        });
+        return result;
+    },
     
 };
 
