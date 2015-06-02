@@ -67,11 +67,20 @@ var mainState = {
         this.spitzen = game.add.group();
         this.spitzen.enableBody=true;
 
+
         map.createFromObjects('Object Layer 2', 3, 'welle', 0, true, false, this.wellen);
         this.wellen.callAll('animations.add', 'animations', 'spin', [0, 1, 1, 0, 2, 2], 10, true);
         this.wellen.callAll('animations.play', 'animations', 'spin');
 
         map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
+
+        this.spitzen.forEach(function(element){
+            element.body.moves=false;
+        }, this);
+
+        this.wellen.forEach(function(element){
+            element.body.moves=false;
+        }, this);
 
 
         // The player and its settings
@@ -113,7 +122,7 @@ var mainState = {
         }*/
 
         // Timer wird definiert
-        timeEnd = 200;
+        timeEnd = 150;
         timerTextRed = game.add.text(16, 16, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#FF0000' });
         timerText = game.add.text(16, 16, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#000' });
         timerTextRed.visible = false;
@@ -125,6 +134,9 @@ var mainState = {
         this.scoreText = game.add.text(900, 16, 'score: 0', {font:"30px VT323", fill: '#000' });
         this.scoreText.visible=false;
         this.score = 0;
+
+        this.winText= game.add.text(800,50, 'WIN!!!!',{font:"30px VT323", fill: '#000' });
+        this.winText.visible=false;
 
         //  Our controls.
         this.cursor = game.input.keyboard.createCursorKeys();
@@ -181,16 +193,19 @@ var mainState = {
          //  Collide the player and the stars with the platforms
         game.physics.arcade.collide(this.player, this.layer);
         game.physics.arcade.collide(this.player, this.spitzen);
-        game.physics.arcade.collide(this.layer, this.spitzen);
         game.physics.arcade.collide(this.wellen, this.layer);
         game.physics.arcade.collide(this.stars, this.layer);
         game.physics.arcade.collide(this.stars, this.wellen);
         game.physics.arcade.collide(this.stars, this.spitzen);
         game.physics.arcade.collide(this.enemiesGroup, this.layer);
+        /*
+            game.physics.arcade.collide(this.spitzen, this.emitter);
+            game.physics.arcade.collide(this.layer, this.emitter);
+            */
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
-         game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
+        game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);     
 
@@ -304,7 +319,7 @@ var mainState = {
         this.player.animations.play('death', 10, false, true);
         this.blutig();
         this.player.alive  = false;
-        game.time.events.add(Phaser.Timer.SECOND * 3, this.restartGame, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 2, this.restartGame, this).autoDestroy = true;
     },   
 
      hitSpitzen: function() {
@@ -314,7 +329,7 @@ var mainState = {
         this.player.animations.play('death', 10, false, true);
         this.blutig();
         this.player.alive  = false;
-        game.time.events.add(Phaser.Timer.SECOND * 3, this.restartGame, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 2, this.restartGame, this).autoDestroy = true;
 
     },        
 
@@ -330,38 +345,31 @@ var mainState = {
         this.saeureSound.play();
         this.player.animations.play('deathspueli', 10, false, true);
         this.player.alive  = false;
-        game.time.events.add(Phaser.Timer.SECOND * 3, this.restartGame, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 2, this.restartGame, this).autoDestroy = true;
     },    
 
 
-blutig: function(){
-    this.emitter = game.add.emitter(this.player.x+15, this.player.y+20, 100);
-
-    this.emitter.makeParticles('blut');
+    blutig: function(){
+        this.emitter = game.add.emitter(this.player.x+15, this.player.y+20, 100);
+        this.emitter.makeParticles('blut');
+        this.emitter.minParticleScale = 2; 
+        this.emitter.gravity = 300;
+        this.emitter.angularDrag = 30;
+        this.emitter.start(true, 10000,null, 100);
+    },
     
+    blutigSpitze: function(){
+        this.emitter = game.add.emitter(this.player.x+15, this.player.y+50, 100);
 
-    this.emitter.minParticleScale = 2; 
-    this.emitter.gravity = 300;
-    this.emitter.angularDrag = 30;
-    this.emitter.start(true, 10000,null, 100);
+        this.emitter.makeParticles('blut');
 
-},
-blutigSpitze: function(){
-    this.emitter = game.add.emitter(this.player.x+15, this.player.y+50, 100);
-
-    this.emitter.makeParticles('blut');
-
-    this.emitter.minParticleScale = 2;
-    this.emitter.gravity = 300;
+        this.emitter.minParticleScale = 2;
+        this.emitter.gravity = 300;
 
 
-    this.emitter.angularDrag = 30;
-    this.emitter.start(true, 10000,null, 100);
-},
-
-test: function(){
-    this.emitter.on=false;
-},
+        this.emitter.angularDrag = 30;
+        this.emitter.start(true, 10000,null, 100);
+    },
 
 
     restartGame: function() {
