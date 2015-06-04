@@ -14,7 +14,7 @@ var mainState = {
         game.load.image('sky', 'assets/bg.png');
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/sprites/shitboy.png', 32, 48);
-        game.load.spritesheet('Ratte', 'assets/sprites/Ratte.png', 32, 48)
+        game.load.spritesheet('Ratte', 'assets/sprites/kroeten.png', 50, 48)
 
          // Sounds werden geladen
         game.load.audio('jump', 'assets/sounds/jump2.wav'); 
