@@ -1,6 +1,6 @@
 
-    Enemy = function (game,platforms,marks, x, y, direction, speed) {
-        Phaser.Sprite.call(this, game, x, y, "baddie");
+    Enemy = function (game,platforms,marks, x, y, direction, speed,type) {
+        Phaser.Sprite.call(this, game, x, y, type);
         this.anchor.setTo(0.5);
         game.physics.enable(this, Phaser.Physics.ARCADE);
         this.xSpeed = direction*speed;
@@ -9,7 +9,7 @@
         this.platforms = platforms;
         this.marks = marks;
         this.body.velocity.x = this.xSpeed;
-        this.anchor.setTo(0.5)
+        this.anchor.setTo(0.5);
         if(direction <0 ){
             this.enemyDirection = "left";
         }else{
@@ -23,6 +23,7 @@
     Enemy.prototype.constructor = Enemy;
     
     Enemy.prototype.update = function() {
+
          if(this.body.velocity.x == -0){
             if(this.enemyDirection == "right"){
                 this.body.velocity.x = -300;

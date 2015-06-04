@@ -177,13 +177,13 @@ var mainState = {
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
-        this.createEnemy(600,880,-1,300)
-        this.createEnemy(200, 500, -1,300);
+        this.createEnemy(600,880,-1,300,"baddie")
+        this.createEnemy(200, 500, -1,300,"baddie");
         
         game.camera.follow(this.player);
         
         this.map = map;
-        this.createEnemies();
+        this.createEnemies("baddie");
 
        
 
@@ -395,15 +395,15 @@ var mainState = {
     *       richtung - Richtung in die der Gegner läuft. (-1 für linksrum, 1 für rechtsrum)
     *       geschwindigkeit - Geschwindigkeit in die der Gegner laufen soll
     */
-    createEnemy: function(x,y, richtung, geschwindigkeit) {
-        var enemy = new Enemy(game, this.platforms,this.marks ,x, y, richtung, geschwindigkeit);
+    createEnemy: function(x,y, richtung, geschwindigkeit,type) {
+        var enemy = new Enemy(game, this.platforms,this.marks ,x, y, richtung, geschwindigkeit,type);
         this.enemiesGroup.add(enemy);
     }, 
 
-    createEnemies: function() {
-        var result = this.findObjectsByType('baddie', this.map, 'Gegner');
+    createEnemies: function(type) {
+        var result = this.findObjectsByType(type, this.map, 'Gegner');
         result.forEach(function(element){
-            this.createEnemy(element.x,element.y,1,300);
+            this.createEnemy(element.x,element.y,1,300,type);
         }, this);
     },         
     
