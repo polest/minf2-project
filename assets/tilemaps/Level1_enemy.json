@@ -350,40 +350,40 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":35,
+         "height":0,
          "name":"Gegner",
          "objects":[
                 {
                  "gid":14,
                  "height":28,
-                 "id":23,
+                 "id":28,
                  "name":"",
                  "properties":
                     {
-                        "type":"baddie"
+                     "type":"Ratte"
                     },
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":26,
-                 "x":351,
-                 "y":924
+                 "x":271.573,
+                 "y":836.1
                 }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":32,
+         "width":0,
          "x":0,
          "y":0
         }],
- "nextobjectid":24,
+ "nextobjectid":34,
  "orientation":"orthogonal",
  "properties":
     {
@@ -394,7 +394,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/Spitze.png",
+         "image":"..\/..\/..\/..\/..\/..\/Dropbox\/Minf 2\/SpritesBaukasten\/Spitze.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -417,7 +417,7 @@
         }, 
         {
          "firstgid":2,
-         "image":"..\/spueli1.png",
+         "image":"..\/..\/..\/..\/..\/..\/Dropbox\/Minf 2\/SpritesBaukasten\/spueli1.png",
          "imageheight":32,
          "imagewidth":96,
          "margin":0,
@@ -432,7 +432,7 @@
         }, 
         {
          "firstgid":5,
-         "image":"..\/wiese123.png",
+         "image":"..\/..\/..\/..\/..\/..\/Dropbox\/Minf 2\/SpritesBaukasten\/wiese123.png",
          "imageheight":32,
          "imagewidth":96,
          "margin":0,
@@ -447,7 +447,7 @@
         }, 
         {
          "firstgid":8,
-         "image":"..\/WieseEckL.png",
+         "image":"..\/..\/..\/..\/..\/..\/Dropbox\/Minf 2\/SpritesBaukasten\/WieseEckL.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -469,7 +469,7 @@
         }, 
         {
          "firstgid":9,
-         "image":"..\/WieseEckR.png",
+         "image":"..\/..\/..\/..\/..\/..\/Dropbox\/Minf 2\/SpritesBaukasten\/WieseEckR.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -491,7 +491,7 @@
         }, 
         {
          "firstgid":10,
-         "image":"..\/toilet.png",
+         "image":"..\/..\/..\/..\/..\/..\/Dropbox\/Minf 2\/SpritesBaukasten\/toilet.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -506,7 +506,7 @@
         }, 
         {
          "firstgid":11,
-         "image":"..\/erde1.png",
+         "image":"..\/..\/..\/..\/..\/..\/Dropbox\/Minf 2\/SpritesBaukasten\/erde1.png",
          "imageheight":32,
          "imagewidth":96,
          "margin":0,
@@ -521,7 +521,7 @@
         }, 
         {
          "firstgid":14,
-         "image":"..\/baddie_right.png",
+         "image":"..\/..\/..\/..\/..\/..\/Dropbox\/Minf 2\/SpritesBaukasten\/baddie_right.png",
          "imageheight":28,
          "imagewidth":26,
          "margin":0,
@@ -536,15 +536,14 @@
             {
              "0":
                 {
-                 "direction":"-1",
-                 "typ":"baddie"
+                 "direction":"-1"
                 }
             },
          "tilewidth":26
         }, 
         {
          "firstgid":15,
-         "image":"..\/baddie_left.png",
+         "image":"..\/..\/..\/..\/..\/..\/Dropbox\/Minf 2\/SpritesBaukasten\/baddie_left.png",
          "imageheight":28,
          "imagewidth":26,
          "margin":0,

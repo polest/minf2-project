@@ -1,6 +1,6 @@
 
     Enemy = function (game,platforms,marks, x, y, direction, speed) {
-        Phaser.Sprite.call(this, game, x, y, "baddie");
+        Phaser.Sprite.call(this, game, x, y, "Ratte");
         this.anchor.setTo(0.5);
         game.physics.enable(this, Phaser.Physics.ARCADE);
         this.xSpeed = direction*speed;
@@ -15,8 +15,8 @@
         }else{
             this.enemyDirection = "right";
         }
-        this.animations.add("left", [0,1], 20, true);
-        this.animations.add("right", [2,3], 20, true);
+        this.animations.add("left", [0,1,2], 20, true);
+        this.animations.add("right", [3,4,5], 20, true);
     };
         
     Enemy.prototype = Object.create(Phaser.Sprite.prototype);

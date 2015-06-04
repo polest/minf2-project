@@ -14,7 +14,7 @@ var mainState = {
         game.load.image('sky', 'assets/bg.png');
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/sprites/shitboy.png', 32, 48);
-        game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32)
+        game.load.spritesheet('Ratte', 'assets/sprites/Ratte.png', 32, 48)
 
          // Sounds werden geladen
         game.load.audio('jump', 'assets/sounds/jump2.wav'); 
@@ -101,7 +101,7 @@ var mainState = {
         this.player.animations.add('left', [1, 2, 3], 20, true);
         this.player.animations.add('right', [5, 6, 7], 20, true);
         this.player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
-        this.player.animations.add('deathspueli', [16,17,18,19,14], 20, true);
+        this.player.animations.add('deathspueli', [16,17,18,19,14], 5, true);
 
         //  Finally some stars to collect
        /* this.stars = game.add.group();
@@ -262,6 +262,7 @@ var mainState = {
         //  Allow the player to jump if they are touching the ground.
         if (this.cursor.up.isDown && this.player.body.blocked.down){
             this.player.body.velocity.y = -300;
+
             this.jumpSound.play();
             this.player.frame= 8;
         } else if(!this.player.body.blocked.down && this.cursor.right.isDown){
@@ -358,18 +359,6 @@ var mainState = {
         this.emitter.start(true, 10000,null, 100);
     },
     
-    blutigSpitze: function(){
-        this.emitter = game.add.emitter(this.player.x+15, this.player.y+50, 100);
-
-        this.emitter.makeParticles('blut');
-
-        this.emitter.minParticleScale = 2;
-        this.emitter.gravity = 300;
-
-
-        this.emitter.angularDrag = 30;
-        this.emitter.start(true, 10000,null, 100);
-    },
 
 
     restartGame: function() {
@@ -401,7 +390,7 @@ var mainState = {
     }, 
 
     createEnemies: function() {
-        var result = this.findObjectsByType('baddie', this.map, 'Gegner');
+        var result = this.findObjectsByType('Ratte', this.map, 'Gegner');
         result.forEach(function(element){
             this.createEnemy(element.x,element.y,1,300);
         }, this);
