@@ -132,6 +132,7 @@ var mainState = {
         blockUpKeyForLeft = false;
         blockUpKeyForRight = false;
         jumpOnWall = false;
+        isInJump = false;
 
         // Timer wird definiert
         // Countdown Zeit in zehntel Sekunden (150 = 15 Sekunden)
@@ -301,6 +302,10 @@ var mainState = {
                 blockUpKeyForRight = false;
             }
             
+            if(!(this.cursor.up.isDown)){
+                isInJump = false;
+            }
+            
             if(this.player.body.blocked.down){
                 this.player.body.acceleration.x = 0;
                 inWallJump = false;
@@ -326,9 +331,11 @@ var mainState = {
 
     jump: function() {
         //  Allow the player to jump if they are touching the ground.
-        if (this.cursor.up.isDown && this.player.body.blocked.down){
+        if (this.cursor.up.isDown && this.player.body.blocked.down && !(isInJump)){
             this.player.body.velocity.y = -300;
-
+            
+            isInJump = true;
+            
             this.jumpSound.play();
             this.player.frame= 8;
         } else if(!this.player.body.blocked.down && this.cursor.right.isDown){
@@ -349,6 +356,11 @@ var mainState = {
         if(this.player.body.blocked.left && !(isOnLeftWall)){
             isOnLeftWall = true;
             blockUpKeyForLeft = true;
+        }
+        
+        if(!(this.player.body.blocked.left)){
+            isOnLeftWall = false;
+            blockUpKeyForLeft = false;
         }
         
         if(this.player.body.blocked.left){
@@ -377,6 +389,11 @@ var mainState = {
         if(this.player.body.blocked.right && !(isOnRightWall)){
             isOnRightWall = true;
             blockUpKeyForRight = true;
+        }
+        
+        if(!(this.player.body.blocked.right)){
+            isOnRightWall = false;
+            blockUpKeyForRight = false;
         }
         
         if(this.player.body.blocked.right){
