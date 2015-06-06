@@ -101,7 +101,7 @@ var mainState = {
         this.player.animations.add('left', [1, 2, 3], 20, true);
         this.player.animations.add('right', [5, 6, 7], 20, true);
         this.player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
-        this.player.animations.add('deathspueli', [16,17,18,19,14], 5, true);
+        this.player.animations.add('deathspueli', [16,17,18,19,14], 20, true);
 
         //  Finally some stars to collect
        /* this.stars = game.add.group();
@@ -214,13 +214,13 @@ var mainState = {
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
-        this.createEnemy(600,880,-1,300)
-        this.createEnemy(200, 500, -1,300);
+        this.createEnemy(600,880,-1,300,"baddie")
+        this.createEnemy(200, 500, -1,300,"baddie");
         
         game.camera.follow(this.player);
         
         this.map = map;
-        this.createEnemies();
+        this.createEnemies("baddie");
 
        
 
@@ -485,6 +485,18 @@ var mainState = {
         this.emitter.start(true, 10000,null, 100);
     },
     
+    blutigSpitze: function(){
+        this.emitter = game.add.emitter(this.player.x+15, this.player.y+50, 100);
+
+        this.emitter.makeParticles('blut');
+
+        this.emitter.minParticleScale = 2;
+        this.emitter.gravity = 300;
+
+
+        this.emitter.angularDrag = 30;
+        this.emitter.start(true, 10000,null, 100);
+    },
 
 
     restartGame: function() {
@@ -510,15 +522,15 @@ var mainState = {
     *       richtung - Richtung in die der Gegner läuft. (-1 für linksrum, 1 für rechtsrum)
     *       geschwindigkeit - Geschwindigkeit in die der Gegner laufen soll
     */
-    createEnemy: function(x,y, richtung, geschwindigkeit) {
-        var enemy = new Enemy(game, this.platforms,this.marks ,x, y, richtung, geschwindigkeit);
+    createEnemy: function(x,y, richtung, geschwindigkeit,type) {
+        var enemy = new Enemy(game, this.platforms,this.marks ,x, y, richtung, geschwindigkeit,type);
         this.enemiesGroup.add(enemy);
     }, 
 
-    createEnemies: function() {
-        var result = this.findObjectsByType('Ratte', this.map, 'Gegner');
+    createEnemies: function(type) {
+        var result = this.findObjectsByType(type, this.map, 'Gegner');
         result.forEach(function(element){
-            this.createEnemy(element.x,element.y,1,300);
+            this.createEnemy(element.x,element.y,1,300,type);
         }, this);
     },         
     
