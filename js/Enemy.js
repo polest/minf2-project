@@ -15,8 +15,8 @@
         }else{
             this.enemyDirection = "right";
         }
-        this.animations.add("left", [0,1], 20, true);
-        this.animations.add("right", [2,3], 20, true);
+        this.animations.add("left", [0,1,2], 20, true);
+        this.animations.add("right", [3,4,5], 20, true);
     };
         
     Enemy.prototype = Object.create(Phaser.Sprite.prototype);
