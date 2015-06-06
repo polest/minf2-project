@@ -123,6 +123,15 @@ var mainState = {
 
         // Setzt inWallJump beim Spielanfang immer auf false
         inWallJump = false;
+        
+        blockLeftKey = false;
+        blockRightKey = false;
+        isInAir = false;
+        isOnRightWall = false;
+        isOnLeftWall = false;
+        blockUpKeyForLeft = false;
+        blockUpKeyForRight = false;
+        jumpOnWall = false;
 
         // Timer wird definiert
         // Countdown Zeit in zehntel Sekunden (150 = 15 Sekunden)
@@ -152,7 +161,7 @@ var mainState = {
         
         // Versteckt die Texte
         timerTextRed.visible = false;
-        timerText.visible=false;
+        timerText.visible = false;
         
         this.currentTimer = game.time.create(false);
         this.currentTimer.loop(100, this.updateTimer, this);
@@ -252,14 +261,17 @@ var mainState = {
 
 
     playerMovement: function() {
-        this.player.body.velocity.x = 0;
+        if(!(isInAir)){
+            this.player.body.velocity.x = 0;
+        }
+        
         // Spieler darf sich nur bewegen wenn shitboy nicht tot ist.
         if(this.player.alive == false){
         }else{
-            if (this.cursor.left.isDown){
+            if (this.cursor.left.isDown && !(blockLeftKey)){
                 this.runLeft();
                 this.playRunSound();
-            }else if (this.cursor.right.isDown){
+            }else if (this.cursor.right.isDown && !(blockRightKey)){
                 this.runRight();
                 this.playRunSound();
             }else{
@@ -267,6 +279,33 @@ var mainState = {
             }
             // Jump Animation, wenn notwendig
             this.jump();
+            
+            //this.player.body.blocked.up || this.player.body.blocked.right || this.player.body.blocked.down || this.player.body.blocked.left
+            if(this.player.body.blocked.down){
+                isInAir = false;
+            }
+            
+            if(!(this.cursor.left.isDown)){
+                blockLeftKey = false;
+            }
+            
+            if(!(this.cursor.right.isDown)){
+                blockRightKey = false;
+            }
+            
+            if(!(this.cursor.up.isDown) && this.cursor.left.isDown){
+                blockUpKeyForLeft = false;
+            }
+            
+            if(!(this.cursor.up.isDown) && this.cursor.right.isDown){
+                blockUpKeyForRight = false;
+            }
+            
+            if(this.player.body.blocked.down){
+                this.player.body.acceleration.x = 0;
+                inWallJump = false;
+                jumpOnWall = false;
+            }
         }
     },
 
@@ -305,14 +344,57 @@ var mainState = {
     runLeft: function() {
          //  Move to the left
         this.player.body.velocity.x = -300;
-
         this.player.animations.play('left');
+        
+        if(this.player.body.blocked.left && !(isOnLeftWall)){
+            isOnLeftWall = true;
+            blockUpKeyForLeft = true;
+        }
+        
+        if(this.player.body.blocked.left){
+            
+            this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+        }
+        
+        if(this.player.body.blocked.left && this.cursor.up.isDown && !(blockUpKeyForLeft) && !(this.player.body.blocked.down)){
+            //if(!(inWallJump)){
+                isInAir = true;
+                blockLeftKey = true;
+                inWallJump = true;
+                isOnLeftWall = false;
+                this.player.body.velocity.y = -300;
+                this.player.body.velocity.x = 150;
+            //} 
+        }
+        
     },
 
     runRight: function() {
         //  Move to the right
         this.player.body.velocity.x = 300;
         this.player.animations.play('right');
+        
+        if(this.player.body.blocked.right && !(isOnRightWall)){
+            isOnRightWall = true;
+            blockUpKeyForRight = true;
+        }
+        
+        if(this.player.body.blocked.right){
+           
+            this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+        }
+        
+        if(this.player.body.blocked.right && this.cursor.up.isDown && !(blockUpKeyForRight) && !(this.player.body.blocked.down)){
+            //if(!(inWallJump)){
+                isInAir = true;
+                blockRightKey = true;
+                inWallJump = true;
+                isOnRightWall = false;
+                this.player.body.velocity.y = -300;
+                this.player.body.velocity.x = -150;
+            //} 
+        }
+        
     },
 
     standStill: function() {
