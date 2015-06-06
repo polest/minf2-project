@@ -121,12 +121,39 @@ var mainState = {
             star.body.bounce.y = 0.7 + Math.random() * 0.2;
         }*/
 
+        // Setzt inWallJump beim Spielanfang immer auf false
+        inWallJump = false;
+
         // Timer wird definiert
+        // Countdown Zeit in zehntel Sekunden (150 = 15 Sekunden)
         timeEnd = 150;
-        timerTextRed = game.add.text(16, 16, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#FF0000' });
-        timerText = game.add.text(16, 16, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#000' });
+        
+        // Erstellt einen roten Timer Text und fixiert ihn
+        var timerTextRedSprite = game.add.sprite(0,0);
+        timerTextRedSprite.fixedToCamera = true;
+        
+        timerTextRed = game.add.text(0, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#FF0000', backgroundColor: 'rgba(0,255,0)' });
+        timerTextRedSprite.addChild(timerTextRed);
+        
+        // X und Y Position wo der Text gefixed werden soll
+        timerTextRedSprite.cameraOffset.x = 50;
+        timerTextRedSprite.cameraOffset.y = 0;
+        
+        // Erstellt einen schwarzen Timer Text und fixiert ihn
+        var timerTextSprite = game.add.sprite(0,0);
+        timerTextSprite.fixedToCamera = true;
+        
+        timerText = game.add.text(0, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#000', backgroundColor: 'rgba(0,255,0)' });
+        timerTextSprite.addChild(timerText);
+        
+        // X und Y Position wo der Text gefixed werden soll
+        timerTextSprite.cameraOffset.x = 50;
+        timerTextSprite.cameraOffset.y = 0;
+        
+        // Versteckt die Texte
         timerTextRed.visible = false;
         timerText.visible=false;
+        
         this.currentTimer = game.time.create(false);
         this.currentTimer.loop(100, this.updateTimer, this);
 
