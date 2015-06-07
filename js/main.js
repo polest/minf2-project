@@ -140,7 +140,7 @@ var mainState = {
 
         // Timer wird definiert
         // Countdown Zeit in zehntel Sekunden (150 = 15 Sekunden)
-        timeEnd = 150;
+        timeEnd = 600;
         
         // Erstellt einen roten Timer Text und fixiert ihn
         var timerTextRedSprite = game.add.sprite(0,0);
@@ -182,7 +182,8 @@ var mainState = {
         //  Our controls.
         this.cursor = game.input.keyboard.createCursorKeys();
 
-        resetKey = game.input.keyboard.addKey(Phaser.Keyboard.R)
+        resetKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
+        this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         
         // Jumpsound hinzugefügt
         this.jumpSound = this.game.add.audio('jump',0.2);
@@ -307,15 +308,15 @@ var mainState = {
                 blockRightKey = false;
             }
             
-            if(!(this.cursor.up.isDown) && this.cursor.left.isDown){
+            if(!(this.spaceKey.isDown) && this.cursor.left.isDown){
                 blockUpKeyForLeft = false;
             }
             
-            if(!(this.cursor.up.isDown) && this.cursor.right.isDown){
+            if(!(this.spaceKey.isDown) && this.cursor.right.isDown){
                 blockUpKeyForRight = false;
             }
             
-            if(!(this.cursor.up.isDown)){
+            if(!(this.spaceKey.isDown)){
                 isInJump = false;
             }
             
@@ -345,7 +346,7 @@ var mainState = {
 
     jump: function() {
         //  Allow the player to jump if they are touching the ground.
-        if (this.cursor.up.isDown && this.player.body.blocked.down && !(isInJump)){
+        if (this.spaceKey.isDown && this.player.body.blocked.down && !(isInJump)){
             this.player.body.velocity.y = -300;
             
             isInJump = true;
@@ -357,7 +358,7 @@ var mainState = {
         } else if(!this.player.body.blocked.down && this.cursor.left.isDown){
             this.player.frame= 0;
         } 
-        if(!this.cursor.up.isDown){
+        if(!this.spaceKey.isDown){
             this.player.body.velocity.y = this.player.body.velocity.y+10;
         }
     },
@@ -389,7 +390,7 @@ var mainState = {
         }
         
         if(slidesOnWall && !(isInJump)){
-            if(this.player.body.blocked.left && this.cursor.up.isDown && !(blockUpKeyForLeft) && !(this.player.body.blocked.down)){
+            if(this.player.body.blocked.left && this.spaceKey.isDown && !(blockUpKeyForLeft) && !(this.player.body.blocked.down)){
                 //if(!(inWallJump)){
                     isInAir = true;
                     blockLeftKey = true;
@@ -431,7 +432,7 @@ var mainState = {
         }
         
         if(slidesOnWall && !(isInJump)){
-            if(this.player.body.blocked.right && this.cursor.up.isDown && !(blockUpKeyForRight) && !(this.player.body.blocked.down)){
+            if(this.player.body.blocked.right && this.spaceKey.isDown && !(blockUpKeyForRight) && !(this.player.body.blocked.down)){
                 //if(!(inWallJump)){
                     isInAir = true;
                     blockRightKey = true;
