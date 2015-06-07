@@ -13,7 +13,7 @@ var mainState = {
         */
         game.load.image('sky', 'assets/bg.png');
         game.load.image('star', 'assets/pixel.png');
-        game.load.spritesheet('dude', 'assets/sprites/shitboy.png', 32, 48);
+        game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
         game.load.spritesheet('Kroete', 'assets/sprites/kroeten.png', 50, 48)
 
          // Sounds werden geladen
@@ -25,7 +25,7 @@ var mainState = {
         game.load.audio('saeure', 'assets/sounds/saeure.wav');
         game.load.audio('bgmusic', 'assets/sounds/testsong.wav');
 
-        game.load.tilemap('map', 'assets/tilemaps/level1_enemy.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map', 'assets/tilemaps/level2.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('erde1', 'assets/tiles/erde1.png');
         game.load.image('Spitze', 'assets/tiles/Spitze.png');
         game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
@@ -87,6 +87,7 @@ var mainState = {
         // The player and its settings
         this.player = game.add.sprite(100, game.world.height - 250, 'dude');
         this.player.scale.setTo(0.8, 0.8);
+          
 
 
         //  We need to enable physics on the player
@@ -101,6 +102,7 @@ var mainState = {
         //  Our two animations, walking left and right.
         this.player.animations.add('left', [1, 2, 3], 20, true);
         this.player.animations.add('right', [5, 6, 7], 20, true);
+        this.player.animations.add('reborn', [14,13,12,11,10], 20, true);
         this.player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
         this.player.animations.add('deathspueli', [16,17,18,19,14], 20, true);
 
@@ -209,7 +211,7 @@ var mainState = {
         this.winSound=this.game.add.audio('win',0.5);
         this.winSoundPlayed=false;
 
-        this.bgSound = this.game.add.audio('bgmusic',0.2);
+        this.bgSound = this.game.add.audio('bgmusic',0.05);
         this.bgSoundPlayed = false;
 
         this.marker = game.add.group();
@@ -223,8 +225,7 @@ var mainState = {
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
-        this.createEnemy(600,880,-1,300,"Kroete")
-        this.createEnemy(200, 500, -1,300,"Kroete");
+
         
         game.camera.follow(this.player);
         
@@ -354,6 +355,10 @@ var mainState = {
             
             this.jumpSound.play();
             this.player.frame= 8;
+        }  else if(!this.player.body.blocked.down && this.cursor.left.isDown && this.player.body.blocked.left){
+            this.player.frame= 20;
+        }  else if(!this.player.body.blocked.down && this.cursor.right.isDown && this.player.body.blocked.right){
+            this.player.frame= 21;
         } else if(!this.player.body.blocked.down && this.cursor.right.isDown){
             this.player.frame= 8;
         } else if(!this.player.body.blocked.down && this.cursor.left.isDown){
@@ -395,6 +400,7 @@ var mainState = {
                 //if(!(inWallJump)){
                     isInAir = true;
                     blockLeftKey = true;
+                    this.jumpSound.play();
                     game.time.events.add(Phaser.Timer.SECOND * 0.4, this.resetwalljumpKeys, this).autoDestroy = true;
                     inWallJump = true;
                     isOnLeftWall = false;
@@ -437,6 +443,7 @@ var mainState = {
                 //if(!(inWallJump)){
                     isInAir = true;
                     blockRightKey = true;
+                    this.jumpSound.play();
                     game.time.events.add(Phaser.Timer.SECOND * 0.4, this.resetwalljumpKeys, this).autoDestroy = true;
                     inWallJump = true;
                     isOnRightWall = false;
@@ -500,10 +507,6 @@ var mainState = {
 
     },        
 
-    restartGame: function() {
-        this.bgSound.stop();
-        game.state.start('main');
-    },
 
 
     hitSpueli: function() {
@@ -544,11 +547,6 @@ var mainState = {
         this.bgSound.stop();
         game.state.start('main');
     },     
-
-    restartGame: function() {
-        this.bgSound.stop();
-        game.state.start('main');
-    },
 
      // Funktion die markierungen erstellt an denen die Gegner umkehren sollen (Patroullieren)
     createMarks: function(x,y) {
