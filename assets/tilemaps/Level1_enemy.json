@@ -367,7 +367,7 @@
                  "name":"",
                  "properties":
                     {
-                        "type":"baddie"
+                        "type":"Kroete"
                     },
                  "rotation":0,
                  "type":"",
@@ -537,7 +537,7 @@
              "0":
                 {
                  "direction":"-1",
-                 "typ":"baddie"
+                 "typ":"Kroete"
                 }
             },
          "tilewidth":26

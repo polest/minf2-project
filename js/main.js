@@ -14,7 +14,7 @@ var mainState = {
         game.load.image('sky', 'assets/bg.png');
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/sprites/shitboy.png', 32, 48);
-        game.load.spritesheet('Ratte', 'assets/sprites/kroeten.png', 50, 48)
+        game.load.spritesheet('Kroete', 'assets/sprites/kroeten.png', 50, 48)
 
          // Sounds werden geladen
         game.load.audio('jump', 'assets/sounds/jump2.wav'); 
@@ -214,13 +214,13 @@ var mainState = {
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
-        this.createEnemy(600,880,-1,300,"baddie")
-        this.createEnemy(200, 500, -1,300,"baddie");
+        this.createEnemy(600,880,-1,300,"Kroete")
+        this.createEnemy(200, 500, -1,300,"Kroete");
         
         game.camera.follow(this.player);
         
         this.map = map;
-        this.createEnemies("baddie");
+        this.createEnemies("Kroete");
 
        
 
