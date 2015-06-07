@@ -183,7 +183,8 @@ var mainState = {
         this.cursor = game.input.keyboard.createCursorKeys();
 
         resetKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
-        this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        //this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
         
         // Jumpsound hinzugefügt
         this.jumpSound = this.game.add.audio('jump',0.2);
