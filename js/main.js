@@ -23,6 +23,7 @@ var mainState = {
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
         game.load.audio('saeure', 'assets/sounds/saeure.wav');
+        game.load.audio('bgmusic', 'assets/sounds/testsong.wav');
 
         game.load.tilemap('map', 'assets/tilemaps/level1_enemy.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('erde1', 'assets/tiles/erde1.png');
@@ -206,6 +207,9 @@ var mainState = {
         this.winSound=this.game.add.audio('win',0.5);
         this.winSoundPlayed=false;
 
+        this.bgSound = this.game.add.audio('bgmusic',0.2);
+        this.bgSoundPlayed = false;
+
         this.marker = game.add.group();
         this.marker.enableBody = true;
         //unsichtbare Marker wo Gegner die Richtung Ã¤ndern
@@ -225,7 +229,7 @@ var mainState = {
         this.map = map;
         this.createEnemies("Kroete");
 
-       
+       this.bgSound.play();
 
     },
 
@@ -249,11 +253,12 @@ var mainState = {
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);     
 
-
+        
         // Timer wird gestartet
         this.currentTimer.start();
         // Wenn R gedrückt wird, wird das Spiel neu gestartet
         if(resetKey.justPressed(/*optional duration*/)){
+            this.bgSound.stop();
             this.restartGame();
         }
         
