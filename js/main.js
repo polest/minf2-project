@@ -14,6 +14,7 @@ var mainState = {
         game.load.image('sky', 'assets/bg.png');
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
+        game.load.image('TimerBG', 'assets/TimerBG.png');
         game.load.spritesheet('Kroete', 'assets/sprites/kroeten.png', 50, 48)
 
          // Sounds werden geladen
@@ -145,10 +146,10 @@ var mainState = {
         timeEnd = 600;
         
         // Erstellt einen roten Timer Text und fixiert ihn
-        var timerTextRedSprite = game.add.sprite(0,0);
+        timerTextRedSprite = game.add.sprite(0,0, 'TimerBG');
         timerTextRedSprite.fixedToCamera = true;
         
-        timerTextRed = game.add.text(0, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#FF0000', backgroundColor: 'rgba(0,255,0)' });
+        timerTextRed = game.add.text(5, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#FF0000' });
         timerTextRedSprite.addChild(timerTextRed);
         
         // X und Y Position wo der Text gefixed werden soll
@@ -156,10 +157,10 @@ var mainState = {
         timerTextRedSprite.cameraOffset.y = 0;
         
         // Erstellt einen schwarzen Timer Text und fixiert ihn
-        var timerTextSprite = game.add.sprite(0,0);
+        timerTextSprite = game.add.sprite(0,0, 'TimerBG');
         timerTextSprite.fixedToCamera = true;
         
-        timerText = game.add.text(0, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#000', backgroundColor: 'rgba(0,255,0)' });
+        timerText = game.add.text(5, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#000' });
         timerTextSprite.addChild(timerText);
         
         // X und Y Position wo der Text gefixed werden soll
@@ -581,10 +582,17 @@ var mainState = {
         
         // Wenn weniger als 5 sekunden -> Text rot
         if(timeEnd <= 50){
+            // Text und Hintergrund ausblenden
+            timerTextSprite.visible = false;
             timerText.visible = false;
+            
+            // Roten Text und Hintergrund einblenden + Text Updaten
             timerTextRed.visible = true;
+            timerTextRedSprite.visible = true;
             timerTextRed.setText('Timer: '+ (timeEnd/10));
         } else {
+            // Text und Hintergrund einblenden + Text Update
+            timerTextSprite.visible = true;
             timerText.visible=true;
             timerText.setText('Timer: '+ (timeEnd/10));
         }
