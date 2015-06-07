@@ -133,6 +133,9 @@ var mainState = {
         blockUpKeyForRight = false;
         jumpOnWall = false;
         isInJump = false;
+        slidesOnWall = false;
+        upDownDirection = this.player.body.y;
+        playerMoves = "stand";
 
         // Timer wird definiert
         // Countdown Zeit in zehntel Sekunden (150 = 15 Sekunden)
@@ -281,10 +284,16 @@ var mainState = {
             // Jump Animation, wenn notwendig
             this.jump();
             
-            //this.player.body.blocked.up || this.player.body.blocked.right || this.player.body.blocked.down || this.player.body.blocked.left
-            if(this.player.body.blocked.down){
-                isInAir = false;
+            // Guckt ob der Spieler sich gerade nach oben oder unten bewegt
+            if(upDownDirection < this.player.body.y){
+                playerMoves = "down";
+            } else if(upDownDirection > this.player.body.y){
+                playerMoves = "up";
+            } else if(upDownDirection == this.player.body.y){
+                playerMoves = "stand";
             }
+            upDownDirection = this.player.body.y; 
+            
             
             if(!(this.cursor.left.isDown)){
                 blockLeftKey = false;
@@ -310,6 +319,7 @@ var mainState = {
                 this.player.body.acceleration.x = 0;
                 inWallJump = false;
                 jumpOnWall = false;
+                isInAir = false;
             }
         }
     },
@@ -365,18 +375,26 @@ var mainState = {
         
         if(this.player.body.blocked.left){
             
-            this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+            if(!(this.player.body.blocked.down) && playerMoves == "down"){
+                slidesOnWall = true;
+                this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+            } else {
+                slidesOnWall = false;
+            } 
+            
         }
         
-        if(this.player.body.blocked.left && this.cursor.up.isDown && !(blockUpKeyForLeft) && !(this.player.body.blocked.down)){
-            //if(!(inWallJump)){
-                isInAir = true;
-                blockLeftKey = true;
-                inWallJump = true;
-                isOnLeftWall = false;
-                this.player.body.velocity.y = -300;
-                this.player.body.velocity.x = 150;
-            //} 
+        if(slidesOnWall && !(isInJump)){
+            if(this.player.body.blocked.left && this.cursor.up.isDown && !(blockUpKeyForLeft) && !(this.player.body.blocked.down)){
+                //if(!(inWallJump)){
+                    isInAir = true;
+                    blockLeftKey = true;
+                    inWallJump = true;
+                    isOnLeftWall = false;
+                    this.player.body.velocity.y = -300;
+                    this.player.body.velocity.x = 150;
+                //} 
+            }
         }
         
     },
@@ -397,19 +415,27 @@ var mainState = {
         }
         
         if(this.player.body.blocked.right){
-           
-            this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+            
+            if(!(this.player.body.blocked.down) && playerMoves == "down"){
+                slidesOnWall = true;
+                this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+            } else {
+                slidesOnWall = false;
+            } 
+            
         }
         
-        if(this.player.body.blocked.right && this.cursor.up.isDown && !(blockUpKeyForRight) && !(this.player.body.blocked.down)){
-            //if(!(inWallJump)){
-                isInAir = true;
-                blockRightKey = true;
-                inWallJump = true;
-                isOnRightWall = false;
-                this.player.body.velocity.y = -300;
-                this.player.body.velocity.x = -150;
-            //} 
+        if(slidesOnWall && !(isInJump)){
+            if(this.player.body.blocked.right && this.cursor.up.isDown && !(blockUpKeyForRight) && !(this.player.body.blocked.down)){
+                //if(!(inWallJump)){
+                    isInAir = true;
+                    blockRightKey = true;
+                    inWallJump = true;
+                    isOnRightWall = false;
+                    this.player.body.velocity.y = -300;
+                    this.player.body.velocity.x = -150;
+                //} 
+            }
         }
         
     },
