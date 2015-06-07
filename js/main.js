@@ -258,7 +258,6 @@ var mainState = {
         this.currentTimer.start();
         // Wenn R gedrückt wird, wird das Spiel neu gestartet
         if(resetKey.justPressed(/*optional duration*/)){
-            this.bgSound.stop();
             this.restartGame();
         }
         
@@ -394,6 +393,7 @@ var mainState = {
                 //if(!(inWallJump)){
                     isInAir = true;
                     blockLeftKey = true;
+                    game.time.events.add(Phaser.Timer.SECOND * 0.4, this.resetwalljumpKeys, this).autoDestroy = true;
                     inWallJump = true;
                     isOnLeftWall = false;
                     this.player.body.velocity.y = -300;
@@ -435,6 +435,7 @@ var mainState = {
                 //if(!(inWallJump)){
                     isInAir = true;
                     blockRightKey = true;
+                    game.time.events.add(Phaser.Timer.SECOND * 0.4, this.resetwalljumpKeys, this).autoDestroy = true;
                     inWallJump = true;
                     isOnRightWall = false;
                     this.player.body.velocity.y = -300;
@@ -453,7 +454,7 @@ var mainState = {
 
  // Game Pausieren this.game.paused=true; --- Florian
 
-    collectStar: function(player, star) {
+   /* collectStar: function(player, star) {
         // Removes the star from the screen
         star.kill();
         this.collectSound.play();
@@ -468,6 +469,12 @@ var mainState = {
             game.time.events.add(Phaser.Timer.SECOND * 2, this.restartGame, this).autoDestroy = true;
 
         }
+    },*/
+
+    resetwalljumpKeys: function(){
+
+        blockLeftKey=false;
+        blockRightKey= false;
     },
     
     hitEnemy: function() {
@@ -492,6 +499,7 @@ var mainState = {
     },        
 
     restartGame: function() {
+        this.bgSound.stop();
         game.state.start('main');
     },
 
@@ -531,10 +539,12 @@ var mainState = {
 
 
     restartGame: function() {
+        this.bgSound.stop();
         game.state.start('main');
     },     
 
     restartGame: function() {
+        this.bgSound.stop();
         game.state.start('main');
     },
 
