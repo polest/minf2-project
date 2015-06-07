@@ -160,7 +160,7 @@ var mainState = {
         timerTextSprite = game.add.sprite(0,0, 'TimerBG');
         timerTextSprite.fixedToCamera = true;
         
-        timerText = game.add.text(5, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#000' });
+        timerText = game.add.text(5, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#ffffff' });
         timerTextSprite.addChild(timerText);
         
         // X und Y Position wo der Text gefixed werden soll
