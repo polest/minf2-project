@@ -105,7 +105,7 @@ var mainState = {
         this.player.animations.add('right', [5, 6, 7], 20, true);
         this.player.animations.add('reborn', [14,13,12,11,10], 20, true);
         this.player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
-        this.player.animations.add('deathspueli', [16,17,18,19,14], 20, true);
+        this.player.animations.add('deathspueli', [16,17,18,18,14], 20, true);
 
         //  Finally some stars to collect
        /* this.stars = game.add.group();
