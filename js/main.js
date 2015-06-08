@@ -212,7 +212,7 @@ var mainState = {
         this.winSound=this.game.add.audio('win',0.5);
         this.winSoundPlayed=false;
 
-        this.bgSound = this.game.add.audio('bgmusic',0.05);
+        this.bgSound = this.game.add.audio('bgmusic',0.3);
         this.bgSoundPlayed = false;
 
         this.marker = game.add.group();
