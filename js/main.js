@@ -13,7 +13,8 @@ var mainState = {
         */
         game.load.image('sky', 'assets/bg.png');
         game.load.image('star', 'assets/pixel.png');
-        game.load.spritesheet('dude', 'assets/sprites/shitboy.png', 32, 48);
+        game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
+        game.load.image('TimerBG', 'assets/TimerBG.png');
         game.load.spritesheet('Kroete', 'assets/sprites/kroeten.png', 50, 48)
 
          // Sounds werden geladen
@@ -23,8 +24,9 @@ var mainState = {
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
         game.load.audio('saeure', 'assets/sounds/saeure.wav');
+        game.load.audio('bgmusic', 'assets/sounds/testsong.wav');
 
-        game.load.tilemap('map', 'assets/tilemaps/level1_enemy.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map', 'assets/tilemaps/level2.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('erde1', 'assets/tiles/erde1.png');
         game.load.image('Spitze', 'assets/tiles/Spitze.png');
         game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
@@ -86,6 +88,7 @@ var mainState = {
         // The player and its settings
         this.player = game.add.sprite(100, game.world.height - 250, 'dude');
         this.player.scale.setTo(0.8, 0.8);
+          
 
 
         //  We need to enable physics on the player
@@ -100,8 +103,9 @@ var mainState = {
         //  Our two animations, walking left and right.
         this.player.animations.add('left', [1, 2, 3], 20, true);
         this.player.animations.add('right', [5, 6, 7], 20, true);
+        this.player.animations.add('reborn', [14,13,12,11,10], 20, true);
         this.player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
-        this.player.animations.add('deathspueli', [16,17,18,19,14], 20, true);
+        this.player.animations.add('deathspueli', [16,17,18,18,14], 20, true);
 
         //  Finally some stars to collect
        /* this.stars = game.add.group();
@@ -133,16 +137,19 @@ var mainState = {
         blockUpKeyForRight = false;
         jumpOnWall = false;
         isInJump = false;
+        slidesOnWall = false;
+        upDownDirection = this.player.body.y;
+        playerMoves = "stand";
 
         // Timer wird definiert
         // Countdown Zeit in zehntel Sekunden (150 = 15 Sekunden)
-        timeEnd = 150;
+        timeEnd = 600;
         
         // Erstellt einen roten Timer Text und fixiert ihn
-        var timerTextRedSprite = game.add.sprite(0,0);
+        timerTextRedSprite = game.add.sprite(0,0, 'TimerBG');
         timerTextRedSprite.fixedToCamera = true;
         
-        timerTextRed = game.add.text(0, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#FF0000', backgroundColor: 'rgba(0,255,0)' });
+        timerTextRed = game.add.text(5, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#FF0000' });
         timerTextRedSprite.addChild(timerTextRed);
         
         // X und Y Position wo der Text gefixed werden soll
@@ -150,10 +157,10 @@ var mainState = {
         timerTextRedSprite.cameraOffset.y = 0;
         
         // Erstellt einen schwarzen Timer Text und fixiert ihn
-        var timerTextSprite = game.add.sprite(0,0);
+        timerTextSprite = game.add.sprite(0,0, 'TimerBG');
         timerTextSprite.fixedToCamera = true;
         
-        timerText = game.add.text(0, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#000', backgroundColor: 'rgba(0,255,0)' });
+        timerText = game.add.text(5, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#ffffff' });
         timerTextSprite.addChild(timerText);
         
         // X und Y Position wo der Text gefixed werden soll
@@ -178,7 +185,9 @@ var mainState = {
         //  Our controls.
         this.cursor = game.input.keyboard.createCursorKeys();
 
-        resetKey = game.input.keyboard.addKey(Phaser.Keyboard.R)
+        resetKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
+        //this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
         
         // Jumpsound hinzugefügt
         this.jumpSound = this.game.add.audio('jump',0.2);
@@ -203,6 +212,9 @@ var mainState = {
         this.winSound=this.game.add.audio('win',0.5);
         this.winSoundPlayed=false;
 
+        this.bgSound = this.game.add.audio('bgmusic',0.3);
+        this.bgSoundPlayed = false;
+
         this.marker = game.add.group();
         this.marker.enableBody = true;
         //unsichtbare Marker wo Gegner die Richtung ändern
@@ -214,15 +226,14 @@ var mainState = {
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
-        this.createEnemy(600,880,-1,300,"Kroete")
-        this.createEnemy(200, 500, -1,300,"Kroete");
+
         
         game.camera.follow(this.player);
         
         this.map = map;
         this.createEnemies("Kroete");
 
-       
+       this.bgSound.play();
 
     },
 
@@ -246,7 +257,7 @@ var mainState = {
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);     
 
-
+        
         // Timer wird gestartet
         this.currentTimer.start();
         // Wenn R gedr�ckt wird, wird das Spiel neu gestartet
@@ -281,10 +292,16 @@ var mainState = {
             // Jump Animation, wenn notwendig
             this.jump();
             
-            //this.player.body.blocked.up || this.player.body.blocked.right || this.player.body.blocked.down || this.player.body.blocked.left
-            if(this.player.body.blocked.down){
-                isInAir = false;
+            // Guckt ob der Spieler sich gerade nach oben oder unten bewegt
+            if(upDownDirection < this.player.body.y){
+                playerMoves = "down";
+            } else if(upDownDirection > this.player.body.y){
+                playerMoves = "up";
+            } else if(upDownDirection == this.player.body.y){
+                playerMoves = "stand";
             }
+            upDownDirection = this.player.body.y; 
+            
             
             if(!(this.cursor.left.isDown)){
                 blockLeftKey = false;
@@ -294,15 +311,15 @@ var mainState = {
                 blockRightKey = false;
             }
             
-            if(!(this.cursor.up.isDown) && this.cursor.left.isDown){
+            if(!(this.spaceKey.isDown) && this.cursor.left.isDown){
                 blockUpKeyForLeft = false;
             }
             
-            if(!(this.cursor.up.isDown) && this.cursor.right.isDown){
+            if(!(this.spaceKey.isDown) && this.cursor.right.isDown){
                 blockUpKeyForRight = false;
             }
             
-            if(!(this.cursor.up.isDown)){
+            if(!(this.spaceKey.isDown)){
                 isInJump = false;
             }
             
@@ -310,6 +327,7 @@ var mainState = {
                 this.player.body.acceleration.x = 0;
                 inWallJump = false;
                 jumpOnWall = false;
+                isInAir = false;
             }
         }
     },
@@ -331,19 +349,23 @@ var mainState = {
 
     jump: function() {
         //  Allow the player to jump if they are touching the ground.
-        if (this.cursor.up.isDown && this.player.body.blocked.down && !(isInJump)){
+        if (this.spaceKey.isDown && this.player.body.blocked.down && !(isInJump)){
             this.player.body.velocity.y = -300;
             
             isInJump = true;
             
             this.jumpSound.play();
             this.player.frame= 8;
+        }  else if(!this.player.body.blocked.down && this.cursor.left.isDown && this.player.body.blocked.left){
+            this.player.frame= 20;
+        }  else if(!this.player.body.blocked.down && this.cursor.right.isDown && this.player.body.blocked.right){
+            this.player.frame= 21;
         } else if(!this.player.body.blocked.down && this.cursor.right.isDown){
             this.player.frame= 8;
         } else if(!this.player.body.blocked.down && this.cursor.left.isDown){
             this.player.frame= 0;
         } 
-        if(!this.cursor.up.isDown){
+        if(!this.spaceKey.isDown){
             this.player.body.velocity.y = this.player.body.velocity.y+10;
         }
     },
@@ -365,18 +387,28 @@ var mainState = {
         
         if(this.player.body.blocked.left){
             
-            this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+            if(!(this.player.body.blocked.down) && playerMoves == "down"){
+                slidesOnWall = true;
+                this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+            } else {
+                slidesOnWall = false;
+            } 
+            
         }
         
-        if(this.player.body.blocked.left && this.cursor.up.isDown && !(blockUpKeyForLeft) && !(this.player.body.blocked.down)){
-            //if(!(inWallJump)){
-                isInAir = true;
-                blockLeftKey = true;
-                inWallJump = true;
-                isOnLeftWall = false;
-                this.player.body.velocity.y = -300;
-                this.player.body.velocity.x = 150;
-            //} 
+        if(slidesOnWall && !(isInJump)){
+            if(this.player.body.blocked.left && this.spaceKey.isDown && !(blockUpKeyForLeft) && !(this.player.body.blocked.down)){
+                //if(!(inWallJump)){
+                    isInAir = true;
+                    blockLeftKey = true;
+                    this.jumpSound.play();
+                    game.time.events.add(Phaser.Timer.SECOND * 0.4, this.resetwalljumpKeys, this).autoDestroy = true;
+                    inWallJump = true;
+                    isOnLeftWall = false;
+                    this.player.body.velocity.y = -300;
+                    this.player.body.velocity.x = 150;
+                //} 
+            }
         }
         
     },
@@ -397,19 +429,29 @@ var mainState = {
         }
         
         if(this.player.body.blocked.right){
-           
-            this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+            
+            if(!(this.player.body.blocked.down) && playerMoves == "down"){
+                slidesOnWall = true;
+                this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+            } else {
+                slidesOnWall = false;
+            } 
+            
         }
         
-        if(this.player.body.blocked.right && this.cursor.up.isDown && !(blockUpKeyForRight) && !(this.player.body.blocked.down)){
-            //if(!(inWallJump)){
-                isInAir = true;
-                blockRightKey = true;
-                inWallJump = true;
-                isOnRightWall = false;
-                this.player.body.velocity.y = -300;
-                this.player.body.velocity.x = -150;
-            //} 
+        if(slidesOnWall && !(isInJump)){
+            if(this.player.body.blocked.right && this.spaceKey.isDown && !(blockUpKeyForRight) && !(this.player.body.blocked.down)){
+                //if(!(inWallJump)){
+                    isInAir = true;
+                    blockRightKey = true;
+                    this.jumpSound.play();
+                    game.time.events.add(Phaser.Timer.SECOND * 0.4, this.resetwalljumpKeys, this).autoDestroy = true;
+                    inWallJump = true;
+                    isOnRightWall = false;
+                    this.player.body.velocity.y = -300;
+                    this.player.body.velocity.x = -150;
+                //} 
+            }
         }
         
     },
@@ -422,7 +464,7 @@ var mainState = {
 
  // Game Pausieren this.game.paused=true; --- Florian
 
-    collectStar: function(player, star) {
+   /* collectStar: function(player, star) {
         // Removes the star from the screen
         star.kill();
         this.collectSound.play();
@@ -437,6 +479,12 @@ var mainState = {
             game.time.events.add(Phaser.Timer.SECOND * 2, this.restartGame, this).autoDestroy = true;
 
         }
+    },*/
+
+    resetwalljumpKeys: function(){
+
+        blockLeftKey=false;
+        blockRightKey= false;
     },
     
     hitEnemy: function() {
@@ -460,9 +508,6 @@ var mainState = {
 
     },        
 
-    restartGame: function() {
-        game.state.start('main');
-    },
 
 
     hitSpueli: function() {
@@ -500,12 +545,9 @@ var mainState = {
 
 
     restartGame: function() {
+        this.bgSound.stop();
         game.state.start('main');
     },     
-
-    restartGame: function() {
-        game.state.start('main');
-    },
 
      // Funktion die markierungen erstellt an denen die Gegner umkehren sollen (Patroullieren)
     createMarks: function(x,y) {
@@ -548,10 +590,17 @@ var mainState = {
         
         // Wenn weniger als 5 sekunden -> Text rot
         if(timeEnd <= 50){
+            // Text und Hintergrund ausblenden
+            timerTextSprite.visible = false;
             timerText.visible = false;
+            
+            // Roten Text und Hintergrund einblenden + Text Updaten
             timerTextRed.visible = true;
+            timerTextRedSprite.visible = true;
             timerTextRed.setText('Timer: '+ (timeEnd/10));
         } else {
+            // Text und Hintergrund einblenden + Text Update
+            timerTextSprite.visible = true;
             timerText.visible=true;
             timerText.setText('Timer: '+ (timeEnd/10));
         }
