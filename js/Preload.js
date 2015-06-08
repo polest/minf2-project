@@ -4,8 +4,12 @@ var MainGame = MainGame || {};
 MainGame.Preload = function(){};
 
 MainGame.Preload.prototype = {
+  init: function(level){
+        this.level = level;
+        
+  },  
   preload: function() {
-     /*
+      /*
         * Parameter:
         * 1. Name unter dem das image/sprite nachher abgerufen werden kann.
         * 2. URL des Bildes
@@ -14,7 +18,8 @@ MainGame.Preload.prototype = {
         */
         game.load.image('sky', 'assets/bg.png');
         game.load.image('star', 'assets/pixel.png');
-        game.load.spritesheet('dude', 'assets/sprites/shitboy.png', 32, 48);
+        game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
+        game.load.image('TimerBG', 'assets/TimerBG.png');
         game.load.spritesheet('Kroete', 'assets/sprites/kroeten.png', 50, 48)
 
          // Sounds werden geladen
@@ -24,8 +29,9 @@ MainGame.Preload.prototype = {
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
         game.load.audio('saeure', 'assets/sounds/saeure.wav');
+        game.load.audio('bgmusic', 'assets/sounds/testsong.wav');
 
-        game.load.tilemap('map', 'assets/tilemaps/level1_enemy.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map', 'assets/tilemaps/'+this.level, null, Phaser.Tilemap.TILED_JSON);
         game.load.image('erde1', 'assets/tiles/erde1.png');
         game.load.image('Spitze', 'assets/tiles/Spitze.png');
         game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
