@@ -1,46 +1,15 @@
-var game = new Phaser.Game(1024, 640, Phaser.AUTO, 'gameDiv');
 var enemyContainer = [];
+var MainGame = MainGame || {};
 
-var mainState = {
-    
-    preload: function() { 
-        /*
-        * Parameter:
-        * 1. Name unter dem das image/sprite nachher abgerufen werden kann.
-        * 2. URL des Bildes
-        * 3. HÃ¶he des Bildes
-        * 4. Schrittweite des Sprites.
-        */
-        game.load.image('sky', 'assets/bg.png');
-        game.load.image('star', 'assets/pixel.png');
-        game.load.spritesheet('dude', 'assets/sprites/shitboy.png', 32, 48);
-        game.load.spritesheet('Kroete', 'assets/sprites/kroeten.png', 50, 48)
+//title screen
+MainGame.Game = function(){};
 
-         // Sounds werden geladen
-        game.load.audio('jump', 'assets/sounds/jump2.wav'); 
-        game.load.audio('run', 'assets/sounds/run3.wav'); 
-        game.load.audio('death', 'assets/sounds/death.wav'); 
-        game.load.audio('collect', 'assets/sounds/collect.wav');
-        game.load.audio('win', 'assets/sounds/win.wav');
-        game.load.audio('saeure', 'assets/sounds/saeure.wav');
-
-        game.load.tilemap('map', 'assets/tilemaps/level1_enemy.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('erde1', 'assets/tiles/erde1.png');
-        game.load.image('Spitze', 'assets/tiles/Spitze.png');
-        game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
-        game.load.image('WieseEckR', 'assets/tiles/WieseEckR.png');
-        game.load.image('toilet', 'assets/tiles/toilet.png');
-        game.load.image('blut', 'assets/image/blut.png');
-        game.load.image('wiese123', 'assets/tiles/wiese123.png');
-        game.load.spritesheet('welle', 'assets/sprites/spueli1.png', 32, 32);
-
-    },
-
-    create: function() { 
+MainGame.Game.prototype = {
+  create: function() { 
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-    var bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
+        var bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
             bg.fixedToCamera=true;
 
 
@@ -249,10 +218,7 @@ var mainState = {
 
         // Timer wird gestartet
         this.currentTimer.start();
-        // Wenn R gedrückt wird, wird das Spiel neu gestartet
-        if(resetKey.justPressed(/*optional duration*/)){
-            this.restartGame();
-        }
+        
         
         // Bewegung vom Spieler
         this.playerMovement();
@@ -500,12 +466,8 @@ var mainState = {
 
 
     restartGame: function() {
-        game.state.start('main');
+        game.state.start('Boot');
     },     
-
-    restartGame: function() {
-        game.state.start('main');
-    },
 
      // Funktion die markierungen erstellt an denen die Gegner umkehren sollen (Patroullieren)
     createMarks: function(x,y) {
@@ -540,7 +502,7 @@ var mainState = {
             this.player = new Player(game, this.platforms, x, y, geschwindigkeit)
             this.createEnemy(element.x,element.y,1,300,type);
         }, this);
-    }      
+    },      
     
     updateTimer: function() {
         // Setzt den Countdown um minus eins
@@ -572,8 +534,4 @@ var mainState = {
         });
         return result;
     },
-    
 };
-
-game.state.add('main', mainState);  
-game.state.start('main'); 
