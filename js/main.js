@@ -26,7 +26,7 @@ var mainState = {
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
         game.load.audio('saeure', 'assets/sounds/saeure.wav');
-        game.load.audio('bgmusic', 'assets/sounds/testsong.wav');
+        game.load.audio('bgmusic', 'assets/sounds/drumandshit.wav');
 
         game.load.tilemap('map', 'assets/tilemaps/level2.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('erde1', 'assets/tiles/erde1.png');
