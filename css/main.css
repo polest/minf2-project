@@ -10,22 +10,22 @@ body {
 }
 
 #playButton{
-	margin-top: 4%;
-	margin-left: 35%;
+	margin-top: 25%;
+	margin-left: 5%;
 	position: fixed;
 	display: inline;
 }
 
 #playtext{
 	position: fixed;
-	margin-top: 12%;
-	margin-left: 31%;
+	margin-top: 32%;
+	margin-left: 2%;
 }
 
 #button{
 	position: fixed;
-	margin-left: 32%;
-	margin-top: 25%;
+	margin-left: 19%;
+	margin-top: 32%;
 	cursor: help;
 }
 
@@ -33,4 +33,24 @@ body {
 	position: fixed;
 	display: none;
 	cursor: hand;
+}
+
+#Intro{
+	position:fixed;
+	margin-left: 37%;
+	margin-top:32%;
+	cursor: hand;
+}
+
+#video{
+	position: fixed;
+	margin-left: 0%;
+	margin-top:0%;
+	display: none;
+}
+
+#Black{
+	position: fixed;
+	margin: 0 0;
+	display: none;
 }
