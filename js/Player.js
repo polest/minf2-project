@@ -1,45 +1,26 @@
 
-    Player = function (game,platforms, x, y, speed) {
-        Phaser.Sprite.call(this, game, x, y, type);
+    Player = function (x, y, speed) {
+        Phaser.Sprite.call(this, game,game.world.height - 25, game.world.height - 25, 'dude');
         this.anchor.setTo(0.5);
+        this.scale.setTo(0.8, 0.8);
+        //game.physics.arcade.enable(this);
         game.physics.enable(this, Phaser.Physics.ARCADE);
+        this.body.bounce.y = 0;
         this.body.gravity.y = 300;
         this.body.collideWorldBounds = true;
-        this.platforms = platforms;
-        this.body.velocity.x = this.speed;
-        this.anchor.setTo(0.5);
 
-        this.animations.add("left", [0,1,2], 20, true);
-        this.animations.add("right", [3,4,5], 20, true);
+        this.animations.add('left', [1, 2, 3], 20, true);
+        this.animations.add('right', [5, 6, 7], 20, true);
+        this.animations.add('reborn', [14,13,12,11,10], 20, true);
+        this.animations.add('death', [10, 11, 12, 13, 14], 20, true);
+        this.animations.add('deathspueli', [16,17,18,18,14], 20, true);
+
     };
         
     Player.prototype = Object.create(Phaser.Sprite.prototype);
-    Player.prototype.constructor = Enemy;
-    
+    Player.prototype.constructor = Player;
+    /*
     Player.prototype.update = function() {
 
-         if(this.body.velocity.x == -0){
-            if(this.enemyDirection == "right"){
-                this.body.velocity.x = -300;
-                this.animations.play('left');
-                this.enemyDirection = "left";   
-            }else{
-                this.body.velocity.x = 300;
-                this.animations.play('right');
-                this.enemyDirection = "right";  
-            }
-        }
+    };*/
 
-
-        game.physics.arcade.collide(this, this.platforms);
-        game.physics.arcade.overlap(this, this.marks, this.changeDirection);
-    };
-
-    Enemy.prototype.changeDirection = function(enemy,marks) {
-        enemy.body.velocity.x *= -1;
-        if(enemy.body.velocity.x == -300){
-            enemy.animations.play('left');
-        }else if (enemy.body.velocity.x == 300){
-            enemy.animations.play('right');
-        }
-    };

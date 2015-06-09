@@ -13,7 +13,7 @@ MainGame.Game.prototype = {
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-    var bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
+        var bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
             bg.fixedToCamera=true;
 
 
@@ -58,46 +58,11 @@ MainGame.Game.prototype = {
             element.body.moves=false;
         }, this);
 
-
-        // The player and its settings
-        this.player = game.add.sprite(100, game.world.height - 250, 'dude');
-        this.player.scale.setTo(0.8, 0.8);
-          
-
-
+        this.map = map;
+        this.player = this.createPlayerFromJson();
+        
         //  We need to enable physics on the player
-        this.game.physics.arcade.enable(this.player);
         this.game.physics.arcade.enable(this.layer);
-
-        //  Player physics properties. Give the little guy a slight bounce.
-        this.player.body.bounce.y = 0;
-        this.player.body.gravity.y = 300;
-        this.player.body.collideWorldBounds = true;
-
-        //  Our two animations, walking left and right.
-        this.player.animations.add('left', [1, 2, 3], 20, true);
-        this.player.animations.add('right', [5, 6, 7], 20, true);
-        this.player.animations.add('reborn', [14,13,12,11,10], 20, true);
-        this.player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
-        this.player.animations.add('deathspueli', [16,17,18,18,14], 20, true);
-
-        //  Finally some stars to collect
-       /* this.stars = game.add.group();
-
-        //  We will enable physics for any star that is created in this group
-        this.stars.enableBody = true;
-
-        //  Here we'll create 12 of them evenly spaced apart
-        for (var i = 0; i < 12; i++){
-            //  Create a star inside of the 'stars' group
-            var star = this.stars.create(i * 70, 0, 'star');
-
-            //  Let gravity do its thing
-            star.body.gravity.y = 300;
-
-            //  This just gives each star a slightly random bounce value
-            star.body.bounce.y = 0.7 + Math.random() * 0.2;
-        }*/
 
         // Setzt inWallJump beim Spielanfang immer auf false
         inWallJump = false;
@@ -200,11 +165,10 @@ MainGame.Game.prototype = {
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
-
-        
+     
         game.camera.follow(this.player);
         
-        this.map = map;
+        
         this.createEnemies("Kroete");
         this.createExits();
 
@@ -551,12 +515,44 @@ MainGame.Game.prototype = {
         }, this);
     },   
 
+    /*
     createPlayer: function(){
-        var result = this.findObjectsByType(type,this.map,'Player');
+        var result = this.findObjectsByType('player',this.map,'Spieler');
         result.forEach(function(element){
-            this.player = new Player(game, this.platforms, x, y, geschwindigkeit)
-            this.createEnemy(element.x,element.y,1,300,type);
+            this.player = new Player(element.x, element.y,300)
         }, this);
+        console.log(this.player);
+    },*/
+
+    createPlayerFromJson: function(){
+        var result = this.findObjectsByType('player',this.map,'Spieler');
+        var player;
+        result.forEach(function(element){
+            player = this.createPlayer(element.x,element.y)
+           // this.player = new Player(element.x, element.y,300)
+        }, this);
+        return player;
+    },
+
+    createPlayer: function(x,y){
+        var player;
+        // The player and its settings
+        player = game.add.sprite(x, y, 'dude');
+        game.physics.arcade.enable(player);
+        player.scale.setTo(0.8, 0.8);
+          
+        //  Player physics properties. Give the little guy a slight bounce.
+        player.body.bounce.y = 0;
+        player.body.gravity.y = 300;
+        player.body.collideWorldBounds = true;
+
+        //  Our two animations, walking left and right.
+        player.animations.add('left', [1, 2, 3], 20, true);
+        player.animations.add('right', [5, 6, 7], 20, true);
+        player.animations.add('reborn', [14,13,12,11,10], 20, true);
+        player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
+        player.animations.add('deathspueli', [16,17,18,18,14], 20, true);
+        return player;
     },
 
     createExits: function(){
