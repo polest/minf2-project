@@ -13,7 +13,6 @@ MainGame.Boot.prototype = {
    
   },
   create: function() { 
-  	this.game.state.start("Preload",true,false,this.level);
-    game.state.start('Preload');
+  	game.state.start("Preload",true,false,this.level);
   }
 };

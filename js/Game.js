@@ -5,6 +5,10 @@ var MainGame = MainGame || {};
 MainGame.Game = function(){};
 
 MainGame.Game.prototype = {
+
+  init: function(level){
+        this.level = level;
+  },    
   create: function() { 
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -36,11 +40,14 @@ MainGame.Game.prototype = {
         this.spitzen = game.add.group();
         this.spitzen.enableBody=true;
 
+        this.exits = game.add.group();
+        this.exits.enableBody = true;
 
         map.createFromObjects('Object Layer 2', 3, 'welle', 0, true, false, this.wellen);
         this.wellen.callAll('animations.add', 'animations', 'spin', [0, 1, 1, 0, 2, 2], 10, true);
         this.wellen.callAll('animations.play', 'animations', 'spin');
 
+        map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
         map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
 
         this.spitzen.forEach(function(element){
@@ -199,6 +206,7 @@ MainGame.Game.prototype = {
         
         this.map = map;
         this.createEnemies("Kroete");
+        this.createExits();
 
        this.bgSound.play();
 
@@ -222,7 +230,8 @@ MainGame.Game.prototype = {
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
-        game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);     
+        game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
+        game.physics.arcade.overlap(this.player, this.exits, this.startNextLevel, null, this);     
 
         
         // Timer wird gestartet
@@ -512,7 +521,7 @@ MainGame.Game.prototype = {
     restartGame: function() {
         this.bgSound.stop();
         //this.startLevel("Level2.json")
-        game.state.start('Game');
+        game.state.start("Boot",true,false,this.level);
     },     
 
      // Funktion die markierungen erstellt an denen die Gegner umkehren sollen (Patroullieren)
@@ -548,7 +557,16 @@ MainGame.Game.prototype = {
             this.player = new Player(game, this.platforms, x, y, geschwindigkeit)
             this.createEnemy(element.x,element.y,1,300,type);
         }, this);
-    },      
+    },
+
+    createExits: function(){
+        var result = this.findObjectsByType('toilet',this.map,'Ende');
+        var exit;
+        result.forEach(function(element){
+            exit = game.add.sprite(element.x, element.y, 'toilet');
+            this.exits.add(exit);    
+        }, this);
+    },        
     
     updateTimer: function() {
         // Setzt den Countdown um minus eins
@@ -589,6 +607,11 @@ MainGame.Game.prototype = {
     },
      //find objects in a Tiled layer that containt a property called "type" equal to a certain value
     startLevel: function(Level) {
-        this.game.state.start("Boot",true,false,Level);
+        game.state.start("Boot",true,false,Level);
+    },
+     //find objects in a Tiled layer that containt a property called "type" equal to a certain value
+    startNextLevel: function(Level) {
+        level = this.level+1;
+        game.state.start("Boot",true,false,level);
     },
 };

@@ -31,7 +31,7 @@ MainGame.Preload.prototype = {
         game.load.audio('saeure', 'assets/sounds/saeure.wav');
         game.load.audio('bgmusic', 'assets/sounds/testsong.wav');
 
-        game.load.tilemap('map', 'assets/tilemaps/'+this.level, null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map', 'assets/tilemaps/Level'+this.level+'.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('erde1', 'assets/tiles/erde1.png');
         game.load.image('Spitze', 'assets/tiles/Spitze.png');
         game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
@@ -43,6 +43,6 @@ MainGame.Preload.prototype = {
     
   },
   create: function() {
-    game.state.start('Game');
+    game.state.start("Game",true,false,this.level);
   }
 };
