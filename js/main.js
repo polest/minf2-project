@@ -16,6 +16,8 @@ var mainState = {
         game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
         game.load.image('TimerBG', 'assets/TimerBG.png');
         game.load.spritesheet('Kroete', 'assets/sprites/kroeten.png', 50, 48)
+        game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
+        game.load.spritesheet('boss', 'assets/Entgegner.png', 32,48);
 
          // Sounds werden geladen
         game.load.audio('jump', 'assets/sounds/jump2.wav'); 
@@ -24,7 +26,7 @@ var mainState = {
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
         game.load.audio('saeure', 'assets/sounds/saeure.wav');
-        game.load.audio('bgmusic', 'assets/sounds/testsong.wav');
+        game.load.audio('bgmusic', 'assets/sounds/drumandshit.wav');
 
         game.load.tilemap('map', 'assets/tilemaps/level2.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('erde1', 'assets/tiles/erde1.png');
@@ -558,7 +560,7 @@ var mainState = {
         this.marks.push(mark);
     },  
     /*
-    *   Funktion die Gegener erstellt.
+    *   Funktion die Gegner erstellt.
     *       x - X Position des Gegners
     *       y - Y Position des Gegners
     *       richtung - Richtung in die der Gegner läuft. (-1 für linksrum, 1 für rechtsrum)
