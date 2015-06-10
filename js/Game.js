@@ -205,7 +205,9 @@ MainGame.Game.prototype = {
         // Timer wird gestartet
         this.currentTimer.start();
         // Wenn R gedrückt wird, wird das Spiel neu gestartet
-      
+          if(resetKey.justPressed(/*optional duration*/)){
+            this.restartGame();
+        }
         
         // Bewegung vom Spieler
         this.playerMovement();
