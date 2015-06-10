@@ -10,6 +10,7 @@ MainGame.Game.prototype = {
         this.level = level;
   },    
   create: function() { 
+
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
@@ -40,14 +41,11 @@ MainGame.Game.prototype = {
         this.spitzen = game.add.group();
         this.spitzen.enableBody=true;
 
-        this.exits = game.add.group();
-        this.exits.enableBody = true;
 
         map.createFromObjects('Object Layer 2', 3, 'welle', 0, true, false, this.wellen);
         this.wellen.callAll('animations.add', 'animations', 'spin', [0, 1, 1, 0, 2, 2], 10, true);
         this.wellen.callAll('animations.play', 'animations', 'spin');
 
-        map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
         map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
 
         this.spitzen.forEach(function(element){
@@ -58,11 +56,15 @@ MainGame.Game.prototype = {
             element.body.moves=false;
         }, this);
 
+
+        // The player and its settings     
         this.map = map;
         this.player = this.createPlayerFromJson();
-        
+
         //  We need to enable physics on the player
         this.game.physics.arcade.enable(this.layer);
+
+
 
         // Setzt inWallJump beim Spielanfang immer auf false
         inWallJump = false;
@@ -124,7 +126,7 @@ MainGame.Game.prototype = {
         //  Our controls.
         this.cursor = game.input.keyboard.createCursorKeys();
 
-        this.resetKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
+        resetKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
         //this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
         
@@ -165,9 +167,11 @@ MainGame.Game.prototype = {
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
-     
-        game.camera.follow(this.player);
+
+        this.exits = game.add.group();
+        this.exits.enableBody = true;
         
+        game.camera.follow(this.player);
         
         this.createEnemies("Kroete");
         this.createExits();
