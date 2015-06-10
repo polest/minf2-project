@@ -1,50 +1,20 @@
-var game = new Phaser.Game(1024, 640, Phaser.AUTO, 'gameDiv');
 var enemyContainer = [];
+var MainGame = MainGame || {};
 
-var mainState = {
-    
-    preload: function() { 
-        /*
-        * Parameter:
-        * 1. Name unter dem das image/sprite nachher abgerufen werden kann.
-        * 2. URL des Bildes
-        * 3. Höhe des Bildes
-        * 4. Schrittweite des Sprites.
-        */
-        game.load.image('sky', 'assets/bg.png');
-        game.load.image('star', 'assets/pixel.png');
-        game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
-        game.load.image('TimerBG', 'assets/TimerBG.png');
-        game.load.spritesheet('Kroete', 'assets/sprites/kroeten.png', 50, 48)
-        game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
-        game.load.spritesheet('boss', 'assets/Entgegner.png', 32,48);
+//title screen
+MainGame.Game = function(){};
 
-         // Sounds werden geladen
-        game.load.audio('jump', 'assets/sounds/jump2.wav'); 
-        game.load.audio('run', 'assets/sounds/run3.wav'); 
-        game.load.audio('death', 'assets/sounds/death.wav'); 
-        game.load.audio('collect', 'assets/sounds/collect.wav');
-        game.load.audio('win', 'assets/sounds/win.wav');
-        game.load.audio('saeure', 'assets/sounds/saeure.wav');
-        game.load.audio('bgmusic', 'assets/sounds/drumandshit.wav');
+MainGame.Game.prototype = {
 
-        game.load.tilemap('map', 'assets/tilemaps/level2.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('erde1', 'assets/tiles/erde1.png');
-        game.load.image('Spitze', 'assets/tiles/Spitze.png');
-        game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
-        game.load.image('WieseEckR', 'assets/tiles/WieseEckR.png');
-        game.load.image('toilet', 'assets/tiles/toilet.png');
-        game.load.image('blut', 'assets/image/blut.png');
-        game.load.image('wiese123', 'assets/tiles/wiese123.png');
-        game.load.spritesheet('welle', 'assets/sprites/spueli1.png', 32, 32);
+  init: function(level){
+        this.level = level;
+  },    
+  create: function() { 
 
-    },
-
-    create: function() { 
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-    var bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
+        var bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
             bg.fixedToCamera=true;
 
 
@@ -87,45 +57,14 @@ var mainState = {
         }, this);
 
 
-        // The player and its settings
-        this.player = game.add.sprite(100, game.world.height - 250, 'dude');
-        this.player.scale.setTo(0.8, 0.8);
-          
-
+        // The player and its settings     
+        this.map = map;
+        this.player = this.createPlayerFromJson();
 
         //  We need to enable physics on the player
-        this.game.physics.arcade.enable(this.player);
         this.game.physics.arcade.enable(this.layer);
 
-        //  Player physics properties. Give the little guy a slight bounce.
-        this.player.body.bounce.y = 0;
-        this.player.body.gravity.y = 300;
-        this.player.body.collideWorldBounds = true;
 
-        //  Our two animations, walking left and right.
-        this.player.animations.add('left', [1, 2, 3], 20, true);
-        this.player.animations.add('right', [5, 6, 7], 20, true);
-        this.player.animations.add('reborn', [14,13,12,11,10], 20, true);
-        this.player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
-        this.player.animations.add('deathspueli', [16,17,18,18,14], 20, true);
-
-        //  Finally some stars to collect
-       /* this.stars = game.add.group();
-
-        //  We will enable physics for any star that is created in this group
-        this.stars.enableBody = true;
-
-        //  Here we'll create 12 of them evenly spaced apart
-        for (var i = 0; i < 12; i++){
-            //  Create a star inside of the 'stars' group
-            var star = this.stars.create(i * 70, 0, 'star');
-
-            //  Let gravity do its thing
-            star.body.gravity.y = 300;
-
-            //  This just gives each star a slightly random bounce value
-            star.body.bounce.y = 0.7 + Math.random() * 0.2;
-        }*/
 
         // Setzt inWallJump beim Spielanfang immer auf false
         inWallJump = false;
@@ -229,11 +168,13 @@ var mainState = {
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
 
+        this.exits = game.add.group();
+        this.exits.enableBody = true;
         
         game.camera.follow(this.player);
         
-        this.map = map;
         this.createEnemies("Kroete");
+        this.createExits();
 
        this.bgSound.play();
 
@@ -257,15 +198,14 @@ var mainState = {
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
-        game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);     
+        game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
+        game.physics.arcade.overlap(this.player, this.exits, this.startNextLevel, null, this);     
 
         
         // Timer wird gestartet
         this.currentTimer.start();
         // Wenn R gedr�ckt wird, wird das Spiel neu gestartet
-        if(resetKey.justPressed(/*optional duration*/)){
-            this.restartGame();
-        }
+      
         
         // Bewegung vom Spieler
         this.playerMovement();
@@ -548,7 +488,8 @@ var mainState = {
 
     restartGame: function() {
         this.bgSound.stop();
-        game.state.start('main');
+        //this.startLevel("Level2.json")
+        game.state.start("Boot",true,false,this.level);
     },     
 
      // Funktion die markierungen erstellt an denen die Gegner umkehren sollen (Patroullieren)
@@ -560,7 +501,7 @@ var mainState = {
         this.marks.push(mark);
     },  
     /*
-    *   Funktion die Gegner erstellt.
+    *   Funktion die Gegener erstellt.
     *       x - X Position des Gegners
     *       y - Y Position des Gegners
     *       richtung - Richtung in die der Gegner läuft. (-1 für linksrum, 1 für rechtsrum)
@@ -578,13 +519,54 @@ var mainState = {
         }, this);
     },   
 
+    /*
     createPlayer: function(){
-        var result = this.findObjectsByType(type,this.map,'Player');
+        var result = this.findObjectsByType('player',this.map,'Spieler');
         result.forEach(function(element){
-            this.player = new Player(game, this.platforms, x, y, geschwindigkeit)
-            this.createEnemy(element.x,element.y,1,300,type);
+            this.player = new Player(element.x, element.y,300)
         }, this);
-    }      
+        console.log(this.player);
+    },*/
+
+    createPlayerFromJson: function(){
+        var result = this.findObjectsByType('player',this.map,'Spieler');
+        var player;
+        result.forEach(function(element){
+            player = this.createPlayer(element.x,element.y)
+           // this.player = new Player(element.x, element.y,300)
+        }, this);
+        return player;
+    },
+
+    createPlayer: function(x,y){
+        var player;
+        // The player and its settings
+        player = game.add.sprite(x, y, 'dude');
+        game.physics.arcade.enable(player);
+        player.scale.setTo(0.8, 0.8);
+          
+        //  Player physics properties. Give the little guy a slight bounce.
+        player.body.bounce.y = 0;
+        player.body.gravity.y = 300;
+        player.body.collideWorldBounds = true;
+
+        //  Our two animations, walking left and right.
+        player.animations.add('left', [1, 2, 3], 20, true);
+        player.animations.add('right', [5, 6, 7], 20, true);
+        player.animations.add('reborn', [14,13,12,11,10], 20, true);
+        player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
+        player.animations.add('deathspueli', [16,17,18,18,14], 20, true);
+        return player;
+    },
+
+    createExits: function(){
+        var result = this.findObjectsByType('toilet',this.map,'Ende');
+        var exit;
+        result.forEach(function(element){
+            exit = game.add.sprite(element.x, element.y, 'toilet');
+            this.exits.add(exit);    
+        }, this);
+    },        
     
     updateTimer: function() {
         // Setzt den Countdown um minus eins
@@ -623,8 +605,13 @@ var mainState = {
         });
         return result;
     },
-    
+     //find objects in a Tiled layer that containt a property called "type" equal to a certain value
+    startLevel: function(Level) {
+        game.state.start("Boot",true,false,Level);
+    },
+     //find objects in a Tiled layer that containt a property called "type" equal to a certain value
+    startNextLevel: function(Level) {
+        level = this.level+1;
+        game.state.start("Boot",true,false,level);
+    },
 };
-
-game.state.add('main', mainState);  
-game.state.start('main'); 
