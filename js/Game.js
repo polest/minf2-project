@@ -611,6 +611,7 @@ MainGame.Game.prototype = {
     },
      //find objects in a Tiled layer that containt a property called "type" equal to a certain value
     startNextLevel: function(Level) {
+        this.bgSound.stop();
         level = this.level+1;
         game.state.start("Boot",true,false,level);
     },
