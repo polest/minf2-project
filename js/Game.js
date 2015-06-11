@@ -66,21 +66,31 @@ MainGame.Game.prototype = {
 
 
 
-        // Setzt inWallJump beim Spielanfang immer auf false
-        inWallJump = false;
-        
+        // Setzt die Werte für das Gleiten und den WallJump
+        // 
+        // Das ist zum blocken der Linken und Rechten Taste während man an der Wand ist damit der Spieler nicht nach einem Pixel wieder an der Wand landet
         blockLeftKey = false;
         blockRightKey = false;
+        
+        // Ist dafür da damit der Spieler sich in der Luft nach links und rechts bewegen kann und am boden dann NICHT gleitet
         isInAir = false;
+        
+        // Sind dafür da das der Spieler nicht mehrmals nacheinander bei gedrückter UP Taste die Wand hoch springt
         isOnRightWall = false;
         isOnLeftWall = false;
         blockUpKeyForLeft = false;
         blockUpKeyForRight = false;
-        jumpOnWall = false;
+        
+        // Ist dafür da das der Spieler bei gedrückter UP Taste nur einmal springt
         isInJump = false;
+        
+        // Wenn der Spieler die Wand runter gleitet wird der wert auf true gesetzt und erst dann ist es möglich einen WallJump zu machen
         slidesOnWall = false;
+        
+        // Diese Variablen sind zum bestimmen ob der Spieler body sich gerade nach oben oder unten bewegt
         upDownDirection = this.player.body.y;
         playerMoves = "stand";
+
 
         // Timer wird definiert
         // Countdown Zeit in zehntel Sekunden (150 = 15 Sekunden)
@@ -209,6 +219,9 @@ MainGame.Game.prototype = {
             this.restartGame();
         }
         
+        // Prüft und setzt werte
+        this.checkAndSetValues();
+        
         // Bewegung vom Spieler
         this.playerMovement();
 
@@ -217,62 +230,29 @@ MainGame.Game.prototype = {
 
 
     playerMovement: function() {
-        if(!(isInAir)){
-            this.player.body.velocity.x = 0;
-        }
         
         // Spieler darf sich nur bewegen wenn shitboy nicht tot ist.
         if(this.player.alive == false){
         }else{
             if (this.cursor.left.isDown && !(blockLeftKey)){
+                
                 this.runLeft();
+                this.wallSlideLeft();
+                this.wallJumpLeft();
                 this.playRunSound();
             }else if (this.cursor.right.isDown && !(blockRightKey)){
+                
                 this.runRight();
+                this.wallSlideRight();
+                this.wallJumpRight();
                 this.playRunSound();
             }else{
                 this.standStill();
             }
             // Jump Animation, wenn notwendig
             this.jump();
-            
-            // Guckt ob der Spieler sich gerade nach oben oder unten bewegt
-            if(upDownDirection < this.player.body.y){
-                playerMoves = "down";
-            } else if(upDownDirection > this.player.body.y){
-                playerMoves = "up";
-            } else if(upDownDirection == this.player.body.y){
-                playerMoves = "stand";
-            }
-            upDownDirection = this.player.body.y; 
-            
-            
-            if(!(this.cursor.left.isDown)){
-                blockLeftKey = false;
-            }
-            
-            if(!(this.cursor.right.isDown)){
-                blockRightKey = false;
-            }
-            
-            if(!(this.spaceKey.isDown) && this.cursor.left.isDown){
-                blockUpKeyForLeft = false;
-            }
-            
-            if(!(this.spaceKey.isDown) && this.cursor.right.isDown){
-                blockUpKeyForRight = false;
-            }
-            
-            if(!(this.spaceKey.isDown)){
-                isInJump = false;
-            }
-            
-            if(this.player.body.blocked.down){
-                this.player.body.acceleration.x = 0;
-                inWallJump = false;
-                jumpOnWall = false;
-                isInAir = false;
-            }
+
+           
         }
     },
 
@@ -291,11 +271,164 @@ MainGame.Game.prototype = {
        this.runSoundPlayed = false;    
     },
 
+    checkAndSetValues: function(){
+
+        // Verhindert das unkontrollierte gleiten in der Luft und gleichzeitig das gleiten am Boden
+        if(!(isInAir)){
+            this.player.body.velocity.x = 0;
+        }
+        
+        // Guckt ob der Spieler sich gerade nach oben oder unten bewegt
+        if(upDownDirection < this.player.body.y){
+            playerMoves = "down";
+        } else if(upDownDirection > this.player.body.y){
+            playerMoves = "up";
+        } else if(upDownDirection == this.player.body.y){
+            playerMoves = "stand";
+        }
+        upDownDirection = this.player.body.y; 
+
+        // Wenn links Taste nicht gedrückt wird, gebe linke Taste drücken wieder frei
+        if(!(this.cursor.left.isDown)){
+            blockLeftKey = false;
+        }
+
+        // Wenn rechte Taste nicht gedrückt wird, gebe rechte Taste drücken wieder frei
+        if(!(this.cursor.right.isDown)){
+            blockRightKey = false;
+        }
+
+        // Wenn man an der Wand ist und die UP Taste los lässt, wird die UP Taste wieder frei zum springen frei gegeben
+        if(!(this.spaceKey.isDown) && this.cursor.left.isDown){
+            blockUpKeyForLeft = false;
+        }
+
+        // Wenn man an der Wand ist und die UP Taste los lässt, wird die UP Taste wieder frei zum springen frei gegeben
+        if(!(this.spaceKey.isDown) && this.cursor.right.isDown){
+            blockUpKeyForRight = false;
+        }
+
+        // Wenn man die UP Taste los lässt, wird die UP Taste wieder frei gegeben
+        if(!(this.spaceKey.isDown)){
+            isInJump = false;
+        }
+
+        // Wenn Spieler auf dem Boden ist dann ist er nicht mehr in der Luft
+        if(this.player.body.blocked.down){
+
+            isInAir = false;
+        }
+    
+    },
+
+    wallSlideLeft: function(){
+        // Wenn Spieler an der linken Wand ist und isOnLeftWall = false dann setze isOnLeftWall und blockUpKeyForLeft auf true
+        if(this.player.body.blocked.left && !(isOnLeftWall)){
+            isOnLeftWall = true;
+            blockUpKeyForLeft = true;
+        }
+        
+        // Wenn Spieler nicht mehr an der linken Wand ist dann setzte die Variablen wieder zurück
+        if(!(this.player.body.blocked.left)){
+            isOnLeftWall = false;
+            blockUpKeyForLeft = false;
+        }
+        
+        // Wenn Spieler an der linken Wand ist
+        if(this.player.body.blocked.left){
+          
+            // Wenn der Spieler nicht am boden ist und sich nach unten bewegt dann soll er gleiten und wird für den WallJump frei gegeben
+            if(!(this.player.body.blocked.down) && playerMoves == "down"){
+                slidesOnWall = true;
+                this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+            } else {
+                slidesOnWall = false;
+            } 
+            
+        }
+    },
+
+    wallJumpLeft: function(){
+        // Wenn der Spieler gleitet, sich nicht in einem Sprung befindet, an der linken wand ist, die sprung Taste drückt, 
+        // die Taste für den linken Wand sprung nicht geblockt ist und der Spieler sich nicht auf dem Boden befindet, 
+        // dann soll er den WallJump ausführen
+        if(slidesOnWall && !(isInJump)){
+            if(this.player.body.blocked.left && this.spaceKey.isDown && !(blockUpKeyForLeft) && !(this.player.body.blocked.down)){
+                    
+                    // Setzt die Variablen wenn der WallJump ausgeführt wurde
+                    isInAir = true;
+                    blockLeftKey = true;
+                    isOnLeftWall = false;
+                    
+                    // Spielt Sound und nach 0.4 Sekunden werden die linke und rechte bewegungstaste freigegeben
+                    this.jumpSound.play();
+                    game.time.events.add(Phaser.Timer.SECOND * 0.4, this.resetwalljumpKeys, this).autoDestroy = true;
+
+                    // Die Bewegung des WallJumps
+                    this.player.body.velocity.y = -300;
+                    this.player.body.velocity.x = 200;
+
+            }
+        }
+    },
+    
+    wallSlideRight: function(){
+        // Wenn Spieler an der rechten Wand ist und isOnRightWall = false dann setze isOnRightWall und blockUpKeyForRight auf true
+        if(this.player.body.blocked.right && !(isOnRightWall)){
+            isOnRightWall = true;
+            blockUpKeyForRight = true;
+        }
+        
+        // Wenn Spieler nicht mehr an der rechten Wand ist dann setzte die Variablen wieder zurück
+        if(!(this.player.body.blocked.right)){
+            isOnRightWall = false;
+            blockUpKeyForRight = false;
+        }
+        
+        // Wenn Spieler an der rechten Wand ist
+        if(this.player.body.blocked.right){
+            
+            // Wenn der Spieler nicht am boden ist und sich nach unten bewegt dann soll er gleiten und wird für den WallJump frei gegeben
+            if(!(this.player.body.blocked.down) && playerMoves == "down"){
+                slidesOnWall = true;
+                this.player.body.velocity.y = this.player.body.velocity.y*0.8;
+            } else {
+                slidesOnWall = false;
+            } 
+            
+        }
+    },
+    
+    wallJumpRight: function(){
+        // Wenn der Spieler gleitet, sich nicht in einem Sprung befindet, an der rechten wand ist, die sprung Taste drückt, 
+        // die Taste für den rechten Wand sprung nicht geblockt ist und der Spieler sich nicht auf dem Boden befindet, 
+        // dann soll er den WallJump ausführen
+        if(slidesOnWall && !(isInJump)){
+            if(this.player.body.blocked.right && this.spaceKey.isDown && !(blockUpKeyForRight) && !(this.player.body.blocked.down)){
+                    // Setzt die Variablen wenn der WallJump ausgeführt wurde
+                    
+                    isInAir = true;
+                    blockRightKey = true;
+                    isOnRightWall = false;
+                    // Spielt Sound und nach 0.4 Sekunden werden die linke und rechte bewegungstaste freigegeben
+                    
+                    this.jumpSound.play();
+                    game.time.events.add(Phaser.Timer.SECOND * 0.4, this.resetwalljumpKeys, this).autoDestroy = true;
+
+                    // Die Bewegung des WallJumps
+                    this.player.body.velocity.y = -300;
+                    this.player.body.velocity.x = -200;
+
+            }
+        }
+    },
+    
     jump: function() {
-        //  Allow the player to jump if they are touching the ground.
+        //  Allow the player to jump if they are touching the ground. + Springt nicht mehr dauerhaft bei gedrückter Taste
         if (this.spaceKey.isDown && this.player.body.blocked.down && !(isInJump)){
             this.player.body.velocity.y = -300;
             
+            // Bockiert damit das erneute springen
             isInJump = true;
             
             this.jumpSound.play();
@@ -309,6 +442,8 @@ MainGame.Game.prototype = {
         } else if(!this.player.body.blocked.down && this.cursor.left.isDown){
             this.player.frame= 0;
         } 
+        
+        // Sorgt dafür das der Spieler body je nachdem wie lange man die UP Taste gedrückt hält springt
         if(!this.spaceKey.isDown){
             this.player.body.velocity.y = this.player.body.velocity.y+10;
         }
@@ -318,85 +453,12 @@ MainGame.Game.prototype = {
          //  Move to the left
         this.player.body.velocity.x = -300;
         this.player.animations.play('left');
-        
-        if(this.player.body.blocked.left && !(isOnLeftWall)){
-            isOnLeftWall = true;
-            blockUpKeyForLeft = true;
-        }
-        
-        if(!(this.player.body.blocked.left)){
-            isOnLeftWall = false;
-            blockUpKeyForLeft = false;
-        }
-        
-        if(this.player.body.blocked.left){
-            
-            if(!(this.player.body.blocked.down) && playerMoves == "down"){
-                slidesOnWall = true;
-                this.player.body.velocity.y = this.player.body.velocity.y*0.8;
-            } else {
-                slidesOnWall = false;
-            } 
-            
-        }
-        
-        if(slidesOnWall && !(isInJump)){
-            if(this.player.body.blocked.left && this.spaceKey.isDown && !(blockUpKeyForLeft) && !(this.player.body.blocked.down)){
-                //if(!(inWallJump)){
-                    isInAir = true;
-                    blockLeftKey = true;
-                    this.jumpSound.play();
-                    game.time.events.add(Phaser.Timer.SECOND * 0.4, this.resetwalljumpKeys, this).autoDestroy = true;
-                    inWallJump = true;
-                    isOnLeftWall = false;
-                    this.player.body.velocity.y = -300;
-                    this.player.body.velocity.x = 150;
-                //} 
-            }
-        }
-        
     },
 
     runRight: function() {
         //  Move to the right
         this.player.body.velocity.x = 300;
         this.player.animations.play('right');
-        
-        if(this.player.body.blocked.right && !(isOnRightWall)){
-            isOnRightWall = true;
-            blockUpKeyForRight = true;
-        }
-        
-        if(!(this.player.body.blocked.right)){
-            isOnRightWall = false;
-            blockUpKeyForRight = false;
-        }
-        
-        if(this.player.body.blocked.right){
-            
-            if(!(this.player.body.blocked.down) && playerMoves == "down"){
-                slidesOnWall = true;
-                this.player.body.velocity.y = this.player.body.velocity.y*0.8;
-            } else {
-                slidesOnWall = false;
-            } 
-            
-        }
-        
-        if(slidesOnWall && !(isInJump)){
-            if(this.player.body.blocked.right && this.spaceKey.isDown && !(blockUpKeyForRight) && !(this.player.body.blocked.down)){
-                //if(!(inWallJump)){
-                    isInAir = true;
-                    blockRightKey = true;
-                    this.jumpSound.play();
-                    game.time.events.add(Phaser.Timer.SECOND * 0.4, this.resetwalljumpKeys, this).autoDestroy = true;
-                    inWallJump = true;
-                    isOnRightWall = false;
-                    this.player.body.velocity.y = -300;
-                    this.player.body.velocity.x = -150;
-                //} 
-            }
-        }
         
     },
 
