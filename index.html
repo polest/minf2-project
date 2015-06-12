@@ -23,6 +23,18 @@
 
         </div>
 
+        <script type="text/javascript">
+            document.onkeydown = function(event) {
+                if (event.keyCode == 80) {
+                    if(game.paused){
+                        game.paused = false;
+                        game.state.start('Boot');
+                    }else{
+                        game.paused = true;
+                    }
+                }    
+            }
+        </script>
 
     </body>
      <script type="text/javascript" src="js/main.js"></script>
