@@ -452,7 +452,7 @@ MainGame.Game.prototype = {
     runLeft: function() {
         //  Move to the left
         // Wenn Spieler in der Luft dann bewegt er sich langsamer
-        if(isInJump && !(this.player.body.blocked.down)){  
+        if(!(this.player.body.blocked.down)){  
            this.player.body.velocity.x = -200;
         } else {
             this.player.body.velocity.x = -300;
@@ -464,7 +464,7 @@ MainGame.Game.prototype = {
     runRight: function() {
         //  Move to the right
         // Wenn Spieler in der Luft dann bewegt er sich langsamer
-        if(isInJump && !(this.player.body.blocked.down)){           
+        if(!(this.player.body.blocked.down)){           
             this.player.body.velocity.x = 200;
         } else {
             this.player.body.velocity.x = 300;
