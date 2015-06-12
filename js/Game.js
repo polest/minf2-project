@@ -366,7 +366,7 @@ MainGame.Game.prototype = {
 
                     // Die Bewegung des WallJumps
                     this.player.body.velocity.y = -300;
-                    this.player.body.velocity.x = 200;
+                    this.player.body.velocity.x = 150;
 
             }
         }
@@ -417,7 +417,7 @@ MainGame.Game.prototype = {
 
                     // Die Bewegung des WallJumps
                     this.player.body.velocity.y = -300;
-                    this.player.body.velocity.x = -200;
+                    this.player.body.velocity.x = -150;
 
             }
         }
@@ -450,14 +450,26 @@ MainGame.Game.prototype = {
     },
 
     runLeft: function() {
-         //  Move to the left
-        this.player.body.velocity.x = -300;
+        //  Move to the left
+        // Wenn Spieler in der Luft dann bewegt er sich langsamer
+        if(isInJump && !(this.player.body.blocked.down)){  
+           this.player.body.velocity.x = -200;
+        } else {
+            this.player.body.velocity.x = -300;
+        }
+        
         this.player.animations.play('left');
     },
 
     runRight: function() {
         //  Move to the right
-        this.player.body.velocity.x = 300;
+        // Wenn Spieler in der Luft dann bewegt er sich langsamer
+        if(isInJump && !(this.player.body.blocked.down)){           
+            this.player.body.velocity.x = 200;
+        } else {
+            this.player.body.velocity.x = 300;
+        }
+        
         this.player.animations.play('right');
         
     },
