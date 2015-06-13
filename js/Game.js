@@ -296,12 +296,12 @@ MainGame.Game.prototype = {
         // Guckt ob der Spieler sich gerade nach links oder rechts bewegt
         if(rightLeftDirection < this.player.body.x){
             playerXMoves = "right";
-            bg2.tilePosition.x += 2;
-            bg.tilePosition.x += 1;
-        } else if(rightLeftDirection > this.player.body.x){
-            playerXMoves = "left";
             bg2.tilePosition.x -= 2;
             bg.tilePosition.x -= 1;
+        } else if(rightLeftDirection > this.player.body.x){
+            playerXMoves = "left";
+            bg2.tilePosition.x += 2;
+            bg.tilePosition.x += 1;
         } else if(rightLeftDirection == this.player.body.x){
             playerXMoves = "stand";
         }        
