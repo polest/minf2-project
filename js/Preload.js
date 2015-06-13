@@ -18,6 +18,8 @@ MainGame.Preload.prototype = {
         * 4. Schrittweite des Sprites.
         */
         game.load.image('sky', 'assets/bg.png');
+        game.load.image('bg1', 'assets/bg_1.png');
+        game.load.image('bg2', 'assets/bg_2.png');
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
         game.load.image('TimerBG', 'assets/TimerBG.png');

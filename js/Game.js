@@ -14,9 +14,11 @@ MainGame.Game.prototype = {
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-        var bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
-            bg.fixedToCamera=true;
-
+        bg = game.add.tileSprite(-200, -300, 1920, 1200, 'bg1');
+        bg.fixedToCamera=true;
+            
+        bg2 = game.add.tileSprite(-200, -300, 1920, 1200, 'bg2');
+        bg2.fixedToCamera=true;
 
         game.stage.backgroundColor='#787878';
 
@@ -89,8 +91,11 @@ MainGame.Game.prototype = {
         
         // Diese Variablen sind zum bestimmen ob der Spieler body sich gerade nach oben oder unten bewegt
         upDownDirection = this.player.body.y;
-        playerMoves = "stand";
+        playerYMoves = "stand";
 
+        // Diese Variablen sind zum bestimmen ob der Spieler body sich gerade nach links oder rechts bewegt
+        rightLeftDirection = this.player.body.x;
+        playerXMoves = "stand";
 
         // Timer wird definiert
         // Countdown Zeit in zehntel Sekunden (150 = 15 Sekunden)
@@ -280,13 +285,28 @@ MainGame.Game.prototype = {
         
         // Guckt ob der Spieler sich gerade nach oben oder unten bewegt
         if(upDownDirection < this.player.body.y){
-            playerMoves = "down";
+            playerYMoves = "down";
         } else if(upDownDirection > this.player.body.y){
-            playerMoves = "up";
+            playerYMoves = "up";
         } else if(upDownDirection == this.player.body.y){
-            playerMoves = "stand";
+            playerYMoves = "stand";
         }
         upDownDirection = this.player.body.y; 
+
+        // Guckt ob der Spieler sich gerade nach links oder rechts bewegt
+        if(rightLeftDirection < this.player.body.x){
+            playerXMoves = "right";
+            bg2.tilePosition.x += 2;
+            bg.tilePosition.x += 1;
+        } else if(rightLeftDirection > this.player.body.x){
+            playerXMoves = "left";
+            bg2.tilePosition.x -= 2;
+            bg.tilePosition.x -= 1;
+        } else if(rightLeftDirection == this.player.body.x){
+            playerXMoves = "stand";
+        }        
+        rightLeftDirection = this.player.body.x;
+        
 
         // Wenn links Taste nicht gedrückt wird, gebe linke Taste drücken wieder frei
         if(!(this.cursor.left.isDown)){
@@ -338,7 +358,7 @@ MainGame.Game.prototype = {
         if(this.player.body.blocked.left){
           
             // Wenn der Spieler nicht am boden ist und sich nach unten bewegt dann soll er gleiten und wird für den WallJump frei gegeben
-            if(!(this.player.body.blocked.down) && playerMoves == "down"){
+            if(!(this.player.body.blocked.down) && playerYMoves == "down"){
                 slidesOnWall = true;
                 this.player.body.velocity.y = this.player.body.velocity.y*0.8;
             } else {
@@ -389,7 +409,7 @@ MainGame.Game.prototype = {
         if(this.player.body.blocked.right){
             
             // Wenn der Spieler nicht am boden ist und sich nach unten bewegt dann soll er gleiten und wird für den WallJump frei gegeben
-            if(!(this.player.body.blocked.down) && playerMoves == "down"){
+            if(!(this.player.body.blocked.down) && playerYMoves == "down"){
                 slidesOnWall = true;
                 this.player.body.velocity.y = this.player.body.velocity.y*0.8;
             } else {
