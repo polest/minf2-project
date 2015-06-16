@@ -14,11 +14,11 @@ MainGame.Game.prototype = {
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-        bg = game.add.tileSprite(-200, -300, 1920, 1200, 'bg1');
+        bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
         bg.fixedToCamera=true;
             
-        bg2 = game.add.tileSprite(-200, -300, 1920, 1200, 'bg2');
-        bg2.fixedToCamera=true;
+        //bg2 = game.add.tileSprite(-200, -300, 1920, 1200, 'bg2');
+        //bg2.fixedToCamera=true;
 
         game.stage.backgroundColor='#787878';
 
@@ -295,12 +295,12 @@ MainGame.Game.prototype = {
         // Guckt ob der Spieler sich gerade nach links oder rechts bewegt
         if(rightLeftDirection < this.player.body.x){
             playerXMoves = "right";
-            bg2.tilePosition.x -= 2;
-            bg.tilePosition.x -= 1;
+            //bg2.tilePosition.x -= 2;
+            //bg.tilePosition.x -= 1;
         } else if(rightLeftDirection > this.player.body.x){
             playerXMoves = "left";
-            bg2.tilePosition.x += 2;
-            bg.tilePosition.x += 1;
+            //bg2.tilePosition.x += 2;
+            //bg.tilePosition.x += 1;
         } else if(rightLeftDirection == this.player.body.x){
             playerXMoves = "stand";
         }        
