@@ -23,7 +23,8 @@ MainGame.Preload.prototype = {
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
         game.load.image('TimerBG', 'assets/TimerBG.png');
-        game.load.spritesheet('Kroete', 'assets/sprites/kroeten.png', 50, 48)
+        game.load.spritesheet('kroete', 'assets/sprites/kroeten.png', 50, 48)
+        game.load.spritesheet('ratte', 'assets/sprites/ratte.png', 50, 48)
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
         game.load.spritesheet('boss', 'assets/Entgegner.png', 32,48);
 
@@ -37,13 +38,10 @@ MainGame.Preload.prototype = {
         game.load.audio('bgmusic', 'assets/sounds/drumandshit.wav');
 
         game.load.tilemap('map', 'assets/tilemaps/Level'+this.level+'.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('erde1', 'assets/tiles/erde1.png');
         game.load.image('Spitze', 'assets/tiles/Spitze.png');
-        game.load.image('WieseEckL', 'assets/tiles/WieseEckL.png');
-        game.load.image('WieseEckR', 'assets/tiles/WieseEckR.png');
         game.load.image('toilet', 'assets/tiles/toilet.png');
         game.load.image('blut', 'assets/image/blut.png');
-        game.load.image('wiese123', 'assets/tiles/wiese123.png');
+        game.load.image('LevelSprites', 'assets/tiles/LevelSprites.png');
         game.load.spritesheet('welle', 'assets/sprites/spueli1.png', 32, 32);
   
   },

@@ -23,13 +23,11 @@ MainGame.Game.prototype = {
         game.stage.backgroundColor='#787878';
 
         var map= game.add.tilemap('map');
-        map.addTilesetImage('wiese123');
-        map.addTilesetImage('WieseEckL');
-        map.addTilesetImage('WieseEckR');
-        map.addTilesetImage('erde1');
-        map.addTilesetImage('toilet');
 
-        map.setCollisionBetween(1, 12);
+        map.addTilesetImage('toilet');
+         map.addTilesetImage('LevelSprites');
+
+        map.setCollisionBetween(1, 20);
 
         this.layer= map.createLayer('Tile Layer 1');
         this.layer.enableBody = true;
@@ -188,7 +186,8 @@ MainGame.Game.prototype = {
         
         game.camera.follow(this.player);
         
-        this.createEnemies("Kroete");
+        this.createEnemies("kroete");
+        this.createEnemies("ratte");
         this.createExits();
 
        this.bgSound.play();
