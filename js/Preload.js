@@ -43,6 +43,7 @@ MainGame.Preload.prototype = {
         game.load.image('blut', 'assets/image/blut.png');
         game.load.image('LevelSprites', 'assets/tiles/LevelSprites.png');
         game.load.spritesheet('welle', 'assets/sprites/spueli1.png', 32, 32);
+        game.load.spritesheet('saege', 'assets/sprites/saege.png', 32, 32);
   
   },
   create: function() {

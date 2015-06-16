@@ -14,12 +14,10 @@ MainGame.Game.prototype = {
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-        bg = game.add.tileSprite(-200, -200, 1920, 1200, 'sky');
-        bg.fixedToCamera=true;
+        this.bg = game.add.tileSprite(-200, -500, 1920, 1200, 'bg1');
             
-        //bg2 = game.add.tileSprite(-200, -300, 1920, 1200, 'bg2');
-        //bg2.fixedToCamera=true;
-
+        this.bg2 = game.add.tileSprite(-200, -400, 1920, 1200, 'bg2');
+        
         game.stage.backgroundColor='#787878';
 
         var map= game.add.tilemap('map');
@@ -27,7 +25,7 @@ MainGame.Game.prototype = {
         map.addTilesetImage('toilet');
          map.addTilesetImage('LevelSprites');
 
-        map.setCollisionBetween(1, 20);
+        map.setCollisionBetween(1, 30);
 
         this.layer= map.createLayer('Tile Layer 1');
         this.layer.enableBody = true;
@@ -41,6 +39,9 @@ MainGame.Game.prototype = {
         this.spitzen = game.add.group();
         this.spitzen.enableBody=true;
 
+        this.saegen= game.add.group();
+        this.saegen.enableBody=true;
+
 
         map.createFromObjects('Object Layer 2', 3, 'welle', 0, true, false, this.wellen);
         this.wellen.callAll('animations.add', 'animations', 'spin', [0, 1, 1, 0, 2, 2], 10, true);
@@ -48,11 +49,19 @@ MainGame.Game.prototype = {
 
         map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
 
+         map.createFromObjects('Object Layer 3', 34, 'saege', 0, true, false, this.saegen);
+         this.saegen.callAll('animations.add', 'animations', 'spin', [0, 1, 2,3,4 ], 10, true);
+        this.saegen.callAll('animations.play', 'animations', 'spin');
+
         this.spitzen.forEach(function(element){
             element.body.moves=false;
         }, this);
 
         this.wellen.forEach(function(element){
+            element.body.moves=false;
+        }, this);
+
+          this.saegen.forEach(function(element){
             element.body.moves=false;
         }, this);
 
@@ -212,6 +221,7 @@ MainGame.Game.prototype = {
         game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
+        game.physics.arcade.overlap(this.player, this.saegen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
         game.physics.arcade.overlap(this.player, this.exits, this.startNextLevel, null, this);     
 
@@ -228,6 +238,8 @@ MainGame.Game.prototype = {
         
         // Bewegung vom Spieler
         this.playerMovement();
+        this.bg.x=game.camera.x*-0.05;
+        this.bg2.x=game.camera.x*-0.1;
 
     },
 
@@ -445,7 +457,7 @@ MainGame.Game.prototype = {
     jump: function() {
         //  Allow the player to jump if they are touching the ground. + Springt nicht mehr dauerhaft bei gedrückter Taste
         if (this.spaceKey.isDown && this.player.body.blocked.down && !(isInJump)){
-            this.player.body.velocity.y = -300;
+            this.player.body.velocity.y = -280;
             
             // Bockiert damit das erneute springen
             isInJump = true;
@@ -472,7 +484,7 @@ MainGame.Game.prototype = {
         //  Move to the left
         // Wenn Spieler in der Luft dann bewegt er sich langsamer
         if(!(this.player.body.blocked.down)){  
-           this.player.body.velocity.x = -200;
+           this.player.body.velocity.x = -250;
         } else {
             this.player.body.velocity.x = -300;
         }
@@ -484,7 +496,7 @@ MainGame.Game.prototype = {
         //  Move to the right
         // Wenn Spieler in der Luft dann bewegt er sich langsamer
         if(!(this.player.body.blocked.down)){           
-            this.player.body.velocity.x = 200;
+            this.player.body.velocity.x = 250;
         } else {
             this.player.body.velocity.x = 300;
         }
