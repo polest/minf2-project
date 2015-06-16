@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="32" tileheight="32" nextobjectid="45">
+ <tileset firstgid="1" name="Spitze" tilewidth="32" tileheight="32">
+  <image source="../assets/tiles/Spitze.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="2" name="spueli1" tilewidth="32" tileheight="32">
+  <image source="../assets/sprites/spueli1.png" width="96" height="32"/>
+ </tileset>
+ <tileset firstgid="5" name="toilet" tilewidth="32" tileheight="32">
+  <image source="../assets/tiles/toilet.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="6" name="koerper" tilewidth="32" tileheight="32">
+  <image source="../assets/sprites/koerper.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="7" name="LevelSprites" tilewidth="32" tileheight="32">
+  <image source="../assets/tiles/LevelSprites.png" width="160" height="160"/>
+ </tileset>
+ <tileset firstgid="32" name="gegnerK" tilewidth="32" tileheight="32">
+  <image source="../assets/sprites/gegnerK.png" width="32" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="type" value="kroete"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="33" name="gegnerR" tilewidth="32" tileheight="32">
+  <image source="../assets/sprites/gegnerR.png" width="32" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="type" value="ratte"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="34" name="saege" tilewidth="32" tileheight="32">
+  <image source="../assets/sprites/saege.png" width="224" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="collide" value="true"/>
+    <property name="immovable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="40" height="20">
+  <data encoding="csv">
+23,23,23,23,23,25,23,23,23,23,23,23,23,23,23,23,23,25,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,25,23,23,23,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25,
+23,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,7,16,16,16,16,16,16,8,0,0,0,0,0,0,0,0,0,0,7,16,26,30,26,23,
+23,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,28,23,23,23,23,23,23,29,0,0,0,0,0,0,0,0,0,0,28,14,14,27,14,23,
+25,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25,
+23,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,18,19,19,19,18,23,20,15,15,20,15,15,20,15,15,15,15,15,15,15,15,15,15,15,15,20,15,15,15,15,15,15,15,15,15,15,15,15,15,
+23,23,23,25,23,23,24,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,24,23,25,25,25,24,23,24,23,23,23,23,23,23,24,23,23,
+23,23,23,23,23,24,23,23,24,23,23,25,25,23,25,23,23,23,24,23,23,23,23,23,23,23,23,25,25,23,23,23,23,23,25,23,23,23,23,23
+</data>
+ </layer>
+ <objectgroup name="Object Layer 1"/>
+ <objectgroup name="Object Layer 2"/>
+ <objectgroup name="Gegner"/>
+ <objectgroup name="Ende">
+  <object id="28" gid="5" x="1185.4" y="419.089" width="32" height="32">
+   <properties>
+    <property name="type" value="toilet"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Spieler">
+  <object id="29" gid="6" x="41.0537" y="524.128" width="32" height="32">
+   <properties>
+    <property name="type" value="player"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Object Layer 3">
+  <object id="35" gid="34" x="160.204" y="480.149" width="32" height="32"/>
+  <object id="36" gid="34" x="160.065" y="446.633" width="32" height="32"/>
+  <object id="38" gid="34" x="160" y="512" width="32" height="32"/>
+  <object id="39" gid="34" x="32.9219" y="385.001" width="32" height="32"/>
+  <object id="40" gid="34" x="32.3264" y="353.086" width="32" height="32"/>
+  <object id="42" gid="34" x="32.6801" y="320.051" width="32" height="32"/>
+  <object id="43" gid="34" x="161.231" y="256.738" width="32" height="32"/>
+  <object id="44" gid="34" x="160.617" y="223.896" width="32" height="32"/>
+ </objectgroup>
+</map>
