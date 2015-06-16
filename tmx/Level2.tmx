@@ -82,13 +82,13 @@
   </object>
  </objectgroup>
  <objectgroup name="Object Layer 3">
-  <object id="35" gid="34" x="160.204" y="480.149" width="32" height="32"/>
-  <object id="36" gid="34" x="160.065" y="446.633" width="32" height="32"/>
-  <object id="38" gid="34" x="160" y="512" width="32" height="32"/>
-  <object id="39" gid="34" x="32.9219" y="385.001" width="32" height="32"/>
-  <object id="40" gid="34" x="32.3264" y="353.086" width="32" height="32"/>
-  <object id="42" gid="34" x="32.6801" y="320.051" width="32" height="32"/>
-  <object id="43" gid="34" x="161.231" y="256.738" width="32" height="32"/>
-  <object id="44" gid="34" x="160.617" y="223.896" width="32" height="32"/>
+  <object id="35" gid="34" x="177.908" y="480.526" width="32" height="32"/>
+  <object id="36" gid="34" x="177.957" y="446.821" width="32" height="32"/>
+  <object id="38" gid="34" x="176.95" y="512" width="32" height="32"/>
+  <object id="39" gid="34" x="17.481" y="385.407" width="32" height="32"/>
+  <object id="40" gid="34" x="18.1045" y="351.867" width="32" height="32"/>
+  <object id="42" gid="34" x="17.5462" y="318.426" width="32" height="32"/>
+  <object id="43" gid="34" x="177.805" y="257.115" width="32" height="32"/>
+  <object id="44" gid="34" x="177.944" y="223.143" width="32" height="32"/>
  </objectgroup>
 </map>
