@@ -147,7 +147,7 @@ MainGame.Menu.prototype = {
             game.state.add('LevelMenu1', MainGame.LevelMenu1);
             game.state.start('LevelMenu1');
         }else if(this.arrow.currentButton === 3){
-            console.log('3');
+            einblenden();
         }else if(this.arrow.currentButton === 4){
             console.log('4');
         }

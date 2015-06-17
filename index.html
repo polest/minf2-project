@@ -20,7 +20,7 @@
     </head>
     <body>
         <div id="gameDiv">
-
+            <img id="HowToPic"src="assets/HowToPic.png">
         </div>
 
         <script type="text/javascript">
@@ -34,6 +34,18 @@
                 }    
             }
         </script>
+
+        <script type="text/javascript">
+            function einblenden() { 
+                document.getElementById('HowToPic').style.visibility="visible"; 
+                document.onkeydown = function(event){
+                    if(event.keyCode == 37){
+                        document.getElementById('HowToPic').style.visibility="hidden";
+                    }
+                }
+            }    
+        </script>
+
 
     </body>
      <script type="text/javascript" src="js/main.js"></script>
