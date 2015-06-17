@@ -313,22 +313,6 @@
          "name":"Gegner",
          "objects":[
                 {
-                 "gid":32,
-                 "height":32,
-                 "id":68,
-                 "name":"",
-                 "properties":
-                    {
-                     "type":"kroete"
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":1084.51,
-                 "y":539.71
-                }, 
-                {
                  "gid":33,
                  "height":32,
                  "id":71,
