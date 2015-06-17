@@ -166,11 +166,11 @@ MainGame.LevelMenu1.prototype = {
 
     activateButton: function(buttons, currentButton) {
          if(this.arrow.currentButton === 1){
-            console.log('Level 1');
+            game.state.start("Boot",true,false,1);
         }else if(this.arrow.currentButton === 2){
-            console.log('Level 2');
+            game.state.start("Boot",true,false,2);        
         }else if(this.arrow.currentButton === 3){
-            console.log('Level 3')
+            game.state.start("Boot",true,false,3);
         }else if(this.arrow.currentButton === 4){
             console.log('Level 4');
         }else if(this.arrow.currentButton === 5){
