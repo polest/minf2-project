@@ -54,7 +54,8 @@
             }
 
             function levelwechsel(){
-                document.getElementById('levelwechsel').style.visibility="visible"; 
+                document.getElementById('levelwechsel').style.visibility="visible";
+                game.paused = true; 
                 document.onkeydown = function(event){
                     if(event.keyCode == 77){
                         location.reload();
@@ -66,6 +67,7 @@
 
                     }else{
                         document.getElementById('levelwechsel').style.visibility="hidden";
+                        game.paused = false;
                     }
                    
                 }
