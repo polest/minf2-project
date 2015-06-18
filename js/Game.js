@@ -1,4 +1,5 @@
 var enemyContainer = [];
+var timeEnd = 0;
 var MainGame = MainGame || {};
 
 //title screen
@@ -106,7 +107,8 @@ MainGame.Game.prototype = {
 
         // Timer wird definiert
         // Countdown Zeit in zehntel Sekunden (150 = 15 Sekunden)
-        timeEnd = 600;
+        
+        this.getTimerForLevel();
         
         // Erstellt einen roten Timer Text und fixiert ihn
         timerTextRedSprite = game.add.sprite(0,0, 'TimerBG');
@@ -200,6 +202,7 @@ MainGame.Game.prototype = {
         this.createExits();
 
        this.bgSound.play();
+       this.getTimerForLevel();
 
     },
 
@@ -722,4 +725,17 @@ MainGame.Game.prototype = {
         level = this.level+1;
         game.state.start("Boot",true,false,level);
     },
+    getTimerForLevel: function() {
+        var level = this.level;
+        var timer = 0;
+        $.getJSON('js/json/settings.json', function(data) {
+            for (var i in data.level) {
+                if(parseInt(data.level[i].nummer) == level){
+                    this.timer = parseInt(data.level[i].timer);
+                    timeEnd = this.timer;
+                }
+            }
+            timeEnd = this.timer;
+        });
+    }
 };

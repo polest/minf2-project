@@ -5,8 +5,7 @@ MainGame.Boot = function(){};
 //setting game configuration and loading the assets for the loading screen
 MainGame.Boot.prototype = {
   init: function(level){
-  		this.level = level;
-		
+  	this.level = level;
   },	
   preload: function() {
 

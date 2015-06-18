@@ -1,0 +1,13 @@
+{  
+   "levelPlayed":"0",
+   "level":[  
+      {  
+         "nummer":"1",
+         "timer":"600"
+      },
+      {  
+         "nummer":"2",
+         "timer":"500"
+      }
+   ]
+}
