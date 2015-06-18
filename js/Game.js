@@ -726,10 +726,15 @@ MainGame.Game.prototype = {
     },
      //find objects in a Tiled layer that containt a property called "type" equal to a certain value
     startNextLevel: function(Level) {
-        levelwechsel();
+        setTimeout(
+  function() 
+  {
+    levelwechsel();
+  }, 2000);
         this.bgSound.stop();
         level = this.level+1;
         game.state.start("Boot",true,false,level);
+        
     },
     getTimerForLevel: function() {
         var level = this.level;
