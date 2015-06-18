@@ -1,5 +1,6 @@
 var enemyContainer = [];
 var timeEnd = 0;
+var background3;
 var MainGame = MainGame || {};
 var gameStarted = false;
 
@@ -15,7 +16,6 @@ MainGame.Game.prototype = {
 
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        
         this.bg1 = game.add.tileSprite(-200, -400, 1920, 1200, 'ebene1');
             
         this.bg2 = game.add.tileSprite(-200, -450, 1920, 1200, 'ebene2');
@@ -246,7 +246,6 @@ MainGame.Game.prototype = {
         
         // Bewegung vom Spieler
         this.playerMovement();
-        this.bg1.x = game.camera.x*-0.00;
         this.bg2.x = game.camera.x*-0.05;
         this.bg3.x = game.camera.x*-0.1;
 
@@ -742,7 +741,13 @@ MainGame.Game.prototype = {
                     timeEnd = this.timer;
                 }
             }
+
             timeEnd = this.timer;
         });
-    }
+
+    },
+
+
+
+
 };

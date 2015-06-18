@@ -3,11 +3,14 @@
    "level":[  
       {  
          "nummer":"1",
-         "timer":"600"
+         "timer":"60",
+         "bg1":"sky",
+         "bg2":"berge",
+         "bg3":"baeume"
       },
       {  
          "nummer":"2",
-         "timer":"500"
+         "timer":"200"
       },
        {  
          "nummer":"3",
