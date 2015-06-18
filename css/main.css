@@ -9,3 +9,13 @@ body {
 	position: fixed;
 	visibility: hidden;
 }
+
+#Intro{
+	position: fixed;
+	visibility: hidden;
+}
+
+#pause{
+	position: fixed;
+	visibility: hidden;
+}

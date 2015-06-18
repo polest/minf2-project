@@ -142,6 +142,7 @@ MainGame.Menu.prototype = {
 
     activateButton: function(buttons, currentButton) {
         if(this.arrow.currentButton === 1){
+            //game.state.add('Boot', MainGame.Boot);
             game.state.start('Boot', true, false, 1);
         }else if(this.arrow.currentButton === 2){
             game.state.add('LevelMenu1', MainGame.LevelMenu1);
@@ -149,7 +150,7 @@ MainGame.Menu.prototype = {
         }else if(this.arrow.currentButton === 3){
             einblenden();
         }else if(this.arrow.currentButton === 4){
-            console.log('4');
+            video();
         }
     },
 

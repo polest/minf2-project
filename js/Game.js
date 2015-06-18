@@ -1,6 +1,7 @@
 var enemyContainer = [];
 var timeEnd = 0;
 var MainGame = MainGame || {};
+var gameStarted = false;
 
 //title screen
 MainGame.Game = function(){};
@@ -205,6 +206,8 @@ MainGame.Game.prototype = {
 
        this.bgSound.play();
        this.getTimerForLevel();
+
+       gameStarted = true;
 
     },
 

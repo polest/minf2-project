@@ -14,7 +14,7 @@ MainGame.Pause.prototype = {
             game.load.image('menu_button1', 'assets/Pause/Hauptmenu.png');
             game.load.image('menu_button2', 'assets/Pause/Level.png');
             game.load.image('menu_button3', 'assets/Pause/How_To.png');
-            game.load.image('menu_button4', 'assets/Pause/Weiter.png');
+            game.load.image('menu_button4', 'assets/Pause/Resume.png');
     },
 
 
@@ -150,7 +150,7 @@ MainGame.Pause.prototype = {
             game.state.add('LevelMenu1', MainGame.LevelMenu1);
             game.state.start('LevelMenu1');
         }else if(this.arrow.currentButton === 3){
-            console.log('3');
+            einblenden();
         }else if(this.arrow.currentButton === 4){
             this.game.paused = false;
         }

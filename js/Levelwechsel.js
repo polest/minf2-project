@@ -16,8 +16,6 @@ MainGame.Levelwechsel.prototype = {
 
     create: function() {
 
-        //Add the game title so we know the state is properly working
-
             this.cursors = game.input.keyboard.createCursorKeys();
             this.pos = [50, 120, 190];
             this.arrow();
