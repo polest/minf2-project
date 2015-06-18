@@ -19,3 +19,8 @@ body {
 	position: fixed;
 	visibility: hidden;
 }
+
+#levelwechsel{
+	position: fixed;
+	visibility: hidden;
+}

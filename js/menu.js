@@ -164,7 +164,6 @@ MainGame.Menu.prototype = {
     },
 
     addButton: function(button, func) {
-        console.log(this.pos[button-1]);
         return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 1],'menu_button' + button, func);
     }
 

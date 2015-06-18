@@ -21,6 +21,7 @@
     </head>
     <body>
         <div id="gameDiv">
+            <img id="levelwechsel" src="assets/Levelwechsel/Levelwechsel.png">
             <img id="pause" src="assets/Pause/Pause.png">
             <img id="HowToPic"src="assets/HowToPic.png">
             <video id="Intro" src="assets/Intro.mp4" width="1024" heigth="1540"></video>
@@ -50,7 +51,20 @@
                         document.getElementById('HowToPic').style.visibility="hidden";
                     }
                 }
-            }    
+            }
+
+            function levelwechsel(){
+                document.getElementById('levelwechsel').style.visibility="visible"; 
+                document.onkeydown = function(event){
+                    if(event.keyCode == 77){
+                        location.reload();
+                    }else{
+                        document.getElementById('levelwechsel').style.visibility="hidden";
+                    }
+                   
+                }
+                
+            }
             
         </script>
 
