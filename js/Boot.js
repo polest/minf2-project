@@ -6,6 +6,11 @@ MainGame.Boot = function(){};
 MainGame.Boot.prototype = {
   init: function(level){
   	this.level = level;
+  	if (localStorage.getItem("levelPlayed") == null){
+  		localStorage.setItem("levelPlayed", 0);
+  	}else if(localStorage.getItem("levelPlayed") < level){
+  		localStorage.setItem("levelPlayed", level);
+  	}
   },	
   preload: function() {
 
