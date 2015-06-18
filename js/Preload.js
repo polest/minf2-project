@@ -20,6 +20,11 @@ MainGame.Preload.prototype = {
         game.load.image('sky', 'assets/bg.png');
         game.load.image('bg1', 'assets/image/bg_11.png');
         game.load.image('bg2', 'assets/image/bg_22.png');
+        
+        game.load.image('ebene1', 'assets/parallax/sky.png');
+        game.load.image('ebene2', 'assets/parallax/berge.png');
+        game.load.image('ebene3', 'assets/parallax/baeume.png');
+        
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
         game.load.image('TimerBG', 'assets/TimerBG.png');

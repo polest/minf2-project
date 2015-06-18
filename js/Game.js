@@ -15,9 +15,11 @@ MainGame.Game.prototype = {
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-        this.bg = game.add.tileSprite(-200, -500, 1920, 1200, 'bg1');
+        this.bg1 = game.add.tileSprite(-200, -400, 1920, 1200, 'ebene1');
             
-        this.bg2 = game.add.tileSprite(-200, -400, 1920, 1200, 'bg2');
+        this.bg2 = game.add.tileSprite(-200, -450, 1920, 1200, 'ebene2');
+        
+        this.bg3 = game.add.tileSprite(-200, -400, 1920, 1200, 'ebene3');
         
         game.stage.backgroundColor='#787878';
 
@@ -241,8 +243,9 @@ MainGame.Game.prototype = {
         
         // Bewegung vom Spieler
         this.playerMovement();
-        this.bg.x=game.camera.x*-0.05;
-        this.bg2.x=game.camera.x*-0.1;
+        this.bg1.x = game.camera.x*-0.00;
+        this.bg2.x = game.camera.x*-0.05;
+        this.bg3.x = game.camera.x*-0.1;
 
     },
 
