@@ -10,14 +10,14 @@
       },
       {  
          "nummer":"2",
-         "timer":"200"
+         "timer":"200",
          "bg1":"sky",
          "bg2":"berge",
          "bg3":"baeume"
       },
        {  
          "nummer":"3",
-         "timer":"500"
+         "timer":"500",
          "bg1":"sky",
          "bg2":"berge",
          "bg3":"baeume"
