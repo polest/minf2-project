@@ -68,7 +68,7 @@ MainGame.LevelMenu1.prototype = {
             this.button6 = this.addButton(6, this.playState);
             this.button6.anchor.setTo(0.5, 0.5);
 
-            this.button7 = this.addMenuButton(this.playState);
+            this.button7 = this.addButton(7, this.playState);
             this.button7.anchor.setTo(0.5,0.5);
 
             return [this.button1, this.button2, this.button3, this.button4, this.button5, this.button6, this.button7];
@@ -197,10 +197,6 @@ MainGame.LevelMenu1.prototype = {
         console.log(this.pos[button-1]);
         return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 1],'menu_button' + button, func);
     },
-
-    addMenuButton: function(func){
-         return game.add.button(game.world.centerX,game.world.centerY + 260,'menu_button_7' , func);
-    }
 
 }
 
