@@ -3,7 +3,7 @@
    "level":[  
       {  
          "nummer":"1",
-         "timer":"60",
+         "timer":"600",
          "bg1":"sky",
          "bg2":"berge",
          "bg3":"baeume"
