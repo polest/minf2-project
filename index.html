@@ -23,9 +23,10 @@
         <div id="gameDiv">
             <img id="levelwechsel" src="assets/Levelwechsel/Levelwechsel.png">
             <img id="pause" src="assets/Pause/Pause.png">
-            <img id="HowToPic"src="assets/HowToPic.png">
-            <video id="Intro" src="assets/Intro.mp4" width="1024" heigth="1540"></video>
-            
+            <img id="HowToPic"src="assets/HowToPic.png">    
+            <div id = "vidDiv">
+                <video id="Intro" src="assets/Intro.mp4" width = '1024' height = '640'></video>
+            </div>
         </div>
 
         <script type="text/javascript">
@@ -69,9 +70,14 @@
                         document.getElementById('levelwechsel').style.visibility="hidden";
                         game.paused = false;
                     }
-                   
                 }
-                
+            }
+
+            function video(){
+                document.getElementById('vidDiv').style.visibility = 'visible';
+                var vid = document.getElementById('Intro');
+                vid.style.visibility ="visible"
+                vid.play();
             }
             
         </script>

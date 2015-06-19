@@ -15,6 +15,13 @@ body {
 	visibility: hidden;
 }
 
+#gameDiv#vidDiv{
+	visibility: visible;
+	height: 1024px;
+	width: 700px;
+	background-color: red;
+}
+
 #pause{
 	position: fixed;
 	visibility: hidden;
