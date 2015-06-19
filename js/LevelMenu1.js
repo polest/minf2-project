@@ -16,7 +16,7 @@ MainGame.LevelMenu1.prototype = {
             game.load.image('menu_button4', 'assets/LevelMenu/Level4.png');
             game.load.image('menu_button5', 'assets/LevelMenu/Level5.png');
             game.load.image('menu_button6', 'assets/LevelMenu/Next.png');
-            game.load.image('menu_button7', 'assets/Pause/Hauptmenu.png');
+            game.load.image('menu_button7', 'assets/LevelMenu/Hauptmenu.png');
             game.load.image('HowTo', 'assets/HowToPic.png');
     },
 
@@ -43,7 +43,7 @@ MainGame.LevelMenu1.prototype = {
     },
 
     update: function() {
-            this.move(this.cursors, this.buttons);
+        this.move(this.cursors, this.buttons);
     },
 
     draw1: function(){
@@ -68,7 +68,7 @@ MainGame.LevelMenu1.prototype = {
             this.button6 = this.addButton(6, this.playState);
             this.button6.anchor.setTo(0.5, 0.5);
 
-            this.button7 = this.addButton(7, this.playState);
+            this.button7 = this.addMenuButton(this.playState);
             this.button7.anchor.setTo(0.5,0.5);
 
             return [this.button1, this.button2, this.button3, this.button4, this.button5, this.button6, this.button7];
@@ -167,15 +167,15 @@ MainGame.LevelMenu1.prototype = {
     activateButton: function(buttons, currentButton) {
          if(this.arrow.currentButton === 1){
             game.state.start("Boot",true,false,1);
-        }else if(this.arrow.currentButton === 2){
+        }else if(this.arrow.currentButton === 2 && localStorage.getItem("levelPlayed") >= 1){
             game.state.start("Boot",true,false,2);        
-        }else if(this.arrow.currentButton === 3){
+        }else if(this.arrow.currentButton === 3 && localStorage.getItem("levelPlayed") >= 2){
             game.state.start("Boot",true,false,3);
-        }else if(this.arrow.currentButton === 4){
+        }else if(this.arrow.currentButton === 4 && localStorage.getItem("levelPlayed") >= 3){
             console.log('Level 4');
-        }else if(this.arrow.currentButton === 5){
+        }else if(this.arrow.currentButton === 5 && localStorage.getItem("levelPlayed") >= 4){
             console.log('Level 5');
-        }else if(this.arrow.currentButton === 6){
+        }else if(this.arrow.currentButton === 6 && localStorage.getItem("levelPlayed") >= 5){
             game.state.add('LevelMenu2', MainGame.LevelMenu2);
             game.state.start('LevelMenu2');
         }else if(this.arrow.currentButton === 7){
@@ -196,6 +196,10 @@ MainGame.LevelMenu1.prototype = {
     addButton: function(button, func) {
         console.log(this.pos[button-1]);
         return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 1],'menu_button' + button, func);
+    },
+
+    addMenuButton: function(func){
+         return game.add.button(game.world.centerX,game.world.centerY + 260,'menu_button_7' , func);
     }
 
 }
