@@ -23,20 +23,6 @@
     Enemy.prototype.constructor = Enemy;
     
     Enemy.prototype.update = function() {
-
-         if(this.body.velocity.x == -0){
-            if(this.enemyDirection == "right"){
-                this.body.velocity.x = -300;
-                this.animations.play('left');
-                this.enemyDirection = "left";   
-            }else{
-                this.body.velocity.x = 300;
-                this.animations.play('right');
-                this.enemyDirection = "right";  
-            }
-        }
-
-
         game.physics.arcade.collide(this, this.platforms);
         game.physics.arcade.overlap(this, this.marks, this.changeDirection);
     };

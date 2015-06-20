@@ -219,7 +219,7 @@ MainGame.Game.prototype = {
         game.physics.arcade.collide(this.stars, this.layer);
         game.physics.arcade.collide(this.stars, this.wellen);
         game.physics.arcade.collide(this.stars, this.spitzen);
-        game.physics.arcade.collide(this.enemiesGroup, this.layer);
+        game.physics.arcade.collide(this.enemiesGroup, this.layer, this.enemyMovement);
         /*
             game.physics.arcade.collide(this.spitzen, this.emitter);
             game.physics.arcade.collide(this.layer, this.emitter);
@@ -749,7 +749,20 @@ MainGame.Game.prototype = {
 
     },
 
-
-
+    enemyMovement: function(enemy,layer) {
+        if(enemy.body.velocity.x == -0){
+            if(enemy.enemyDirection == "right"){
+                console.log("Wende links");
+                enemy.body.velocity.x = -300;
+                enemy.animations.play('left');
+                enemy.enemyDirection = "left";   
+            }else{
+                console.log("Wende rechts");
+                enemy.body.velocity.x = 300;
+                enemy.animations.play('right');
+                enemy.enemyDirection = "right";  
+            }
+        }
+    }
 
 };
