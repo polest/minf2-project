@@ -1,6 +1,7 @@
 
 
     var vid = document.getElementById('Intro');
+     var vids = document.getElementById('shitboy');
 
 
     document.onkeydown = function(event) {
@@ -49,10 +50,34 @@
     function video(){
         document.getElementById('black').style.visibility = 'visible';
         vid.style.visibility ="visible"
+        introSoundStop();
         vid.play();
+        setTimeout(
+  function() 
+  {
+    introSoundPlay();
+  }, 47000);
+
 
 
     }
+
+      function shitboysvideo(){
+        document.getElementById('black').style.visibility = 'visible';
+        vids.style.visibility ="visible";
+        vids.play();
+        game.paused = true;
+        setTimeout(
+  function() 
+  {
+    vids.style.visibility ="hidden";
+    document.getElementById('black').style.visibility = 'hidden';
+    game.paused = false;
+
+  }, 5000);
+      }
+
+
 
     function bgSound1Stop(){
        document.getElementById('BgSound1').pause();
@@ -78,3 +103,4 @@
         document.getElementById('black').style.visibility = 'hidden';
         vid.style.visibility = 'hidden';
     }
+

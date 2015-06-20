@@ -34,6 +34,7 @@ MainGame.Menu.prototype = {
             this.draw2();
             this.draw1();
             introSoundPlay();
+            shitboysvideo();
 
             
 
@@ -41,6 +42,7 @@ MainGame.Menu.prototype = {
 
     update: function() {
     		this.move(this.cursors, this.buttons);
+
     },
 
     draw1: function(){
