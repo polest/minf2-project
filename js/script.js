@@ -54,6 +54,24 @@
 
     }
 
+    function bgSound1Stop(){
+       document.getElementById('BgSound1').pause();
+    }
+    function bgSound1Play(){
+       document.getElementById('BgSound1').play();
+    }
+
+     function introSoundStop(){
+       document.getElementById('introSound').pause();
+    }
+    function introSoundPlay(){
+       document.getElementById('introSound').play();
+    }
+
+      function winSound(){
+       document.getElementById('win').play();
+    }
+
     vid.addEventListener('ended',myHandler,false);
     function myHandler(e) {
         if(!e) { e = window.event; }

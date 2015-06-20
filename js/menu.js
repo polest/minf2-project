@@ -33,7 +33,7 @@ MainGame.Menu.prototype = {
             this.gameTitle.anchor.setTo(0.5, 0.5);
             this.draw2();
             this.draw1();
-            
+            introSoundPlay();
 
             
 

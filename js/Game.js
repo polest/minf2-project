@@ -203,8 +203,8 @@ MainGame.Game.prototype = {
         this.createEnemies("kroete");
         this.createEnemies("ratte");
         this.createExits();
-
-       this.bgSound.play();
+        introSoundStop();
+       bgSound1Play();
        this.getTimerForLevel();
 
        gameStarted = true;
@@ -727,7 +727,8 @@ MainGame.Game.prototype = {
      //find objects in a Tiled layer that containt a property called "type" equal to a certain value
     startNextLevel: function(Level) {
         levelwechsel();
-        this.bgSound.stop();
+        bgSound1Stop();
+        winSound();
         level = this.level+1;
         game.state.start("Boot",true,false,level);
         
