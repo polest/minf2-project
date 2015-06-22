@@ -1,22 +1,33 @@
 
 
-    var vid = document.getElementById('Intro');
-     var vids = document.getElementById('shitboy');
 
+    var vid = document.getElementById('Intro');
+    var vids = document.getElementById('shitboy');
 
     document.onkeydown = function(event) {
         if (event.keyCode == 80 && gameStarted) {
+
             if(game.paused){
                 game.paused = false;
                 document.getElementById('pause').style.visibility = 'hidden';
             }else if (game.paused == false){
+                
                 document.getElementById('pause').style.visibility = 'visible';
                 game.paused = true;
             }
         }
         if(event.keyCode == 77){
             location.reload();
-        }    
+        }else if(event.keyCode == 38 && levelFinished){
+
+        }else if(event.keyCode == 37 && levelFinished){
+
+        }else if(event.keyCode == 39 && levelFinished){
+
+        }else if(event.keyCode == 13 && levelFinished){
+            document.getElementById('levelwechsel').style.visibility="hidden";
+            game.paused = false;            
+        }   
     }
 
     function einblenden() { 
@@ -31,20 +42,6 @@
     function levelwechsel(){
         document.getElementById('levelwechsel').style.visibility="visible";
         game.paused = true; 
-        document.onkeydown = function(event){
-            if(event.keyCode == 77){
-                location.reload();
-            }else if(event.keyCode == 38){
-
-            }else if(event.keyCode == 37){
-
-            }else if(event.keyCode == 39){
-
-            }else{
-                document.getElementById('levelwechsel').style.visibility="hidden";
-                game.paused = false;
-            }
-        }
     }
 
     function video(){

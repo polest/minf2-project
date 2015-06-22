@@ -3,6 +3,7 @@ var timeEnd = 0;
 var background3;
 var MainGame = MainGame || {};
 var gameStarted = false;
+var levelFinished = false;
 
 //title screen
 MainGame.Game = function(){};
@@ -726,6 +727,7 @@ MainGame.Game.prototype = {
     },
      //find objects in a Tiled layer that containt a property called "type" equal to a certain value
     startNextLevel: function(Level) {
+        levelFinished = true;
         levelwechsel();
         bgSound1Stop();
         winSound();
