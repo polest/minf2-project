@@ -73,11 +73,11 @@ MainGame.Game.prototype = {
         // The player and its settings     
         this.map = map;
         this.player = this.createPlayerFromJson();
-
+             
         //  We need to enable physics on the player
         this.game.physics.arcade.enable(this.layer);
 
-
+        isSpecial = false;
 
         // Setzt die Werte für das Gleiten und den WallJump
         // 
@@ -270,12 +270,49 @@ MainGame.Game.prototype = {
                 this.wallSlideRight();
                 this.wallJumpRight();
                 this.playRunSound();
+                
+            } else if(this.cursor.down.isDown && this.player.body.blocked.down && !isSpecial){
+                // Spezialfähigkeit
+                isSpecial = true;
+                
+                // Zerstört das aktuelle Sprite
+                this.player.destroy();
+                
+                // Erstellt das neue Sprite
+                this.player = this.createSpecialPlayer(this.player.x, this.player.y);
+
+                // Kamera soll neuem Sprite folgen
+                //# Ohne diese Zeile tritt der Fehler nicht auf aber dann folgt die Kamera dem Sprite nicht mehr #
+                game.camera.follow(this.player);
+     
+            } else if(!this.cursor.down.isDown && isSpecial){
+                // Spezialfähigkeit
+                isSpecial = false;
+                
+                // Zerstört das aktuelle Sprite
+                this.player.destroy();
+                
+                // Erstellt das neue Sprite
+                this.player = this.createPlayer(this.player.x, this.player.y);
+  
+                // Kamera soll neuem Sprite folgen
+                //# Ohne diese Zeile tritt der Fehler nicht auf aber dann folgt die Kamera dem Sprite nicht mehr #
+                game.camera.follow(this.player);
+                
+                
+                
             }else{
-                this.standStill();
+                if(!isSpecial){
+                    this.standStill();
+                } else {
+                   this.player.frame = 6; 
+                }
             }
             // Jump Animation, wenn notwendig
-            this.jump();
-
+            if(!isSpecial){
+                this.jump();
+            }
+           
            
         }
     },
@@ -671,6 +708,27 @@ MainGame.Game.prototype = {
         player.animations.add('reborn', [14,13,12,11,10], 20, true);
         player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
         player.animations.add('deathspueli', [16,17,18,18,14], 20, true);
+        return player;
+    },
+    
+    createSpecialPlayer: function(x,y){
+        var player;
+        // The player and its settings
+        player = game.add.sprite(x, y, 'special');
+        game.physics.arcade.enable(player);
+        player.scale.setTo(0.8, 0.8);
+          
+        //  Player physics properties. Give the little guy a slight bounce.
+        player.body.bounce.y = 0;
+        player.body.gravity.y = 300;
+        player.body.collideWorldBounds = true;
+
+        //  Our two animations, walking left and right.
+        player.animations.add('left', [6], 20, true);
+        player.animations.add('right', [6], 20, true);
+        //player.animations.add('reborn', [14,13,12,11,10], 20, true);
+        //player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
+        //player.animations.add('deathspueli', [16,17,18,18,14], 20, true);
         return player;
     },
 
