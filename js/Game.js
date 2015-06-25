@@ -217,7 +217,7 @@ MainGame.Game.prototype = {
         this.createExits();
         introSoundStop();
          bgSound1Play();
-               this.soundWechsel();
+        // this.soundWechsel();
        this.getTimerForLevel();
 
        gameStarted = true;
