@@ -21,9 +21,9 @@ MainGame.Preload.prototype = {
         * 4. Schrittweite des Sprites.
 
         */
-        this.shitboyloadj= this.add.sprite(430,190,'shitboyloadj');
+        this.shitboyloadj= this.add.sprite(460,190,'shitboyloadj');
         this.shitboyloadj.scale.setTo(0.11,0.11);
-        this.preloadBar = this.add.sprite(430, 400, 'bar');
+        this.preloadBar = this.add.sprite(450, 400, 'bar');
         this.preloadBar.anchor.setTo(0.2);
         this.preloadBar.scale.setTo(0.8,0.4);
         this.load.setPreloadSprite(this.preloadBar);
