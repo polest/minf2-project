@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="20" tilewidth="32" tileheight="32" nextobjectid="81">
+ <tileset firstgid="1" name="Spitze" tilewidth="32" tileheight="32">
+  <image source="../../../../GitHubPC/minf2-project/assets/tiles/Spitze.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="2" name="spueli1" tilewidth="32" tileheight="32">
+  <image source="../../../../GitHubPC/minf2-project/assets/sprites/spueli1.png" width="96" height="32"/>
+ </tileset>
+ <tileset firstgid="5" name="toilet" tilewidth="32" tileheight="32">
+  <image source="../../../../GitHubPC/minf2-project/assets/tiles/toilet.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="6" name="koerper" tilewidth="32" tileheight="32">
+  <image source="../../../../GitHubPC/minf2-project/assets/sprites/koerper.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="7" name="LevelSprites" tilewidth="32" tileheight="32">
+  <image source="../../../../GitHubPC/minf2-project/assets/tiles/LevelSprites.png" width="160" height="160"/>
+ </tileset>
+ <tileset firstgid="32" name="gegnerK" tilewidth="32" tileheight="32">
+  <image source="../../../../GitHubPC/minf2-project/assets/sprites/gegnerK.png" width="32" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="type" value="kroete"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="33" name="gegnerR" tilewidth="32" tileheight="32">
+  <image source="../../../../GitHubPC/minf2-project/assets/sprites/gegnerR.png" width="32" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="type" value="ratte"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="34" name="saege" tilewidth="32" tileheight="32">
+  <image source="../../../../GitHubPC/minf2-project/assets/sprites/saege.png" width="224" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="collide" value="true"/>
+    <property name="immovable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="60" height="20">
+  <data encoding="csv">
+23,23,23,23,23,25,23,23,23,23,23,23,23,23,23,23,23,25,23,23,24,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,25,23,23,23,23,23,23,23,25,24,25,23,23,23,24,23,23,23,23,23,25,23,23,23,
+23,0,0,23,0,0,0,0,0,0,17,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,23,0,0,0,0,0,0,17,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,24,0,18,0,0,0,0,17,0,0,17,18,15,15,15,15,15,15,15,19,20,15,15,21,0,0,0,0,23,0,0,19,20,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,0,0,0,0,0,0,0,0,23,
+25,0,0,23,15,25,15,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,15,30,0,0,0,0,16,16,16,0,0,0,0,26,15,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,0,23,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,0,0,0,0,0,0,0,0,0,0,25,
+23,0,0,0,0,23,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,23,18,23,23,23,0,0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,23,21,0,0,0,0,18,0,0,0,0,23,
+23,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,15,15,15,19,15,20,19,23,23,0,0,0,0,0,0,0,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,23,
+23,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,23,
+23,0,0,0,19,15,21,0,0,0,17,15,15,15,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,23,
+23,0,0,0,23,23,23,21,0,0,0,0,0,0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,24,
+23,0,0,0,23,24,23,23,21,0,0,0,0,0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,23,
+23,0,0,0,23,23,23,25,23,21,0,0,0,0,15,19,15,15,15,15,19,20,15,15,15,15,18,19,15,15,15,15,19,15,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,23,
+25,0,0,0,23,23,23,23,23,23,21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,23,
+23,0,0,0,18,23,23,23,23,23,23,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,23,
+25,0,0,0,23,23,23,23,23,23,23,23,21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,23,23,23,23,23,23,23,23,23,21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,23,23,25,23,23,23,23,23,23,23,21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+23,0,0,0,23,23,23,23,23,23,23,23,23,23,23,30,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,26,0,0,0,0,0,0,0,0,0,0,0,0,0,30,16,16,16,16,16,16,16,16,16,16,26,25,
+23,23,23,23,23,23,23,23,24,23,23,25,23,23,25,23,23,23,24,23,23,23,23,23,23,23,23,25,25,23,23,23,23,23,25,23,23,23,25,12,25,23,23,23,23,23,24,23,23,25,23,25,23,24,23,23,25,23,23,23
+</data>
+ </layer>
+ <objectgroup name="Object Layer 1">
+  <object id="50" gid="1" x="1152" y="160" width="32" height="32"/>
+  <object id="51" gid="1" x="1184" y="160" width="32" height="32"/>
+  <object id="52" gid="1" x="1216" y="160" width="32" height="32"/>
+  <object id="53" gid="1" x="1248" y="160" width="32" height="32"/>
+  <object id="56" gid="1" x="1376" y="160" width="32" height="32"/>
+  <object id="57" gid="1" x="1408" y="160" width="32" height="32"/>
+  <object id="58" gid="1" x="1472" y="160" width="32" height="32"/>
+  <object id="62" gid="1" x="1440" y="160" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="Object Layer 2">
+  <object id="63" gid="3" x="1088" y="608" width="32" height="32"/>
+  <object id="64" gid="3" x="1120" y="608" width="32" height="32"/>
+  <object id="65" gid="3" x="1184" y="608" width="32" height="32"/>
+  <object id="66" gid="3" x="1152" y="608" width="32" height="32"/>
+  <object id="67" gid="3" x="1312" y="608" width="32" height="32"/>
+  <object id="68" gid="3" x="1248" y="608" width="32" height="32"/>
+  <object id="69" gid="3" x="1216" y="608" width="32" height="32"/>
+  <object id="70" gid="3" x="1280" y="608" width="32" height="32"/>
+  <object id="71" gid="3" x="1344" y="608" width="32" height="32"/>
+  <object id="72" gid="3" x="1408" y="608" width="32" height="32"/>
+  <object id="73" gid="3" x="1472" y="608" width="32" height="32"/>
+  <object id="74" gid="3" x="1376" y="608" width="32" height="32"/>
+  <object id="75" gid="3" x="1440" y="608" width="32" height="32"/>
+  <object id="80" gid="3" x="128" y="128" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="Gegner">
+  <object id="79" gid="33" x="812" y="362.667" width="32" height="32">
+   <properties>
+    <property name="type" value="ratte"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Ende">
+  <object id="28" gid="5" x="481.4" y="97.7557" width="32" height="32">
+   <properties>
+    <property name="type" value="toilet"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Spieler">
+  <object id="29" gid="6" x="63.7204" y="512.128" width="32" height="32">
+   <properties>
+    <property name="type" value="player"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Object Layer 3">
+  <object id="39" gid="34" x="816.423" y="238.184" width="32" height="32"/>
+  <object id="42" gid="34" x="975.326" y="207.879" width="32" height="32"/>
+  <object id="45" gid="34" x="307.09" y="304.851" width="32" height="32"/>
+  <object id="46" gid="34" x="435.09" y="430.184" width="32" height="32"/>
+ </objectgroup>
+</map>

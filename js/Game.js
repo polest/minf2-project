@@ -17,11 +17,11 @@ MainGame.Game.prototype = {
 
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        this.bg1 = game.add.tileSprite(-200, -400, 1920, 1200, 'ebene1');
+        this.bg1 = game.add.tileSprite(0, -400, 2700, 1200, 'ebene1');
             
-        this.bg2 = game.add.tileSprite(-200, -450, 1920, 1200, 'ebene2');
+        this.bg2 = game.add.tileSprite(0, -450, 3840, 1200, 'ebene2');
         
-        this.bg3 = game.add.tileSprite(-200, -400, 1920, 1200, 'ebene3');
+        this.bg3 = game.add.tileSprite(0, -400, 3048, 1200, 'ebene3');
         
         game.stage.backgroundColor='#787878';
 
