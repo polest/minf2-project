@@ -21,7 +21,6 @@ MainGame.Preload.prototype = {
         * 4. Schrittweite des Sprites.
         */
         this.getBackground();
-        game.load.image('sky', 'assets/parallax/Black.png');
         game.load.image('bg1', 'assets/image/bg_11.png');
         game.load.image('bg2', 'assets/image/bg_22.png');
         
@@ -29,6 +28,7 @@ MainGame.Preload.prototype = {
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
         game.load.image('TimerBG', 'assets/TimerBG.png');
+        game.load.image('LevelBG', 'assets/TimerBG1.png');
         game.load.spritesheet('kroete', 'assets/sprites/kroeten.png', 50, 48)
         game.load.spritesheet('ratte', 'assets/sprites/ratte.png', 50, 48)
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);

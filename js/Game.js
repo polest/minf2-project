@@ -131,6 +131,17 @@ MainGame.Game.prototype = {
         
         timerText = game.add.text(5, 0, 'Timer: '+timeEnd, { font: '32px VT323', fill: '#ffffff' });
         timerTextSprite.addChild(timerText);
+
+        this.levelanzeigesprite=game.add.sprite(820,605, 'LevelBG');
+        this.levelanzeigesprite.fixedToCamera=true;
+
+          this.levelanzeigesprite.cameraOffset.x = 820;
+        this.levelanzeigesprite.cameraOffset.y = 605;
+
+        this.levelanzeige=  game.add.text(850,605,'Level: '+this.level, { font: '32px VT323', fill: '#ffffff' });
+        this.levelanzeige.fixedToCamera=true;
+                  this.levelanzeige.cameraOffset.x = 850;
+        this.levelanzeige.cameraOffset.y = 605;
         
         // X und Y Position wo der Text gefixed werden soll
         timerTextSprite.cameraOffset.x = 50;
@@ -237,6 +248,7 @@ MainGame.Game.prototype = {
         
         // Timer wird gestartet
         this.currentTimer.start();
+        this.levelanzeige.setText('Level: '+this.level);
         // Wenn R gedrückt wird, wird das Spiel neu gestartet
           if(resetKey.justPressed(/*optional duration*/)){
             this.restartGame();
