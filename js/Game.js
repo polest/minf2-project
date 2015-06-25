@@ -216,7 +216,8 @@ MainGame.Game.prototype = {
         this.createEnemies("ratte");
         this.createExits();
         introSoundStop();
-       bgSound1Play();
+         bgSound1Play();
+               this.soundWechsel();
        this.getTimerForLevel();
 
        gameStarted = true;
@@ -615,7 +616,6 @@ MainGame.Game.prototype = {
 
 
     restartGame: function() {
-        this.bgSound.stop();
         //this.startLevel("Level2.json")
         game.state.start("Boot",true,false,this.level);
     },     
@@ -627,7 +627,13 @@ MainGame.Game.prototype = {
         mark.body.width = 10;
         mark.body.height = 200;
         this.marks.push(mark);
-    },  
+    },
+    soundWechsel: function(){
+        if(this.level >= 5){
+            bgSound1Stop();
+        }
+
+    },
     /*
     *   Funktion die Gegener erstellt.
     *       x - X Position des Gegners
