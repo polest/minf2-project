@@ -165,10 +165,10 @@ MainGame.LevelMenu2.prototype = {
     },
 
     activateButton: function(buttons, currentButton) {
-         if(this.arrow.currentButton === 1){
-            console.log('Level 1');
-        }else if(this.arrow.currentButton === 2){
-            console.log('Level 2');
+         if(this.arrow.currentButton === 1 && localStorage.getItem("levelPlayed") >= 6){
+            game.state.start("Boot",true,false,6); 
+        }else if(this.arrow.currentButton === 2 && localStorage.getItem("levelPlayed") >= 7){
+            game.state.start("Boot",true,false,7); 
         }else if(this.arrow.currentButton === 3){
             console.log('Level 3')
         }else if(this.arrow.currentButton === 4){
