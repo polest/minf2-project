@@ -19,7 +19,12 @@ MainGame.Preload.prototype = {
         * 2. URL des Bildes
         * 3. HÃ¶he des Bildes
         * 4. Schrittweite des Sprites.
+
         */
+
+        this.preloadBar = this.add.sprite(this.game.centerX, this.game.world.centerY, 'bar');
+        this.preloadBar.anchor.setTo(0.5);
+        this.load.setPreloadSprite(this.preloadBar);
         this.getBackground();
         game.load.image('bg1', 'assets/image/bg_11.png');
         game.load.image('bg2', 'assets/image/bg_22.png');
