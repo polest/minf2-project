@@ -21,9 +21,11 @@ MainGame.Preload.prototype = {
         * 4. Schrittweite des Sprites.
 
         */
-
-        this.preloadBar = this.add.sprite(this.game.centerX, this.game.world.centerY, 'bar');
-        this.preloadBar.anchor.setTo(0.5);
+        this.shitboyloadj= this.add.sprite(430,190,'shitboyloadj');
+        this.shitboyloadj.scale.setTo(0.11,0.11);
+        this.preloadBar = this.add.sprite(430, 400, 'bar');
+        this.preloadBar.anchor.setTo(0.2);
+        this.preloadBar.scale.setTo(0.8,0.4);
         this.load.setPreloadSprite(this.preloadBar);
         this.getBackground();
         game.load.image('bg1', 'assets/image/bg_11.png');
@@ -49,7 +51,6 @@ MainGame.Preload.prototype = {
         game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
         game.load.audio('saeure', 'assets/sounds/saeure.wav');
-        game.load.audio('bgmusic', 'assets/sounds/drumandshit.wav');
 
         game.load.tilemap('map', 'assets/tilemaps/Level'+this.level+'.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('Spitze', 'assets/tiles/Spitze.png');

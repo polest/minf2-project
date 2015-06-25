@@ -2,9 +2,20 @@
 
 body {
 	background-color: black;
-	margin: 80px 0 0 200px;
+	overflow: hidden;
 }
+#gameDiv{
+	margin-top: 2%;
+	margin-left: 5%;
+	left: 20%;
+	top: 50%;
+}
+.wrapper {
 
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1140px;
+}
 #HowToPic{
 	position: fixed;
 	visibility: hidden;
@@ -32,4 +43,35 @@ body {
 #levelwechsel{
 	position: fixed;
 	visibility: hidden;
+}
+
+
+/* Preloader */
+
+#preloader {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color:#000000; /* change if the mask should have another color then white */
+    z-index:99; /* makes sure it stays on top */
+}
+#shitboyload{
+	width: 150px;
+	margin-top: 10%;
+	margin-left: 44%;
+}
+
+#status {
+    width:200px;
+    height:200px;
+    position:absolute;
+ /* centers the loading animation vertically one the screen */
+    background-image:url(../img/loader.gif); /* path to your loading animation */
+    background-repeat:no-repeat;
+    background-position:center;
+    margin-left: 42.5%;
+    margin-top: -4%;
+ 
 }

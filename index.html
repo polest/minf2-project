@@ -17,7 +17,14 @@
         <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
         <link href='assets/fonts/VT323-Regular.ttf' rel='stylesheet' type='text/css'>
     </head>
+    <!-- Preloader -->
+
+<div id="preloader">
+    <img id="shitboyload" src="img/Shitboyload.png">
+    <div id="status">&nbsp;</div>
+</div>
     <body>
+        <div class="wrapper">
         <div id="gameDiv">
             <img id="levelwechsel" src="assets/Levelwechsel/Levelwechsel.png">
             <img id="pause" src="assets/Pause/Pause.png">
@@ -30,10 +37,18 @@
              <audio id="introSound" src="assets/sounds/introSound1_1.mp3" preload="auto"></audio>
         </div>
 
-        
+        </div>
+<script type="text/javascript">
+    //<![CDATA[
+        $(window).load(function() { // makes sure the whole site is loaded
+            $('#status').fadeOut(); // will first fade out the loading animation
+            $('#preloader').delay(350).fadeOut('slow'); // will fade out the white DIV that covers the website.
+            $('body').delay(350).css({'overflow':'visible'});
+        })
+    //]]>
+</script>
 
-
-    </body>
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
      <script type="text/javascript" src="js/main.js"></script>
      <script type="text/javascript" src="js/script.js"></script>
 </html>
