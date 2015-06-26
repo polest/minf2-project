@@ -334,7 +334,7 @@ MainGame.Game.prototype = {
             this.player.animations.add('left_special', [7], 20, true);
             this.player.animations.add('right_special', [6], 20, true);
 
-        } else if(!this.cursor.down.isDown && isSpecial){
+        } else if(!this.cursor.down.isDown && isSpecial || this.cursor.down.isDown && !this.player.body.blocked.down && isSpecial){
             // Spezialfähigkeit
             isSpecial = false;
 
