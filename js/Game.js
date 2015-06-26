@@ -78,7 +78,7 @@ MainGame.Game.prototype = {
         //  We need to enable physics on the player
         this.game.physics.arcade.enable(this.layer);
 
-
+        isSpecial = false;
 
         // Setzt die Werte für das Gleiten und den WallJump
         // 
@@ -169,7 +169,11 @@ MainGame.Game.prototype = {
         //this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
         
-        // Jumpsound hinzugefÃ¼gt
+        // SpecialSound hinzugefÃ¼gt
+        this.specialSound = this.game.add.audio('fart',0.2);
+        this.specialSoundPlayed = false;
+        
+        // JumpSound hinzugefÃ¼gt
         this.jumpSound = this.game.add.audio('jump',0.2);
         this.jumpSoundPlayed = false;
 
@@ -269,6 +273,8 @@ MainGame.Game.prototype = {
 
     playerMovement: function() {
         
+        this.specialMovement();
+        
         // Spieler darf sich nur bewegen wenn shitboy nicht tot ist.
         if(this.player.alive == false){
         }else{
@@ -284,11 +290,18 @@ MainGame.Game.prototype = {
                 this.wallSlideRight();
                 this.wallJumpRight();
                 this.playRunSound();
-            }else{
-                this.standStill();
+                
+            } else{
+                if(!isSpecial){
+                    this.standStill();
+                } else {
+                   this.player.frame = 6; 
+                }
             }
             // Jump Animation, wenn notwendig
-            this.jump();
+            if(!isSpecial){
+                this.jump();
+            }
 
            
         }
@@ -307,6 +320,31 @@ MainGame.Game.prototype = {
     
     playRunSoundReset: function() {
        this.runSoundPlayed = false;    
+    },
+
+    specialMovement: function(){
+        if(this.cursor.down.isDown && this.player.body.blocked.down && !isSpecial){
+            // Spezialfähigkeit
+            isSpecial = true;
+
+            this.specialSound.play();
+
+            this.player.loadTexture("special");
+            this.player.body.setSize(48, 48);
+            this.player.animations.add('left_special', [7], 20, true);
+            this.player.animations.add('right_special', [6], 20, true);
+
+        } else if(!this.cursor.down.isDown && isSpecial){
+            // Spezialfähigkeit
+            isSpecial = false;
+
+            // Ändert den sprite
+            this.player.loadTexture("dude");
+            
+            // Passt die größe des sprites an
+            this.player.body.setSize(32, 48);
+
+        }
     },
 
     checkAndSetValues: function(){
@@ -508,10 +546,20 @@ MainGame.Game.prototype = {
         if(!(this.player.body.blocked.down)){  
            this.player.body.velocity.x = -250;
         } else {
-            this.player.body.velocity.x = -300;
+            if(isSpecial){
+                this.player.body.velocity.x = -450;
+            } else {
+                this.player.body.velocity.x = -300;
+            }
         }
         
-        this.player.animations.play('left');
+        if(isSpecial){
+            this.player.animations.play('left_special');
+        } else {
+            this.player.animations.play('left');
+        }
+        
+        
     },
 
     runRight: function() {
@@ -520,11 +568,18 @@ MainGame.Game.prototype = {
         if(!(this.player.body.blocked.down)){           
             this.player.body.velocity.x = 250;
         } else {
-            this.player.body.velocity.x = 300;
+            if(isSpecial){
+                this.player.body.velocity.x = 450;
+            } else {
+                this.player.body.velocity.x = 300;
+            }
         }
         
-        this.player.animations.play('right');
-        
+        if(isSpecial){
+            this.player.animations.play('right_special');
+        } else {
+            this.player.animations.play('right');
+        }
     },
 
     standStill: function() {
@@ -772,12 +827,10 @@ MainGame.Game.prototype = {
     enemyMovement: function(enemy,layer) {
         if(enemy.body.velocity.x == -0){
             if(enemy.enemyDirection == "right"){
-                console.log("Wende links");
                 enemy.body.velocity.x = -300;
                 enemy.animations.play('left');
                 enemy.enemyDirection = "left";   
             }else{
-                console.log("Wende rechts");
                 enemy.body.velocity.x = 300;
                 enemy.animations.play('right');
                 enemy.enemyDirection = "right";  

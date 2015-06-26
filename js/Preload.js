@@ -34,6 +34,7 @@ MainGame.Preload.prototype = {
  
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
+        game.load.spritesheet('special', 'assets/sprites/special.png', 48, 48);
         game.load.image('TimerBG', 'assets/TimerBG.png');
         game.load.image('LevelBG', 'assets/TimerBG1.png');
         game.load.spritesheet('kroete', 'assets/sprites/kroeten.png', 50, 48)
@@ -45,6 +46,7 @@ MainGame.Preload.prototype = {
 
 
          // Sounds werden geladen
+        game.load.audio('fart', 'assets/sounds/fart.wav'); 
         game.load.audio('jump', 'assets/sounds/jump2.wav'); 
         game.load.audio('run', 'assets/sounds/run3.wav'); 
         game.load.audio('death', 'assets/sounds/death.wav'); 
