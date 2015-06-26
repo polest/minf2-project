@@ -220,8 +220,7 @@ MainGame.Game.prototype = {
         this.createEnemies("ratte");
         this.createExits();
         introSoundStop();
-         bgSound1Play();
-        // this.soundWechsel();
+        this.soundWechsel();
        this.getTimerForLevel();
 
        gameStarted = true;
@@ -686,6 +685,7 @@ MainGame.Game.prototype = {
     soundWechsel: function(){
         if(this.level >= 5){
             bgSound1Stop();
+                    bgSound2Play();
         }
 
     },
@@ -803,6 +803,7 @@ MainGame.Game.prototype = {
         levelFinished = true;
         levelwechsel();
         bgSound1Stop();
+        bgSound2Stop();
         winSound();
         level = this.level+1;
         game.state.start("Boot",true,false,level);

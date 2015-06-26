@@ -83,6 +83,13 @@
        document.getElementById('BgSound1').play();
     }
 
+
+    function bgSound2Stop(){
+       document.getElementById('BgSound2').pause();
+    }
+    function bgSound2Play(){
+       document.getElementById('BgSound2').play();
+    }
      function introSoundStop(){
        document.getElementById('introSound').pause();
     }
