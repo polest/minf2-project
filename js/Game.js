@@ -294,7 +294,7 @@ MainGame.Game.prototype = {
                 if(!isSpecial){
                     this.standStill();
                 } else {
-                   this.player.frame = 6; 
+                   //this.player.frame = 6;                    
                 }
             }
             // Jump Animation, wenn notwendig
@@ -332,10 +332,19 @@ MainGame.Game.prototype = {
             this.player.body.setSize(48, 48);
             this.player.animations.add('left_special', [7], 20, true);
             this.player.animations.add('right_special', [6], 20, true);
-
+            this.player.animations.add('special_animation', [0,1,2,3,4,5,6], 100, false);
+            
+            this.player.animations.play('special_animation');
+           
         } else if(!this.cursor.down.isDown && isSpecial || this.cursor.down.isDown && !this.player.body.blocked.down && isSpecial){
             // Spezialfähigkeit
             isSpecial = false;
+
+            /* Animation rückwärts
+            this.player.animations.add('special_animation', [6,5,4,3,2,1,0], 100, false);
+            
+            this.player.animations.play('special_animation');
+            */
 
             // Ändert den sprite
             this.player.loadTexture("dude");
