@@ -157,7 +157,11 @@ MainGame.Game.prototype = {
         //this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
         
-        // Jumpsound hinzugefÃ¼gt
+        // SpecialSound hinzugefÃ¼gt
+        this.specialSound = this.game.add.audio('fart',0.2);
+        this.specialSoundPlayed = false;
+        
+        // JumpSound hinzugefÃ¼gt
         this.jumpSound = this.game.add.audio('jump',0.2);
         this.jumpSoundPlayed = false;
 
@@ -255,6 +259,8 @@ MainGame.Game.prototype = {
 
     playerMovement: function() {
         
+        this.specialMovement();
+        
         // Spieler darf sich nur bewegen wenn shitboy nicht tot ist.
         if(this.player.alive == false){
         }else{
@@ -271,37 +277,7 @@ MainGame.Game.prototype = {
                 this.wallJumpRight();
                 this.playRunSound();
                 
-            } else if(this.cursor.down.isDown && this.player.body.blocked.down && !isSpecial){
-                // Spezialfähigkeit
-                isSpecial = true;
-                
-                // Zerstört das aktuelle Sprite
-                this.player.destroy();
-                
-                // Erstellt das neue Sprite
-                this.player = this.createSpecialPlayer(this.player.x, this.player.y);
-
-                // Kamera soll neuem Sprite folgen
-                //# Ohne diese Zeile tritt der Fehler nicht auf aber dann folgt die Kamera dem Sprite nicht mehr #
-                game.camera.follow(this.player);
-     
-            } else if(!this.cursor.down.isDown && isSpecial){
-                // Spezialfähigkeit
-                isSpecial = false;
-                
-                // Zerstört das aktuelle Sprite
-                this.player.destroy();
-                
-                // Erstellt das neue Sprite
-                this.player = this.createPlayer(this.player.x, this.player.y);
-  
-                // Kamera soll neuem Sprite folgen
-                //# Ohne diese Zeile tritt der Fehler nicht auf aber dann folgt die Kamera dem Sprite nicht mehr #
-                game.camera.follow(this.player);
-                
-                
-                
-            }else{
+            } else{
                 if(!isSpecial){
                     this.standStill();
                 } else {
@@ -330,6 +306,31 @@ MainGame.Game.prototype = {
     
     playRunSoundReset: function() {
        this.runSoundPlayed = false;    
+    },
+
+    specialMovement: function(){
+        if(this.cursor.down.isDown && this.player.body.blocked.down && !isSpecial){
+            // Spezialfähigkeit
+            isSpecial = true;
+
+            this.specialSound.play();
+
+            this.player.loadTexture("special");
+            this.player.body.setSize(48, 48);
+            this.player.animations.add('left_special', [7], 20, true);
+            this.player.animations.add('right_special', [6], 20, true);
+
+        } else if(!this.cursor.down.isDown && isSpecial){
+            // Spezialfähigkeit
+            isSpecial = false;
+
+            // Ändert den sprite
+            this.player.loadTexture("dude");
+            
+            // Passt die größe des sprites an
+            this.player.body.setSize(32, 48);
+
+        }
     },
 
     checkAndSetValues: function(){
@@ -531,10 +532,20 @@ MainGame.Game.prototype = {
         if(!(this.player.body.blocked.down)){  
            this.player.body.velocity.x = -250;
         } else {
-            this.player.body.velocity.x = -300;
+            if(isSpecial){
+                this.player.body.velocity.x = -450;
+            } else {
+                this.player.body.velocity.x = -300;
+            }
         }
         
-        this.player.animations.play('left');
+        if(isSpecial){
+            this.player.animations.play('left_special');
+        } else {
+            this.player.animations.play('left');
+        }
+        
+        
     },
 
     runRight: function() {
@@ -543,11 +554,18 @@ MainGame.Game.prototype = {
         if(!(this.player.body.blocked.down)){           
             this.player.body.velocity.x = 250;
         } else {
-            this.player.body.velocity.x = 300;
+            if(isSpecial){
+                this.player.body.velocity.x = 450;
+            } else {
+                this.player.body.velocity.x = 300;
+            }
         }
         
-        this.player.animations.play('right');
-        
+        if(isSpecial){
+            this.player.animations.play('right_special');
+        } else {
+            this.player.animations.play('right');
+        }
     },
 
     standStill: function() {
@@ -708,30 +726,13 @@ MainGame.Game.prototype = {
         player.animations.add('reborn', [14,13,12,11,10], 20, true);
         player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
         player.animations.add('deathspueli', [16,17,18,18,14], 20, true);
+        
+        //player.animations.add('left_special', [6], 20, true);
+        //player.animations.add('right_special', [6], 20, true);
+        
         return player;
     },
     
-    createSpecialPlayer: function(x,y){
-        var player;
-        // The player and its settings
-        player = game.add.sprite(x, y, 'special');
-        game.physics.arcade.enable(player);
-        player.scale.setTo(0.8, 0.8);
-          
-        //  Player physics properties. Give the little guy a slight bounce.
-        player.body.bounce.y = 0;
-        player.body.gravity.y = 300;
-        player.body.collideWorldBounds = true;
-
-        //  Our two animations, walking left and right.
-        player.animations.add('left', [6], 20, true);
-        player.animations.add('right', [6], 20, true);
-        //player.animations.add('reborn', [14,13,12,11,10], 20, true);
-        //player.animations.add('death', [10, 11, 12, 13, 14], 20, true);
-        //player.animations.add('deathspueli', [16,17,18,18,14], 20, true);
-        return player;
-    },
-
     createExits: function(){
         var result = this.findObjectsByType('toilet',this.map,'Ende');
         var exit;
@@ -810,12 +811,10 @@ MainGame.Game.prototype = {
     enemyMovement: function(enemy,layer) {
         if(enemy.body.velocity.x == -0){
             if(enemy.enemyDirection == "right"){
-                console.log("Wende links");
                 enemy.body.velocity.x = -300;
                 enemy.animations.play('left');
                 enemy.enemyDirection = "left";   
             }else{
-                console.log("Wende rechts");
                 enemy.body.velocity.x = 300;
                 enemy.animations.play('right');
                 enemy.enemyDirection = "right";  

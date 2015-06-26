@@ -39,6 +39,7 @@ MainGame.Preload.prototype = {
 
 
          // Sounds werden geladen
+        game.load.audio('fart', 'assets/sounds/fart.wav'); 
         game.load.audio('jump', 'assets/sounds/jump2.wav'); 
         game.load.audio('run', 'assets/sounds/run3.wav'); 
         game.load.audio('death', 'assets/sounds/death.wav'); 
