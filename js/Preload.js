@@ -40,7 +40,7 @@ MainGame.Preload.prototype = {
         game.load.spritesheet('kroete', 'assets/sprites/kroeten.png', 50, 48)
         game.load.spritesheet('ratte', 'assets/sprites/ratte.png', 50, 48)
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
-        //game.load.spritesheet('boss', 'assets/Entgegner.png', 32,48);
+        game.load.spritesheet('boss', 'assets/sprites/Endgegner.png', 32,48);
 
         
 
@@ -58,6 +58,7 @@ MainGame.Preload.prototype = {
         game.load.image('Spitze', 'assets/tiles/Spitze.png');
         game.load.image('toilet', 'assets/tiles/toilet.png');
         game.load.image('blut', 'assets/image/blut.png');
+        game.load.image('pixel', 'assets/pixel.png');
         game.load.image('LevelSprites', 'assets/tiles/LevelSprites.png');
         game.load.spritesheet('welle', 'assets/sprites/spueli1.png', 32, 32);
         game.load.spritesheet('saege', 'assets/sprites/saege.png', 32, 32);

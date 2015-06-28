@@ -34,7 +34,9 @@ MainGame.Game.prototype = {
 
         this.layer= map.createLayer('Tile Layer 1');
         this.layer.enableBody = true;
-        this.layer.resizeWorld();
+
+
+
                 
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -47,16 +49,22 @@ MainGame.Game.prototype = {
         this.saegen= game.add.group();
         this.saegen.enableBody=true;
 
+        this.erde=game.add.group();
+        this.erde.enableBody=true;
+
 
         map.createFromObjects('Object Layer 2', 3, 'welle', 0, true, false, this.wellen);
         this.wellen.callAll('animations.add', 'animations', 'spin', [0, 1, 1, 0, 2, 2], 10, true);
         this.wellen.callAll('animations.play', 'animations', 'spin');
 
         map.createFromObjects('Object Layer 1', 1, 'Spitze', 0, true, false, this.spitzen);
+        
 
          map.createFromObjects('Object Layer 3', 34, 'saege', 0, true, false, this.saegen);
          this.saegen.callAll('animations.add', 'animations', 'spin', [0, 1, 2,3,4 ], 10, true);
         this.saegen.callAll('animations.play', 'animations', 'spin');
+
+        map.createFromObjects('Object Layer 4', 33, 'pixel', 0, true, false, this.erde);
 
         this.spitzen.forEach(function(element){
             element.body.moves=false;
@@ -205,8 +213,8 @@ MainGame.Game.prototype = {
         this.marks = [];
         //linker marker
 
-        this.createMarks(260,500);
-        this.createMarks(90,500);
+        // this.createMarks(260,500);
+        // this.createMarks(90,500);
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;
@@ -218,6 +226,7 @@ MainGame.Game.prototype = {
         
         this.createEnemies("kroete");
         this.createEnemies("ratte");
+        this.createEnemies("boss");
         this.createExits();
         introSoundStop();
         bgSound1Play();
@@ -231,12 +240,14 @@ MainGame.Game.prototype = {
     update: function() {
          //  Collide the player and the stars with the platforms
         game.physics.arcade.collide(this.player, this.layer);
+        game.physics.arcade.collide(this.player, this.erde);
         game.physics.arcade.collide(this.player, this.spitzen);
         game.physics.arcade.collide(this.wellen, this.layer);
         game.physics.arcade.collide(this.stars, this.layer);
         game.physics.arcade.collide(this.stars, this.wellen);
         game.physics.arcade.collide(this.stars, this.spitzen);
         game.physics.arcade.collide(this.enemiesGroup, this.layer, this.enemyMovement);
+
         /*
             game.physics.arcade.collide(this.spitzen, this.emitter);
             game.physics.arcade.collide(this.layer, this.emitter);
@@ -248,7 +259,8 @@ MainGame.Game.prototype = {
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.saegen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
-        game.physics.arcade.overlap(this.player, this.exits, this.startNextLevel, null, this);     
+        game.physics.arcade.overlap(this.player, this.exits, this.startNextLevel, null, this);    
+        game.physics.arcade.overlap(this.enemiesGroup, this.erde, this.testbosskill, null, this);     
 
         
         // Timer wird gestartet
@@ -833,6 +845,10 @@ MainGame.Game.prototype = {
             timeEnd = this.timer;
         });
 
+    },
+
+    testbosskill: function(){
+        this.enemiesGroup.kill();
     },
 
     enemyMovement: function(enemy,layer) {
