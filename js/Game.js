@@ -220,6 +220,7 @@ MainGame.Game.prototype = {
         this.createEnemies("ratte");
         this.createExits();
         introSoundStop();
+        bgSound1Play();
         this.soundWechsel();
        this.getTimerForLevel();
 
