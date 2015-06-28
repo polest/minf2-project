@@ -50,7 +50,6 @@ MainGame.Preload.prototype = {
         game.load.audio('jump', 'assets/sounds/jump2.wav'); 
         game.load.audio('run', 'assets/sounds/run3.wav'); 
         game.load.audio('death', 'assets/sounds/death.wav'); 
-        game.load.audio('collect', 'assets/sounds/collect.wav');
         game.load.audio('win', 'assets/sounds/win.wav');
         game.load.audio('saeure', 'assets/sounds/saeure.wav');
 

@@ -185,9 +185,6 @@ MainGame.Game.prototype = {
         this.deathSound=this.game.add.audio('death',0.3);
         this.deathSoundPlayed=false;
 
-        // collectSound hinzugefügt
-        this.collectSound=this.game.add.audio('collect',0.1);
-        this.collectSoundPlayed=false;
 
         this.saeureSound=this.game.add.audio('saeure', 0.4);
         this.saeureSoundPlayed=false;
