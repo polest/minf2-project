@@ -202,8 +202,6 @@ MainGame.Game.prototype = {
         this.marks = [];
         //linker marker
 
-        this.createMarks(260,500);
-        this.createMarks(90,500);
 
         this.enemiesGroup = game.add.group();
         this.enemiesGroup.enableBody = true;

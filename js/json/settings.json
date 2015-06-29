@@ -24,7 +24,7 @@
       },
       {  
          "nummer":"4",
-         "timer":"200",
+         "timer":"150",
          "bg1":"skylarge",
          "bg2":"bergelarge",
          "bg3":"baeumelarge"
@@ -38,7 +38,7 @@
       },
        {  
          "nummer":"6",
-         "timer":"100",
+         "timer":"70",
          "bg1":"skylarge",
          "bg2":"bergelarge",
          "bg3":"baeumelarge"
