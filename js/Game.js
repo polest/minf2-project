@@ -290,7 +290,7 @@ MainGame.Game.prototype = {
                 if(!isSpecial){
                     this.standStill();
                 } else {
-                   //this.player.frame = 6;                    
+                   this.player.frame = 0;                    
                 }
             }
             // Jump Animation, wenn notwendig
@@ -318,19 +318,29 @@ MainGame.Game.prototype = {
     },
 
     specialMovement: function(){
+        
+        
+        
         if(this.cursor.down.isDown && this.player.body.blocked.down && !isSpecial){
             // Spezialfähigkeit
             isSpecial = true;
 
             this.specialSound.play();
 
-            this.player.loadTexture("special");
-            this.player.body.setSize(48, 48);
-            this.player.animations.add('left_special', [7], 20, true);
-            this.player.animations.add('right_special', [6], 20, true);
-            this.player.animations.add('special_animation', [0,1,2,3,4,5,6], 100, false);
+            //this.player.body.move = false;
+            this.player.loadTexture("special_move");
+            this.player.anchor.setTo(0.0, 0.0);
             
-            this.player.animations.play('special_animation');
+            this.player.body.setSize(32, 30);
+
+            this.player.body.reset(this.player.x, this.player.y);
+            
+            
+            
+            this.player.animations.add('left_special', [2,3], 10, true);
+            this.player.animations.add('right_special', [0,1], 10, true);
+            //this.player.body.move = true;
+            
            
         } else if(!this.cursor.down.isDown && isSpecial || this.cursor.down.isDown && !this.player.body.blocked.down && isSpecial){
             // Spezialfähigkeit
@@ -347,6 +357,10 @@ MainGame.Game.prototype = {
             
             // Passt die größe des sprites an
             this.player.body.setSize(32, 48);
+
+            //this.player.body.reset(this.player.x, this.player.y+2);
+            
+            //this.player.anchor.setTo(0.0, 0.0);
 
         }
     },

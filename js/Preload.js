@@ -34,7 +34,8 @@ MainGame.Preload.prototype = {
  
         game.load.image('star', 'assets/pixel.png');
         game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
-        game.load.spritesheet('special', 'assets/sprites/special.png', 48, 48);
+        game.load.spritesheet('special', 'assets/sprites/special.png', 32, 48);
+        game.load.spritesheet('special_move', 'assets/sprites/special_move.png', 32, 30);
         game.load.image('TimerBG', 'assets/TimerBG.png');
         game.load.image('LevelBG', 'assets/TimerBG1.png');
         game.load.spritesheet('kroete', 'assets/sprites/kroeten.png', 50, 48)
