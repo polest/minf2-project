@@ -325,7 +325,7 @@ MainGame.Game.prototype = {
             // Spezialfähigkeit
             isSpecial = true;
 
-            this.specialSound.play();
+            //this.specialSound.play();
 
             //this.player.body.move = false;
             this.player.loadTexture("special_move");
