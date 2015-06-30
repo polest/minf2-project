@@ -329,17 +329,23 @@ MainGame.Game.prototype = {
 
             //this.player.body.move = false;
             this.player.loadTexture("special_move");
-            this.player.anchor.setTo(0.0, 0.0);
+            //this.player.anchor.setTo(0.0, 0.0);
             
-            this.player.body.setSize(32, 30);
+            //this.player.body.setSize(32, 30);
 
-            this.player.body.reset(this.player.x, this.player.y);
+            this.player.body.reset(this.player.x, this.player.y-14);
             
             
             
             this.player.animations.add('left_special', [2,3], 10, true);
             this.player.animations.add('right_special', [0,1], 10, true);
             //this.player.body.move = true;
+            
+            //this.player.animations.play('right_special');
+            //this.player.events.onAnimationComplete.add(function() {
+            //    console.log('animation complete');
+
+            //}, this);
             
            
         } else if(!this.cursor.down.isDown && isSpecial || this.cursor.down.isDown && !this.player.body.blocked.down && isSpecial){
@@ -356,8 +362,10 @@ MainGame.Game.prototype = {
             this.player.loadTexture("dude");
             
             // Passt die größe des sprites an
-            this.player.body.setSize(32, 48);
-
+            //this.player.body.setSize(32, 48);
+            
+            this.player.body.reset(this.player.x, this.player.y);
+            
             //this.player.body.reset(this.player.x, this.player.y+2);
             
             //this.player.anchor.setTo(0.0, 0.0);
