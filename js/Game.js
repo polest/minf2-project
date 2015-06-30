@@ -321,34 +321,30 @@ MainGame.Game.prototype = {
         
         
         
-        if(this.cursor.down.isDown && this.player.body.blocked.down && !isSpecial){
+        if(this.cursor.down.isDown && !isSpecial){
             // Spezialfähigkeit
-            isSpecial = true;
+            
 
             //this.specialSound.play();
+            
 
-            //this.player.body.move = false;
             this.player.loadTexture("special_move");
-            //this.player.anchor.setTo(0.0, 0.0);
+            this.player.body.setSize(32, 30);
+            this.player.body.x = this.player.body.x;
+            this.player.body.y = this.player.body.y+14;
             
-            //this.player.body.setSize(32, 30);
+            this.player.animations.add('left_special', [2,3], 5, true);
+            this.player.animations.add('right_special', [0,1], 5, true);
 
-            this.player.body.reset(this.player.x, this.player.y-14);
-            
-            
-            
-            this.player.animations.add('left_special', [2,3], 10, true);
-            this.player.animations.add('right_special', [0,1], 10, true);
-            //this.player.body.move = true;
+            //console.log("unten");
             
             //this.player.animations.play('right_special');
             //this.player.events.onAnimationComplete.add(function() {
             //    console.log('animation complete');
-
             //}, this);
-            
+            isSpecial = true;
            
-        } else if(!this.cursor.down.isDown && isSpecial || this.cursor.down.isDown && !this.player.body.blocked.down && isSpecial){
+        } else if(!this.cursor.down.isDown && isSpecial){
             // Spezialfähigkeit
             isSpecial = false;
 
@@ -357,18 +353,14 @@ MainGame.Game.prototype = {
             
             this.player.animations.play('special_animation');
             */
-
+           //console.log("oben");
             // Ändert den sprite
             this.player.loadTexture("dude");
             
             // Passt die größe des sprites an
-            //this.player.body.setSize(32, 48);
-            
-            this.player.body.reset(this.player.x, this.player.y);
-            
-            //this.player.body.reset(this.player.x, this.player.y+2);
-            
-            //this.player.anchor.setTo(0.0, 0.0);
+            this.player.body.setSize(32, 48);
+            this.player.body.x = this.player.body.x;
+            this.player.body.y = this.player.body.y-14;
 
         }
     },
@@ -760,7 +752,7 @@ MainGame.Game.prototype = {
         player = game.add.sprite(x, y, 'dude');
         game.physics.arcade.enable(player);
         player.scale.setTo(0.8, 0.8);
-          
+ 
         //  Player physics properties. Give the little guy a slight bounce.
         player.body.bounce.y = 0;
         player.body.gravity.y = 300;
