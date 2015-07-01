@@ -319,10 +319,6 @@ MainGame.Game.prototype = {
 
     specialMovement: function(){
         
-        if(!this.player.body.blocked.down && !this.player.body.blocked.top && !this.player.body.blocked.right && !this.player.body.blocked.left){
-            console.log("air");
-        }
-        
         if(this.cursor.down.isDown && !isSpecial && !(!this.player.body.blocked.down && !this.player.body.blocked.top && !this.player.body.blocked.right && !this.player.body.blocked.left)){
             // Spezialfähigkeit
             isSpecial = true;
