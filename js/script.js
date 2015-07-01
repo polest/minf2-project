@@ -27,7 +27,8 @@
         }else if(event.keyCode == 13 && levelFinished){
             document.getElementById('levelwechsel').style.visibility="hidden";
             game.paused = false;            
-        }   
+        }  
+        
     }
 
     function einblenden() { 
@@ -45,6 +46,7 @@
     }
 
     function video(){
+        
         document.getElementById('black').style.visibility = 'visible';
         vid.style.visibility ="visible"
         introSoundStop();
