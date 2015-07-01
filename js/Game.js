@@ -77,11 +77,11 @@ MainGame.Game.prototype = {
 
         //  We need to enable physics on the player
         this.game.physics.arcade.enable(this.layer);
-
+        
+        // Prüft auf Spezialfähigkeit
         isSpecial = false;
 
         // Setzt die Werte für das Gleiten und den WallJump
-        // 
         // Das ist zum blocken der Linken und Rechten Taste während man an der Wand ist damit der Spieler nicht nach einem Pixel wieder an der Wand landet
         blockLeftKey = false;
         blockRightKey = false;
@@ -140,7 +140,7 @@ MainGame.Game.prototype = {
 
         this.levelanzeige=  game.add.text(850,605,'Level: '+this.level, { font: '32px VT323', fill: '#ffffff' });
         this.levelanzeige.fixedToCamera=true;
-                  this.levelanzeige.cameraOffset.x = 850;
+        this.levelanzeige.cameraOffset.x = 850;
         this.levelanzeige.cameraOffset.y = 605;
         
         // X und Y Position wo der Text gefixed werden soll
@@ -322,8 +322,7 @@ MainGame.Game.prototype = {
         if(this.cursor.down.isDown && !isSpecial){
             // Spezialfähigkeit
             isSpecial = true;
-            
-            //isTopFree = true;
+
             this.specialSound.play();
             
             this.player.loadTexture("special_move");
