@@ -319,50 +319,57 @@ MainGame.Game.prototype = {
 
     specialMovement: function(){
         
-        
-        
         if(this.cursor.down.isDown && !isSpecial){
             // Spezialfähigkeit
+            isSpecial = true;
             
-
-            //this.specialSound.play();
+            //isTopFree = true;
+            this.specialSound.play();
             
-
             this.player.loadTexture("special_move");
             this.player.body.setSize(32, 30);
             this.player.body.x = this.player.body.x;
             this.player.body.y = this.player.body.y+14;
-            
+                        
             this.player.animations.add('left_special', [2,3], 5, true);
             this.player.animations.add('right_special', [0,1], 5, true);
-
-            //console.log("unten");
             
-            //this.player.animations.play('right_special');
-            //this.player.events.onAnimationComplete.add(function() {
-            //    console.log('animation complete');
-            //}, this);
-            isSpecial = true;
+            /*
+            this.player.loadTexture('special');
+            this.player.body.setSize(32, 48);
+            this.player.animations.add('special_animation', [0,1,2,3,4,5], 20, false);
+            
+            this.player.animations.play('special_animation');
+            
+            this.player.events.onAnimationComplete.add(function() {
+                console.log("done");
+                
+                this.player.loadTexture("special_move");
+                this.player.body.setSize(32, 30);
+                this.player.body.x = this.player.body.x;
+                this.player.body.y = this.player.body.y+14;
+
+                this.player.animations.add('left_special', [2,3], 5, true);
+                this.player.animations.add('right_special', [0,1], 5, true);
+                
+            }, this);
+            */
+            
            
         } else if(!this.cursor.down.isDown && isSpecial){
+            
             // Spezialfähigkeit
             isSpecial = false;
 
-            /* Animation rückwärts
-            this.player.animations.add('special_animation', [6,5,4,3,2,1,0], 100, false);
-            
-            this.player.animations.play('special_animation');
-            */
-           //console.log("oben");
             // Ändert den sprite
             this.player.loadTexture("dude");
-            
+
             // Passt die größe des sprites an
             this.player.body.setSize(32, 48);
             this.player.body.x = this.player.body.x;
             this.player.body.y = this.player.body.y-14;
-
         }
+        
     },
 
     checkAndSetValues: function(){
@@ -447,7 +454,7 @@ MainGame.Game.prototype = {
         if(this.player.body.blocked.left){
           
             // Wenn der Spieler nicht am boden ist und sich nach unten bewegt dann soll er gleiten und wird für den WallJump frei gegeben
-            if(!(this.player.body.blocked.down) && playerYMoves == "down"){
+            if(!(this.player.body.blocked.down) && playerYMoves == "down" && !isSpecial){
                 slidesOnWall = true;
                 this.player.body.velocity.y = this.player.body.velocity.y*0.8;
             } else {
@@ -498,7 +505,7 @@ MainGame.Game.prototype = {
         if(this.player.body.blocked.right){
             
             // Wenn der Spieler nicht am boden ist und sich nach unten bewegt dann soll er gleiten und wird für den WallJump frei gegeben
-            if(!(this.player.body.blocked.down) && playerYMoves == "down"){
+            if(!(this.player.body.blocked.down) && playerYMoves == "down" && !isSpecial){
                 slidesOnWall = true;
                 this.player.body.velocity.y = this.player.body.velocity.y*0.8;
             } else {
