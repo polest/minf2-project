@@ -709,7 +709,7 @@ MainGame.Game.prototype = {
         this.marks.push(mark);
     },
     soundWechsel: function(){
-        if(this.level >= 10){
+        if(this.level >= 5){
             bgSound1Stop();
                     bgSound2Play();
         }
