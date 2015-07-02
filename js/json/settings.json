@@ -50,8 +50,15 @@
          "bg2":"bergelarge",
          "bg3":"baeumelarge"
       },
-           {  
+         {  
          "nummer":"8",
+         "timer":"400",
+         "bg1":"skylarge",
+         "bg2":"bergelarge",
+         "bg3":"baeumelarge"
+      },
+           {  
+         "nummer":"9",
          "timer":"500",
          "bg1":"skylarge",
          "bg2":"bergelarge",
