@@ -199,7 +199,7 @@ MainGame.LevelMenu2.prototype = {
     },
 
     addButton: function(button, func) {
-         if(parseInt(localStorage.getItem("levelPlayed"))+1 >= button || button == 11 || button == 12){
+         if(parseInt(localStorage.getItem("levelPlayed"))+1 > button || button == 11 || button == 12){
             return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 6],'menu_button' + button, func);
         }else{
            return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 6],'menu_button' + button +'_inactive', func); 

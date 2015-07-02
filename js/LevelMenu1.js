@@ -200,7 +200,7 @@ MainGame.LevelMenu1.prototype = {
     },
 
     addButton: function(button, func) {
-        if(parseInt(localStorage.getItem("levelPlayed"))+1 >= button || button == 1 || button == 7){
+        if(parseInt(localStorage.getItem("levelPlayed"))+1 > button || button == 1 || button == 7){
             return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 1],'menu_button' + button, func);
         }else{
            return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 1],'menu_button' + button +'_inactive', func); 
