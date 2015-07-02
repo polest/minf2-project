@@ -16,6 +16,12 @@ MainGame.LevelMenu1.prototype = {
             game.load.image('menu_button4', 'assets/LevelMenu/Level4.png');
             game.load.image('menu_button5', 'assets/LevelMenu/Level5.png');
             game.load.image('menu_button6', 'assets/LevelMenu/Next.png');
+            game.load.image('menu_button1_inactive', 'assets/LevelMenu/inactive/Level1.png');
+            game.load.image('menu_button2_inactive', 'assets/LevelMenu/inactive/Level2.png');
+            game.load.image('menu_button3_inactive', 'assets/LevelMenu/inactive/Level3.png');
+            game.load.image('menu_button4_inactive', 'assets/LevelMenu/inactive/Level4.png');
+            game.load.image('menu_button5_inactive', 'assets/LevelMenu/inactive/Level5.png');
+            game.load.image('menu_button6_inactive', 'assets/LevelMenu/inactive/Next.png');
             game.load.image('menu_button7', 'assets/LevelMenu/Hauptmenu.png');
             game.load.image('HowTo', 'assets/HowToPic.png');
     },
@@ -194,8 +200,11 @@ MainGame.LevelMenu1.prototype = {
     },
 
     addButton: function(button, func) {
-        console.log(this.pos[button-1]);
-        return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 1],'menu_button' + button, func);
+        if(parseInt(localStorage.getItem("levelPlayed"))+1 >= button || button == 1 || button == 7){
+            return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 1],'menu_button' + button, func);
+        }else{
+           return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 1],'menu_button' + button +'_inactive', func); 
+        }
     },
 
 }

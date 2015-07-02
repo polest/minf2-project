@@ -10,13 +10,18 @@ MainGame.LevelMenu2.prototype = {
     preload: function() {
             game.load.image('menu_title', 'assets/Menu.png');
             game.load.image('menu_arrow', 'assets/Menu/Arrow.png');
-            game.load.image('menu_button1', 'assets/LevelMenu/Level6.png');
-            game.load.image('menu_button2', 'assets/LevelMenu/Level7.png');
-            game.load.image('menu_button3', 'assets/LevelMenu/Level8.png');
-            game.load.image('menu_button4', 'assets/LevelMenu/Level9.png');
-            game.load.image('menu_button5', 'assets/LevelMenu/Level10.png');
-            game.load.image('menu_button6', 'assets/LevelMenu/Back.png');
-            game.load.image('menu_button7', 'assets/Pause/Hauptmenu.png');
+            game.load.image('menu_button6', 'assets/LevelMenu/Level6.png');
+            game.load.image('menu_button7', 'assets/LevelMenu/Level7.png');
+            game.load.image('menu_button8', 'assets/LevelMenu/Level8.png');
+            game.load.image('menu_button9', 'assets/LevelMenu/Level9.png');
+            game.load.image('menu_button10', 'assets/LevelMenu/Level10.png');
+            game.load.image('menu_button6_inactive', 'assets/LevelMenu/inactive/Level6.png');
+            game.load.image('menu_button7_inactive', 'assets/LevelMenu/inactive/Level7.png');
+            game.load.image('menu_button8_inactive', 'assets/LevelMenu/inactive/Level8.png');
+            game.load.image('menu_button9_inactive', 'assets/LevelMenu/inactive/Level9.png');
+            game.load.image('menu_button10_inactive', 'assets/LevelMenu/inactive/Level10.png');
+            game.load.image('menu_button11', 'assets/LevelMenu/Back.png');
+            game.load.image('menu_button12', 'assets/LevelMenu/Hauptmenu.png');
             game.load.image('HowTo', 'assets/HowToPic.png');
     },
 
@@ -50,25 +55,25 @@ MainGame.LevelMenu2.prototype = {
             //We track which callback each button has
             callbacks = ['playState', 'playState', 'playState', 'playState'],
             //We now create our buttons using a constructor function, YAY!
-            this.button1 = this.addButton(1, this.playState);
+            this.button1 = this.addButton(6, this.playState);
             this.button1.anchor.setTo(0.5, 0.5);
 
-            this.button2 = this.addButton(2, this.playState);
+            this.button2 = this.addButton(7, this.playState);
             this.button2.anchor.setTo(0.5, 0.5);
 
-            this.button3 = this.addButton(3, this.playState);
+            this.button3 = this.addButton(8, this.playState);
             this.button3.anchor.setTo(0.5, 0.5);
 
-            this.button4 = this.addButton(4, this.playState);
+            this.button4 = this.addButton(9, this.playState);
             this.button4.anchor.setTo(0.5, 0.5);
 
-            this.button5 = this.addButton(5, this.playState);
+            this.button5 = this.addButton(10, this.playState);
             this.button5.anchor.setTo(0.5, 0.5);
 
-            this.button6 = this.addButton(6, this.playState);
+            this.button6 = this.addButton(11, this.playState);
             this.button6.anchor.setTo(0.5, 0.5);
 
-            this.button7 = this.addButton(7, this.playState);
+            this.button7 = this.addButton(12, this.playState);
             this.button7.anchor.setTo(0.5,0.5);
 
             return [this.button1, this.button2, this.button3, this.button4, this.button5, this.button6, this.button7];
@@ -194,8 +199,11 @@ MainGame.LevelMenu2.prototype = {
     },
 
     addButton: function(button, func) {
-        console.log(this.pos[button-1]);
-        return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 1],'menu_button' + button, func);
+         if(parseInt(localStorage.getItem("levelPlayed"))+1 >= button || button == 11 || button == 12){
+            return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 6],'menu_button' + button, func);
+        }else{
+           return game.add.button(game.world.centerX,game.world.centerY + this.pos[button - 6],'menu_button' + button +'_inactive', func); 
+        }
     }
 
 }
