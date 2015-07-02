@@ -217,7 +217,8 @@ MainGame.Game.prototype = {
         introSoundStop();
         bgSound1Play();
         this.soundWechsel();
-       this.getTimerForLevel();
+        this.getTimerForLevel();
+        this.showBestTime();
 
        gameStarted = true;
 
@@ -830,6 +831,7 @@ MainGame.Game.prototype = {
         bgSound1Stop();
         bgSound2Stop();
         winSound();
+        this.setBestTime();
         level = this.level+1;
         game.state.start("Boot",true,false,level);
         
@@ -861,6 +863,26 @@ MainGame.Game.prototype = {
                 enemy.animations.play('right');
                 enemy.enemyDirection = "right";  
             }
+        }
+    },
+
+    showBestTime: function() {
+        if (localStorage.getItem("bestLevelTime"+this.level) != null){
+            var bestLevelTime = localStorage.getItem("bestLevelTime"+this.level);
+            this.bestAnzeigeSprite=game.add.sprite(60,605, 'BestLevelTime');
+            this.bestAnzeigeSprite.fixedToCamera=true;
+            this.bestAnzeige=  game.add.text(65,605,'Bestzeit: '+bestLevelTime, { font: '32px VT323', fill: '#ffffff' });
+            this.bestAnzeige.fixedToCamera=true;
+            this.bestAnzeige.cameraOffset.x = 65;
+            this.bestAnzeige.cameraOffset.y = 605;
+        }    
+    },    
+
+    setBestTime: function() {
+        if (localStorage.getItem("bestLevelTime"+this.level) == null){
+            localStorage.setItem("bestLevelTime"+this.level, timeEnd/10);
+        }else if(localStorage.getItem("bestLevelTime"+this.level) < timeEnd/10){
+            localStorage.setItem("bestLevelTime"+this.level, timeEnd/10);
         }
     }
 

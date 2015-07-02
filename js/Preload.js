@@ -38,6 +38,7 @@ MainGame.Preload.prototype = {
         game.load.spritesheet('special_move', 'assets/sprites/special_move.png', 32, 30);
         game.load.image('TimerBG', 'assets/TimerBG.png');
         game.load.image('LevelBG', 'assets/TimerBG1.png');
+        game.load.image('BestLevelTime', 'assets/BestLevelTime.png');
         game.load.spritesheet('kroete', 'assets/sprites/kroeten.png', 50, 48)
         game.load.spritesheet('ratte', 'assets/sprites/ratte.png', 50, 48)
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
