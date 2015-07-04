@@ -45,6 +45,11 @@ body {
 	visibility: hidden;
 }
 
+#ende{
+	position: fixed;
+	visibility: hidden;
+}
+
 
 /* Preloader */
 

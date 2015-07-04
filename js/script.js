@@ -45,6 +45,11 @@
         game.paused = true; 
     }
 
+    function endeBild(){
+        document.getElementById('ende').style.visibility="visible";
+        game.paused = true;
+    }
+
     function video(){
         
         document.getElementById('black').style.visibility = 'visible';
