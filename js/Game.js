@@ -200,8 +200,7 @@ MainGame.Game.prototype = {
         this.saeureSoundPlayed=false;
 
         // winSound hinzugefügt
-        this.winSound=this.game.add.audio('win',0.5);
-        this.winSoundPlayed=false;
+
 
         this.bgSound = this.game.add.audio('bgmusic',0.3);
         this.bgSoundPlayed = false;
@@ -235,22 +234,17 @@ MainGame.Game.prototype = {
     },
 
     update: function() {
-         //  Collide the player and the stars with the platforms
         game.physics.arcade.collide(this.player, this.layer);
         game.physics.arcade.collide(this.player, this.layer2);
         game.physics.arcade.collide(this.player, this.spitzen);
         game.physics.arcade.collide(this.wellen, this.layer);
-        game.physics.arcade.collide(this.stars, this.layer);
-        game.physics.arcade.collide(this.stars, this.wellen);
-        game.physics.arcade.collide(this.stars, this.spitzen);
+
         game.physics.arcade.collide(this.enemiesGroup, this.layer, this.enemyMovement);
         /*
             game.physics.arcade.collide(this.spitzen, this.emitter);
             game.physics.arcade.collide(this.layer, this.emitter);
             */
 
-        //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-        game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
         game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
         game.physics.arcade.overlap(this.player, this.saegen, this.hitSpitzen, null, this);
@@ -623,24 +617,7 @@ MainGame.Game.prototype = {
         this.player.frame = 4;
     },
 
- // Game Pausieren this.game.paused=true; --- Florian
 
-   /* collectStar: function(player, star) {
-        // Removes the star from the screen
-        star.kill();
-        this.collectSound.play();
-
-        //  Add and update the score
-        this.scoreText.visible=true;
-        this.score += 10;
-        this.scoreText.text = 'score: ' + this.score;
-
-        if(this.score == 120){
-            this.winSound.play();
-            game.time.events.add(Phaser.Timer.SECOND * 2, this.restartGame, this).autoDestroy = true;
-
-        }
-    },*/
 
     resetwalljumpKeys: function(){
 
@@ -719,9 +696,14 @@ MainGame.Game.prototype = {
         this.marks.push(mark);
     },
     soundWechsel: function(){
-        if(this.level >= 5){
+        if(this.level == 10){
+            bgSound1Stop();
+            bgSound2Stop();
+            bossSoundPlay();
+        } else if(this.level >= 5){
             bgSound1Stop();
                     bgSound2Play();
+  
         }
 
     },
@@ -840,11 +822,14 @@ MainGame.Game.prototype = {
         if(this.level < 10){
             levelwechsel();
         }else{
+            bossSoundStop();
+            gameWinPlay();
             endeBild();
         }
         bgSound1Stop();
         bgSound2Stop();
-        winSound();
+            winSound();
+        
         this.setBestTime();
         level = this.level+1;
         game.state.start("Boot",true,false,level);

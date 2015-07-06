@@ -91,6 +91,23 @@
     }
 
 
+    function bossSoundPlay(){
+       document.getElementById('BossSound').play();
+    }
+    function bossSoundStop(){
+       document.getElementById('BossSound').pause();
+    }
+
+    function gameWinPlay(){
+       document.getElementById('gameWin').play();
+    }
+    function gameWinStop(){
+       document.getElementById('gameWin').pause();
+    }
+
+
+
+
     function bgSound2Stop(){
        document.getElementById('BgSound2').pause();
     }

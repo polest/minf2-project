@@ -63,6 +63,13 @@
          "bg1":"skylarge",
          "bg2":"bergelarge",
          "bg3":"baeumelarge"
+      },
+               {  
+         "nummer":"10",
+         "timer":"500",
+         "bg1":"skylarge",
+         "bg2":"bergelarge",
+         "bg3":"baeumelarge"
       }
 
    ]
