@@ -29,12 +29,21 @@ MainGame.Game.prototype = {
 
         map.addTilesetImage('toilet');
          map.addTilesetImage('LevelSprites');
+         map.setCollisionBetween(1,30);
+         map.setCollisionBetween(1,30,true, 'Tile Layer 2');
 
-        map.setCollisionBetween(1, 30);
+
 
         this.layer= map.createLayer('Tile Layer 1');
         this.layer.enableBody = true;
-        this.layer.resizeWorld();
+                        this.layer.resizeWorld();
+
+
+        this.layer2= map.createLayer('Tile Layer 2');
+        this.layer2.enableBody = true;
+
+        this.layer2.resizeWorld();
+
                 
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -77,6 +86,7 @@ MainGame.Game.prototype = {
 
         //  We need to enable physics on the player
         this.game.physics.arcade.enable(this.layer);
+        this.game.physics.arcade.enable(this.layer2);
         
         // Prüft auf Spezialfähigkeit
         isSpecial = false;
@@ -199,7 +209,6 @@ MainGame.Game.prototype = {
         this.marker = game.add.group();
         this.marker.enableBody = true;
         //unsichtbare Marker wo Gegner die Richtung Ã¤ndern
-        this.marks = [];
         //linker marker
 
 
@@ -213,6 +222,7 @@ MainGame.Game.prototype = {
         
         this.createEnemies("kroete");
         this.createEnemies("ratte");
+        this.createEnemies("boss");
         this.createExits();
         introSoundStop();
         bgSound1Play();
@@ -227,6 +237,7 @@ MainGame.Game.prototype = {
     update: function() {
          //  Collide the player and the stars with the platforms
         game.physics.arcade.collide(this.player, this.layer);
+        game.physics.arcade.collide(this.player, this.layer2);
         game.physics.arcade.collide(this.player, this.spitzen);
         game.physics.arcade.collide(this.wellen, this.layer);
         game.physics.arcade.collide(this.stars, this.layer);
@@ -246,7 +257,6 @@ MainGame.Game.prototype = {
         game.physics.arcade.overlap(this.player, this.wellen, this.hitSpueli, null, this);
         game.physics.arcade.overlap(this.player, this.exits, this.startNextLevel, null, this);     
 
-        
         // Timer wird gestartet
         this.currentTimer.start();
         this.levelanzeige.setText('Level: '+this.level);
@@ -869,6 +879,8 @@ MainGame.Game.prototype = {
             }
         }
     },
+
+
 
     showBestTime: function() {
         if (localStorage.getItem("bestLevelTime"+this.level) != null){

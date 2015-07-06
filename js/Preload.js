@@ -42,7 +42,7 @@ MainGame.Preload.prototype = {
         game.load.spritesheet('kroete', 'assets/sprites/kroeten.png', 50, 48)
         game.load.spritesheet('ratte', 'assets/sprites/ratte.png', 50, 48)
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
-        //game.load.spritesheet('boss', 'assets/Entgegner.png', 32,48);
+        game.load.spritesheet('boss', 'assets/sprites/EndgegnerSprite.png', 244,400);
 
         
 
