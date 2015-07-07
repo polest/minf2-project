@@ -163,9 +163,6 @@ MainGame.Game.prototype = {
         this.currentTimer = game.time.create(false);
         this.currentTimer.loop(100, this.updateTimer, this);
 
-  
-        this.winText= game.add.text(800,50, 'WIN!!!!',{font:"30px VT323", fill: '#000' });
-        this.winText.visible=false;
 
         //  Controller
         this.cursor = game.input.keyboard.createCursorKeys();
