@@ -111,7 +111,7 @@
   </object>
  </objectgroup>
  <objectgroup name="Spieler">
-  <object id="29" gid="6" x="72.7204" y="448.128" width="32" height="32">
+  <object id="29" gid="6" x="76.7204" y="397.128" width="32" height="32">
    <properties>
     <property name="type" value="player"/>
    </properties>

@@ -16,8 +16,8 @@ MainGame.Boot.prototype = {
   },	
   preload: function() {
 
-   this.load.image('bar','assets/bar.png');
-   this.load.image('shitboyloadj','assets/Shitboyloadj.png');
+   this.load.image('bar','assets/sprites/bar.png');
+   this.load.image('shitboyloadj','assets/sprites/Shitboyloadj.png');
   },
   create: function() { 
     this.game.stage.backgroundColor='#000000';

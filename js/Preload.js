@@ -35,12 +35,11 @@ MainGame.Preload.prototype = {
         game.load.spritesheet('dude', 'assets/sprites/shitboymitw.png', 32, 48);
         game.load.spritesheet('special', 'assets/sprites/special.png', 32, 48);
         game.load.spritesheet('special_move', 'assets/sprites/special_move.png', 32, 30);
-        game.load.image('TimerBG', 'assets/TimerBG.png');
-        game.load.image('LevelBG', 'assets/TimerBG1.png');
-        game.load.image('BestLevelTime', 'assets/BestLevelTime.png');
+        game.load.image('TimerBG', 'assets/sprites/TimerBG.png');
+        game.load.image('LevelBG', 'assets/sprites/TimerBG1.png');
+        game.load.image('BestLevelTime', 'assets/sprites/BestLevelTime.png');
         game.load.spritesheet('kroete', 'assets/sprites/kroeten.png', 50, 48)
         game.load.spritesheet('ratte', 'assets/sprites/ratte.png', 50, 48)
-        game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
         game.load.spritesheet('boss', 'assets/sprites/EndgegnerSprite.png', 244,400);
 
         

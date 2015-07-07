@@ -15,7 +15,6 @@ MainGame.Game.prototype = {
   },    
   create: function() { 
 
-        //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
         this.bg1 = game.add.tileSprite(0, -400, 2700, 1200, 'ebene1');
             
@@ -80,11 +79,11 @@ MainGame.Game.prototype = {
         }, this);
 
 
-        // The player and its settings     
+        // Player SEttings   
         this.map = map;
         this.player = this.createPlayerFromJson();
 
-        //  We need to enable physics on the player
+        //  Physic
         this.game.physics.arcade.enable(this.layer);
         this.game.physics.arcade.enable(this.layer2);
         
@@ -164,15 +163,11 @@ MainGame.Game.prototype = {
         this.currentTimer = game.time.create(false);
         this.currentTimer.loop(100, this.updateTimer, this);
 
-        //  The score
-        this.scoreText = game.add.text(900, 16, 'score: 0', {font:"30px VT323", fill: '#000' });
-        this.scoreText.visible=false;
-        this.score = 0;
-
+  
         this.winText= game.add.text(800,50, 'WIN!!!!',{font:"30px VT323", fill: '#000' });
         this.winText.visible=false;
 
-        //  Our controls.
+        //  Controller
         this.cursor = game.input.keyboard.createCursorKeys();
 
         resetKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
@@ -240,10 +235,7 @@ MainGame.Game.prototype = {
         game.physics.arcade.collide(this.wellen, this.layer);
 
         game.physics.arcade.collide(this.enemiesGroup, this.layer, this.enemyMovement);
-        /*
-            game.physics.arcade.collide(this.spitzen, this.emitter);
-            game.physics.arcade.collide(this.layer, this.emitter);
-            */
+
 
         game.physics.arcade.overlap(this.player, this.enemiesGroup, this.hitEnemy, null, this);
         game.physics.arcade.overlap(this.player, this.spitzen, this.hitSpitzen, null, this);
