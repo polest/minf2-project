@@ -87,27 +87,27 @@ MainGame.Game.prototype = {
         this.game.physics.arcade.enable(this.layer);
         this.game.physics.arcade.enable(this.layer2);
         
-        // Prüft auf Spezialfähigkeit
+        // PrÃ¼ft auf SpezialfÃ¤higkeit
         isSpecial = false;
 
-        // Setzt die Werte für das Gleiten und den WallJump
-        // Das ist zum blocken der Linken und Rechten Taste während man an der Wand ist damit der Spieler nicht nach einem Pixel wieder an der Wand landet
+        // Setzt die Werte fÃ¼r das Gleiten und den WallJump
+        // Das ist zum blocken der Linken und Rechten Taste wÃ¤hrend man an der Wand ist damit der Spieler nicht nach einem Pixel wieder an der Wand landet
         blockLeftKey = false;
         blockRightKey = false;
         
-        // Ist dafür da damit der Spieler sich in der Luft nach links und rechts bewegen kann und am boden dann NICHT gleitet
+        // Ist dafÃ¼r da damit der Spieler sich in der Luft nach links und rechts bewegen kann und am boden dann NICHT gleitet
         isInAir = false;
         
-        // Sind dafür da das der Spieler nicht mehrmals nacheinander bei gedrückter UP Taste die Wand hoch springt
+        // Sind dafÃ¼r da das der Spieler nicht mehrmals nacheinander bei gedrÃ¼ckter UP Taste die Wand hoch springt
         isOnRightWall = false;
         isOnLeftWall = false;
         blockUpKeyForLeft = false;
         blockUpKeyForRight = false;
         
-        // Ist dafür da das der Spieler bei gedrückter UP Taste nur einmal springt
+        // Ist dafÃ¼r da das der Spieler bei gedrÃ¼ckter UP Taste nur einmal springt
         isInJump = false;
         
-        // Wenn der Spieler die Wand runter gleitet wird der wert auf true gesetzt und erst dann ist es möglich einen WallJump zu machen
+        // Wenn der Spieler die Wand runter gleitet wird der wert auf true gesetzt und erst dann ist es mÃ¶glich einen WallJump zu machen
         slidesOnWall = false;
         
         // Diese Variablen sind zum bestimmen ob der Spieler body sich gerade nach oben oder unten bewegt
@@ -164,6 +164,7 @@ MainGame.Game.prototype = {
         this.currentTimer.loop(100, this.updateTimer, this);
 
 
+
         //  Controller
         this.cursor = game.input.keyboard.createCursorKeys();
 
@@ -171,19 +172,19 @@ MainGame.Game.prototype = {
         //this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
         
-        // SpecialSound hinzugefÃ¼gt
+        // SpecialSound hinzugefÃƒÂ¼gt
         this.specialSound = this.game.add.audio('fart',0.2);
         this.specialSoundPlayed = false;
         
-        // JumpSound hinzugefÃ¼gt
+        // JumpSound hinzugefÃƒÂ¼gt
         this.jumpSound = this.game.add.audio('jump',0.2);
         this.jumpSoundPlayed = false;
 
-        // RunSound hinzugefÃ¼gt
+        // RunSound hinzugefÃƒÂ¼gt
         this.runSound=this.game.add.audio('run',0.2);
         this.runSoundPlayed=false;
 
-        // DeathSound hinzugefÃ¼gt
+        // DeathSound hinzugefÃƒÂ¼gt
         this.deathSound=this.game.add.audio('death',0.3);
         this.deathSoundPlayed=false;
 
@@ -191,7 +192,7 @@ MainGame.Game.prototype = {
         this.saeureSound=this.game.add.audio('saeure', 0.4);
         this.saeureSoundPlayed=false;
 
-        // winSound hinzugefÃ¼gt
+        // winSound hinzugefÃƒÂ¼gt
 
 
         this.bgSound = this.game.add.audio('bgmusic',0.3);
@@ -199,7 +200,7 @@ MainGame.Game.prototype = {
 
         this.marker = game.add.group();
         this.marker.enableBody = true;
-        //unsichtbare Marker wo Gegner die Richtung Ã¤ndern
+        //unsichtbare Marker wo Gegner die Richtung ÃƒÂ¤ndern
         //linker marker
 
 
@@ -243,12 +244,12 @@ MainGame.Game.prototype = {
         // Timer wird gestartet
         this.currentTimer.start();
         this.levelanzeige.setText('Level: '+this.level);
-        // Wenn R gedrückt wird, wird das Spiel neu gestartet
+        // Wenn R gedrÃ¼ckt wird, wird das Spiel neu gestartet
           if(resetKey.justPressed(/*optional duration*/)){
             this.restartGame();
         }
         
-        // Prüft und setzt werte
+        // PrÃ¼ft und setzt werte
         this.checkAndSetValues();
         
         // Bewegung vom Spieler
@@ -301,7 +302,7 @@ MainGame.Game.prototype = {
         if(!this.runSoundPlayed && this.player.body.blocked.down) {
             this.runSoundPlayed = true;
             this.runSound.play();
-            // Jumpsound wird erst nach einem Timeout wieder abgespielt um Ãœberlagerungen der Sounds zu vermeiden
+            // Jumpsound wird erst nach einem Timeout wieder abgespielt um ÃƒÅ“berlagerungen der Sounds zu vermeiden
             game.time.events.add(Phaser.Timer.SECOND * 0.15, this.playRunSoundReset, this).autoDestroy = true;
 
         }
@@ -314,7 +315,7 @@ MainGame.Game.prototype = {
     specialMovement: function(){
         
         if(this.cursor.down.isDown && !isSpecial && !(!this.player.body.blocked.down && !this.player.body.blocked.top && !this.player.body.blocked.right && !this.player.body.blocked.left)){
-            // Spezialfähigkeit
+            // SpezialfÃ¤higkeit
             isSpecial = true;
             
             this.specialSound.play();
@@ -351,13 +352,13 @@ MainGame.Game.prototype = {
            
         } else if(!this.cursor.down.isDown && isSpecial){
             
-            // Spezialfähigkeit
+            // SpezialfÃ¤higkeit
             isSpecial = false;
 
-            // Ändert den sprite
+            // Ã„ndert den sprite
             this.player.loadTexture("dude");
 
-            // Passt die größe des sprites an
+            // Passt die grÃ¶ÃŸe des sprites an
             this.player.body.setSize(32, 48);
             this.player.body.x = this.player.body.x;
             this.player.body.y = this.player.body.y-14;
@@ -397,27 +398,27 @@ MainGame.Game.prototype = {
         rightLeftDirection = this.player.body.x;
         
 
-        // Wenn links Taste nicht gedrückt wird, gebe linke Taste drücken wieder frei
+        // Wenn links Taste nicht gedrÃ¼ckt wird, gebe linke Taste drÃ¼cken wieder frei
         if(!(this.cursor.left.isDown)){
             blockLeftKey = false;
         }
 
-        // Wenn rechte Taste nicht gedrückt wird, gebe rechte Taste drücken wieder frei
+        // Wenn rechte Taste nicht gedrÃ¼ckt wird, gebe rechte Taste drÃ¼cken wieder frei
         if(!(this.cursor.right.isDown)){
             blockRightKey = false;
         }
 
-        // Wenn man an der Wand ist und die UP Taste los lässt, wird die UP Taste wieder frei zum springen frei gegeben
+        // Wenn man an der Wand ist und die UP Taste los lÃ¤sst, wird die UP Taste wieder frei zum springen frei gegeben
         if(!(this.spaceKey.isDown) && this.cursor.left.isDown){
             blockUpKeyForLeft = false;
         }
 
-        // Wenn man an der Wand ist und die UP Taste los lässt, wird die UP Taste wieder frei zum springen frei gegeben
+        // Wenn man an der Wand ist und die UP Taste los lÃ¤sst, wird die UP Taste wieder frei zum springen frei gegeben
         if(!(this.spaceKey.isDown) && this.cursor.right.isDown){
             blockUpKeyForRight = false;
         }
 
-        // Wenn man die UP Taste los lässt, wird die UP Taste wieder frei gegeben
+        // Wenn man die UP Taste los lÃ¤sst, wird die UP Taste wieder frei gegeben
         if(!(this.spaceKey.isDown)){
             isInJump = false;
         }
@@ -437,7 +438,7 @@ MainGame.Game.prototype = {
             blockUpKeyForLeft = true;
         }
         
-        // Wenn Spieler nicht mehr an der linken Wand ist dann setzte die Variablen wieder zurück
+        // Wenn Spieler nicht mehr an der linken Wand ist dann setzte die Variablen wieder zurÃ¼ck
         if(!(this.player.body.blocked.left)){
             isOnLeftWall = false;
             blockUpKeyForLeft = false;
@@ -446,7 +447,7 @@ MainGame.Game.prototype = {
         // Wenn Spieler an der linken Wand ist
         if(this.player.body.blocked.left){
           
-            // Wenn der Spieler nicht am boden ist und sich nach unten bewegt dann soll er gleiten und wird für den WallJump frei gegeben
+            // Wenn der Spieler nicht am boden ist und sich nach unten bewegt dann soll er gleiten und wird fÃ¼r den WallJump frei gegeben
             if(!(this.player.body.blocked.down) && playerYMoves == "down" && !isSpecial){
                 slidesOnWall = true;
                 this.player.body.velocity.y = this.player.body.velocity.y*0.8;
@@ -458,13 +459,13 @@ MainGame.Game.prototype = {
     },
 
     wallJumpLeft: function(){
-        // Wenn der Spieler gleitet, sich nicht in einem Sprung befindet, an der linken wand ist, die sprung Taste drückt, 
-        // die Taste für den linken Wand sprung nicht geblockt ist und der Spieler sich nicht auf dem Boden befindet, 
-        // dann soll er den WallJump ausführen
+        // Wenn der Spieler gleitet, sich nicht in einem Sprung befindet, an der linken wand ist, die sprung Taste drÃ¼ckt, 
+        // die Taste fÃ¼r den linken Wand sprung nicht geblockt ist und der Spieler sich nicht auf dem Boden befindet, 
+        // dann soll er den WallJump ausfÃ¼hren
         if(slidesOnWall && !(isInJump)){
             if(this.player.body.blocked.left && this.spaceKey.isDown && !(blockUpKeyForLeft) && !(this.player.body.blocked.down)){
                     
-                    // Setzt die Variablen wenn der WallJump ausgeführt wurde
+                    // Setzt die Variablen wenn der WallJump ausgefÃ¼hrt wurde
                     isInAir = true;
                     blockLeftKey = true;
                     isOnLeftWall = false;
@@ -488,7 +489,7 @@ MainGame.Game.prototype = {
             blockUpKeyForRight = true;
         }
         
-        // Wenn Spieler nicht mehr an der rechten Wand ist dann setzte die Variablen wieder zurück
+        // Wenn Spieler nicht mehr an der rechten Wand ist dann setzte die Variablen wieder zurÃ¼ck
         if(!(this.player.body.blocked.right)){
             isOnRightWall = false;
             blockUpKeyForRight = false;
@@ -497,7 +498,7 @@ MainGame.Game.prototype = {
         // Wenn Spieler an der rechten Wand ist
         if(this.player.body.blocked.right){
             
-            // Wenn der Spieler nicht am boden ist und sich nach unten bewegt dann soll er gleiten und wird für den WallJump frei gegeben
+            // Wenn der Spieler nicht am boden ist und sich nach unten bewegt dann soll er gleiten und wird fÃ¼r den WallJump frei gegeben
             if(!(this.player.body.blocked.down) && playerYMoves == "down" && !isSpecial){
                 slidesOnWall = true;
                 this.player.body.velocity.y = this.player.body.velocity.y*0.8;
@@ -509,12 +510,12 @@ MainGame.Game.prototype = {
     },
     
     wallJumpRight: function(){
-        // Wenn der Spieler gleitet, sich nicht in einem Sprung befindet, an der rechten wand ist, die sprung Taste drückt, 
-        // die Taste für den rechten Wand sprung nicht geblockt ist und der Spieler sich nicht auf dem Boden befindet, 
-        // dann soll er den WallJump ausführen
+        // Wenn der Spieler gleitet, sich nicht in einem Sprung befindet, an der rechten wand ist, die sprung Taste drÃ¼ckt, 
+        // die Taste fÃ¼r den rechten Wand sprung nicht geblockt ist und der Spieler sich nicht auf dem Boden befindet, 
+        // dann soll er den WallJump ausfÃ¼hren
         if(slidesOnWall && !(isInJump)){
             if(this.player.body.blocked.right && this.spaceKey.isDown && !(blockUpKeyForRight) && !(this.player.body.blocked.down)){
-                    // Setzt die Variablen wenn der WallJump ausgeführt wurde
+                    // Setzt die Variablen wenn der WallJump ausgefÃ¼hrt wurde
                     
                     isInAir = true;
                     blockRightKey = true;
@@ -533,7 +534,7 @@ MainGame.Game.prototype = {
     },
     
     jump: function() {
-        //  Allow the player to jump if they are touching the ground. + Springt nicht mehr dauerhaft bei gedrückter Taste
+        //  Allow the player to jump if they are touching the ground. + Springt nicht mehr dauerhaft bei gedrÃ¼ckter Taste
         if (this.spaceKey.isDown && this.player.body.blocked.down && !(isInJump)){
             this.player.body.velocity.y = -280;
             
@@ -552,7 +553,7 @@ MainGame.Game.prototype = {
             this.player.frame= 0;
         } 
         
-        // Sorgt dafür das der Spieler body je nachdem wie lange man die UP Taste gedrückt hält springt
+        // Sorgt dafÃ¼r das der Spieler body je nachdem wie lange man die UP Taste gedrÃ¼ckt hÃ¤lt springt
         if(!this.spaceKey.isDown){
             this.player.body.velocity.y = this.player.body.velocity.y+10;
         }
@@ -700,7 +701,7 @@ MainGame.Game.prototype = {
     *   Funktion die Gegener erstellt.
     *       x - X Position des Gegners
     *       y - Y Position des Gegners
-    *       richtung - Richtung in die der Gegner lÃ¤uft. (-1 fÃ¼r linksrum, 1 fÃ¼r rechtsrum)
+    *       richtung - Richtung in die der Gegner lÃƒÂ¤uft. (-1 fÃƒÂ¼r linksrum, 1 fÃƒÂ¼r rechtsrum)
     *       geschwindigkeit - Geschwindigkeit in die der Gegner laufen soll
     */
     createEnemy: function(x,y, richtung, geschwindigkeit,type) {
@@ -785,7 +786,7 @@ MainGame.Game.prototype = {
             timerText.setText('Timer: '+ (timeEnd/10));
         }
         
-        // Wenn Zeit abläuft dann restartGame
+        // Wenn Zeit ablÃ¤uft dann restartGame
         if(timeEnd == 0){
             this.restartGame();
         } 
